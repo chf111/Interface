@@ -21,10 +21,21 @@ public abstract class DBConnection {
 			//String vFilePath = LightContext.getFolderPath(FolderTypes.REPORT) + "cache.db";
 			//String vFilePath =System.getProperty("user.dir")+ "/report/cache.db";
 			String vFilePath = GetFolderPath.getFolderPath(FolderTypes.REPORT)+ "cache.db";
+			String vCss = GetFolderPath.getFolderPath(FolderTypes.REPORT)+ "extent.css";
+			String vJs = GetFolderPath.getFolderPath(FolderTypes.REPORT)+ "extent.js";
+			
 			File vFile = new File(vFilePath);			
+			File fCss = new File(vCss);			
+			File fJs = new File(vJs);			
 			if (!vFile.exists()) {				
 				FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("template.db"), vFile);
 				
+			}
+			if (!fCss.exists()) {
+			FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("extent.css"), fCss);
+			}
+			if (!fJs.exists()) {
+			FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("extent.js"), fJs);
 			}
 			Class.forName("org.sqlite.JDBC");
 			String vConnStr = "jdbc:sqlite://" + vFilePath;
