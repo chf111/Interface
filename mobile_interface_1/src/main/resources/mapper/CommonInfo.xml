@@ -7,7 +7,7 @@
 	<!-- 目的：为dao接口方法提供sql语句配置 -->
 		<select id="getCommonsInfo" resultType="CommonInfo">
 		<!-- 具体的sql -->
-	SELECT CNAME,CVALUE FROM T_COMMON
+	SELECT CNAME,CVALUE FROM t_common
 
 	</select>
 </mapper>

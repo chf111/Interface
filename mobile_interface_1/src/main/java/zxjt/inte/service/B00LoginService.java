@@ -1,6 +1,10 @@
 package zxjt.inte.service;
 
-public interface B00LoginService{
+import java.util.Map;
 
-	Object[][] getParamInfo();
+public interface B00LoginService {
+
+	Object[][] getParamsInfo();
+
+	void test(Map<String, String> param);
 }
