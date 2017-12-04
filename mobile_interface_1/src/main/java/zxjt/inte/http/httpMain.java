@@ -10,6 +10,7 @@ import zxjt.inte.util.TestNg;
 public class httpMain {
 
 	public static void main(String[] args) throws Exception {
+
 		if (args.length <= 0) {
 			throw new RuntimeException("请输入需要执行的模块");
 		}

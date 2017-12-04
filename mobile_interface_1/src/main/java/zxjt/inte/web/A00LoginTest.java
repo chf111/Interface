@@ -23,13 +23,9 @@ public class A00LoginTest extends BaseController {
 		BeforeClassUse.setDPInfo(loginService);
 	}
 
-	// *自己的controller和别名
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
+	public void A00Login(Map<String, String> param) {
 
-	// *自己的方法名
-	public void A00LoginZL(Map<String, String> param) {
-
-		// 发请求
 		loginService.test(param);
 	}
 }

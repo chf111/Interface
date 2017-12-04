@@ -155,7 +155,7 @@ public class CommonToolsUtil {
 
 			// 校验
 			String content = (String) mContent.invoke(lisMap.get(0));
-			validateParamIsMatch(content, lisTemp.get(1));
+			validateParamIsMatch(content, lisTemp.get(0));
 
 		} catch (Exception e) {
 			e.printStackTrace();

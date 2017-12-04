@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 import zxjt.inte.dao.A01GPMMDao;
 import zxjt.inte.dao.A01_1KMMSLCXDao;
 import zxjt.inte.dao.A01_2SJKMMSLCXDao;
-import zxjt.inte.dao.CommonInfoDao;
 import zxjt.inte.entity.A01GPMM;
 import zxjt.inte.entity.A01_1KMMSLCX;
 import zxjt.inte.entity.A01_2SJKMMSLCX;
 import zxjt.inte.entity.CommonInfo;
 import zxjt.inte.service.A01GPMMService;
 import zxjt.inte.util.CommonToolsUtil;
+import zxjt.inte.util.GetConfigProperties;
 import zxjt.inte.util.HttpUtil_All;
 import zxjt.inte.util.JsonAssertUtil;
 import zxjt.inte.util.ParamConstant;
@@ -35,13 +35,10 @@ public class A01GPMMServiceImpl implements A01GPMMService {
 	@Resource
 	private A01_2SJKMMSLCXDao sjkmmxxDao;
 
-	@Resource
-	private CommonInfoDao commonDao;
-
 	public Object[][] getParamsInfo() {
 
 		// 公共参数操作
-		List<CommonInfo> lisag = commonDao.getCommonsInfo();
+		List<CommonInfo> lisag = GetConfigProperties.getConfigProToCommon();
 		Map<String, String> commonParam = CommonToolsUtil.getCommonParam(lisag);
 
 		// 股票买卖数据操作

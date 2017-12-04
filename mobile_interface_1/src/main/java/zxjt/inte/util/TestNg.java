@@ -85,22 +85,52 @@ public class TestNg extends TestNG {
 			Element root = document.getRootElement();
 			// 获取根元素中所有元素
 			List<Element> stuEleList = root.elements("test");
-			// 循环遍历所有元素
-			for (Element stuEle : stuEleList) {
+			Boolean PTJYLogin = false;
+			Boolean RRLogin = false;
+			int PTJYindex = -1;
+			int RRindex = -1;
 
+			// 循环遍历所有元素
+			for (int i = 0; i < stuEleList.size(); i++) {
+				Element stuEle = stuEleList.get(i);
 				if ("all".equalsIgnoreCase(strParam.get(0))) {
 					stuEle.setAttributeValue("enabled", "true");
 				} else {
 					// 获取元素
 					String number = stuEle.attributeValue("name");
+					if ("PTJYLogin".equals(number)) {
+						PTJYindex = i;
+						continue;
+					}
+					if ("RRLogin".equals(number)) {
+						RRindex = i;
+						continue;
+					}
 					if (strParam.contains(number)) {
+
 						stuEle.setAttributeValue("enabled", "true");
+
+						if (Boolean.valueOf(stuEle.attributeValue("needlogin"))) {
+							String loginBelong = stuEle.attributeValue("filebelongto");
+							if (!PTJYLogin && "PTJYLogin".equals(loginBelong)) {
+								stuEleList.get(PTJYindex).setAttributeValue("enabled", "true");
+								PTJYLogin = true;
+							} else if (!RRLogin && "RRLogin".equals(loginBelong)) {
+								stuEleList.get(RRindex).setAttributeValue("enabled", "true");
+								RRLogin = true;
+							} else {
+								throw new RuntimeException(
+										"测试接口所关联的登录接口名称属性只能是“PTJYLogin”或“RRLogin”，您的定义范围已超出规定，请确认后再执行！");
+							}
+						}
+
 					} else {
 						stuEle.setAttributeValue("enabled", "false");
 
 					}
 				}
 			}
+
 			ins = new ByteArrayInputStream(document.asXML().getBytes("utf-8"));
 
 			Parser parser = getParser(ins);
