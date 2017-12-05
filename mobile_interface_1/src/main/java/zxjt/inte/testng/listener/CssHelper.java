@@ -7,7 +7,7 @@ public class CssHelper {
 
 	public static String getCSS() {
 		try (BufferedReader reader = new BufferedReader(
-				new InputStreamReader(CssHelper.class.getResourceAsStream("custom.css")));) {
+				new InputStreamReader(CssHelper.class.getResourceAsStream("/report-style/custom.css")));) {
 			StringBuilder sb = new StringBuilder();
 			String line;
 			while ((line = reader.readLine()) != null) {

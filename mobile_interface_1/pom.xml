@@ -297,7 +297,7 @@
         <goal>shade</goal>  
       </goals>  
       <configuration>  
-        <finalName>my-spring-app</finalName>  
+        <finalName>zxjt-api-test</finalName>  
         <shadedArtifactAttached>true</shadedArtifactAttached>  
         <shadedClassifierName>jar-with-dependencies</shadedClassifierName>  
         <transformers>  

@@ -17,49 +17,43 @@ public abstract class DBConnection {
 
 	public static Connection getConnection() throws SQLException, IOException, ClassNotFoundException {
 		if (conn == null) {
-			System.out.println("db is close");
-			//String vFilePath = LightContext.getFolderPath(FolderTypes.REPORT) + "cache.db";
-			//String vFilePath =System.getProperty("user.dir")+ "/report/cache.db";
-			String vFilePath = GetFolderPath.getFolderPath(FolderTypes.REPORT)+ "cache.db";
-			String vCss = GetFolderPath.getFolderPath(FolderTypes.REPORT)+ "extent.css";
-			String vJs = GetFolderPath.getFolderPath(FolderTypes.REPORT)+ "extent.js";
+			System.out.println("Start to prepare the local report DB...");
+			String desDbFilePath = GetFolderPath.getFolderPath(FolderTypes.REPORT)+ "cache.db";
+			String desCssFilePath = GetFolderPath.getFolderPath(FolderTypes.REPORT)+ "extent.css";
+			String desJsFilePath = GetFolderPath.getFolderPath(FolderTypes.REPORT)+ "extent.js";
 			
-			File vFile = new File(vFilePath);			
-			File fCss = new File(vCss);			
-			File fJs = new File(vJs);			
-			if (!vFile.exists()) {				
-				FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("template.db"), vFile);
-				
+			File desDbFile = new File(desDbFilePath);			
+			File desCssFile = new File(desCssFilePath);			
+			File desJsFile = new File(desJsFilePath);			
+			if (!desDbFile.exists()) {				
+				FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("/report-style/template.db"), desDbFile);
 			}
-			if (!fCss.exists()) {
-			FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("extent.css"), fCss);
+			if (!desCssFile.exists()) {
+				FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("/report-style/extent.css"), desCssFile);
 			}
-			if (!fJs.exists()) {
-			FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("extent.js"), fJs);
+			if (!desJsFile.exists()) {
+				FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("/report-style/extent.js"), desJsFile);
 			}
 			Class.forName("org.sqlite.JDBC");
-			String vConnStr = "jdbc:sqlite://" + vFilePath;
+			String vConnStr = "jdbc:sqlite://" + desDbFilePath;
 			conn = DriverManager.getConnection(vConnStr);
 			if(conn == null)
 			{
 				System.out.println("conn is null");
 			}
-//			else
-//			{
-//				System.out.println(conn.toString());
-//			}
 
 			// 开启外键
 			Statement vStmt = conn.createStatement();
 			vStmt.execute("PRAGMA foreign_keys = ON;");
 			vStmt.close();
 		}
+		System.out.println("Local report DB is ready.");
 		return conn;
 	}
 
 	public static void close() {
 		if (conn != null) {
-			System.out.println("close db");
+			System.out.println("Close db!");
 			try {
 				conn.close();
 			} catch (SQLException e) {
