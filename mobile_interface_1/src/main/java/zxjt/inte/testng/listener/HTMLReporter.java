@@ -35,7 +35,7 @@ public abstract class HTMLReporter {
 		ExtentReports extent = initExtent();
 		Connection conn = null;
 		try {
-			conn = DBConnection.getConnection();
+			conn = DBConnection.getConnection(false);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

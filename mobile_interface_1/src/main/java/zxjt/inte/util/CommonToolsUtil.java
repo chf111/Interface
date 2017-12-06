@@ -177,21 +177,6 @@ public class CommonToolsUtil {
 
 	/**
 	 * 
-	 * @param mapParam
-	 *            发送请求所需的入参
-	 * @return 响应内容
-	 */
-	public static String getResponseInfo(Map<String, String> mapParam) {
-
-		Map<String, String> map = CommonToolsUtil.getRParam(mapParam);
-
-		// 发请求
-		String response = HttpUtil_All.doPostSSL(mapParam.get("url"), map);
-		return response;
-	}
-
-	/**
-	 * 
 	 * @param content
 	 *            数据库搜索出来的content
 	 * @param mapTemp

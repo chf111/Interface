@@ -21,7 +21,8 @@ public enum FolderTypes {
 		public String getDefault() {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS");
 			String time = sdf.format(new Date());
-			return "report/" + time;
+//			return "report/" + time;
+			return "report/" + "api_report";
 		}
 	},
 	REPOSITORY {

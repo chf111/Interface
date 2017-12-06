@@ -7,7 +7,7 @@ import org.testng.annotations.DataProvider;
 import zxjt.inte.util.BeforeClassUse;
 
 public class TestDataProvider {
-
+	
 	// *自己的别名
 	@DataProvider(name = "testData")
 	// *自己的方法名

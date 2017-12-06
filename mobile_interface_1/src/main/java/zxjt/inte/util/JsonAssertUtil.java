@@ -289,24 +289,6 @@ public class JsonAssertUtil {
 		return ret;
 	}
 
-	/**
-	 * 校验依赖的查询接口返回值
-	 * 
-	 * @param cxResponse
-	 *            查询接口返回的json字符串
-	 * @param map
-	 *            需要拼接到正则表达式中的内容，没有则传递null
-	 * @param schemaName
-	 *            该接口的shemaname
-	 */
-	public static void checkDependenceResponse(String cxResponse, Map<String, String> map, String series,
-			String schemaName) {
-		JsonAssertUtil.checkNull(cxResponse);
-		Map<String, String> regexMap = JsonAssertUtil.getRegex(map, series, schemaName);
-		String strjsonSchema = JsonAssertUtil.editSchemaInfo(schemaName, regexMap);
-		JsonAssertUtil.JsonAssert(cxResponse, strjsonSchema);
-	}
-
 	public static Map<String, String> parseJson2(String filepath) {
 		Map<String, String> jsonMap = new HashMap<String, String>();
 		Gson json = new Gson();
@@ -327,5 +309,44 @@ public class JsonAssertUtil {
 
 		return jsonMap;
 
+	}
+
+	/**
+	 * 返回Jsonschema文件的内容
+	 * 
+	 * @param param
+	 *            入参
+	 * @param valMap
+	 *            需要动态传入的正则
+	 * @return Jsonschema文件的内容
+	 */
+	public static void checkResponse(Map<String, String> param, Map<String, String> valMap, String schemaName,String series,
+			String response) {
+		String strjsonSchema = "";
+
+		String schema_zl = schemaName + ParamConstant.SCHEMA_ZL;
+		String schema_fl = schemaName + ParamConstant.SCHEMA_FL;
+		
+		// 判空
+		checkNull(response);
+		
+		//根据动态正则和schema文件获得最终的schema
+		try {
+			if (ParamConstant.ZL.equalsIgnoreCase(param.get("type"))) {
+				Map<String, String> regexMap = getRegex(valMap,series, schema_zl);
+				strjsonSchema = editSchemaInfo(schema_zl, regexMap);
+			} else if (ParamConstant.FL.equalsIgnoreCase(param.get("type"))) {
+				Map<String, String> regexMap = getRegex(valMap, series, schema_fl);
+				strjsonSchema = editSchemaInfo(schema_fl, regexMap);
+			} else {
+				throw new RuntimeException("测试数据类型缺失，请查证后再执行！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+
+		//校验
+		JsonAssert(response, strjsonSchema);
 	}
 }

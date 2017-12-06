@@ -18,7 +18,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelData2DB {
 
-	// 1101:数据过滤功能还没测试；往数据库里插入excel数据的功能还没写完；明天把这个功能写完，然后把数据插入到数据库，在统一执行下
+	/**
+	 * 将excel的值导入到DB中
+	 * @param file 本地excel存储路径
+	 */
 	public static void readFile(File file) {
 
 		Connection con = null;

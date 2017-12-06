@@ -15,30 +15,32 @@ import zxjt.inte.util.GetFolderPath;
 public abstract class DBConnection {
 	private static Connection conn;
 
-	public static Connection getConnection() throws SQLException, IOException, ClassNotFoundException {
+	public static Connection getConnection(Boolean isFirst) throws SQLException, IOException, ClassNotFoundException {
 		if (conn == null) {
 			System.out.println("Start to prepare the local report DB...");
-			String desDbFilePath = GetFolderPath.getFolderPath(FolderTypes.REPORT)+ "cache.db";
-			String desCssFilePath = GetFolderPath.getFolderPath(FolderTypes.REPORT)+ "extent.css";
-			String desJsFilePath = GetFolderPath.getFolderPath(FolderTypes.REPORT)+ "extent.js";
-			
-			File desDbFile = new File(desDbFilePath);			
-			File desCssFile = new File(desCssFilePath);			
-			File desJsFile = new File(desJsFilePath);			
-			if (!desDbFile.exists()) {				
-				FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("/report-style/template.db"), desDbFile);
+			String desDbFilePath = GetFolderPath.getFolderPath(FolderTypes.REPORT) + "cache.db";
+			String desCssFilePath = GetFolderPath.getFolderPath(FolderTypes.REPORT) + "extent.css";
+			String desJsFilePath = GetFolderPath.getFolderPath(FolderTypes.REPORT) + "extent.js";
+
+			File desDbFile = new File(desDbFilePath);
+			File desCssFile = new File(desCssFilePath);
+			File desJsFile = new File(desJsFilePath);
+			if (isFirst) {
+				FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("/report-style/template.db"),
+						desDbFile);
 			}
 			if (!desCssFile.exists()) {
-				FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("/report-style/extent.css"), desCssFile);
+				FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("/report-style/extent.css"),
+						desCssFile);
 			}
 			if (!desJsFile.exists()) {
-				FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("/report-style/extent.js"), desJsFile);
+				FileUtils.copyInputStreamToFile(DBConnection.class.getResourceAsStream("/report-style/extent.js"),
+						desJsFile);
 			}
 			Class.forName("org.sqlite.JDBC");
 			String vConnStr = "jdbc:sqlite://" + desDbFilePath;
 			conn = DriverManager.getConnection(vConnStr);
-			if(conn == null)
-			{
+			if (conn == null) {
 				System.out.println("conn is null");
 			}
 

@@ -131,7 +131,7 @@ public class Listener implements IResultListener2 {
 	 */
 	private void initDao() {
 		try {
-			Connection vConn = DBConnection.getConnection();
+			Connection vConn = DBConnection.getConnection(true);
 			mTestDao = new TestDao(vConn);
 			mStepDao = new StepDao(vConn);
 		} catch (Exception e) {

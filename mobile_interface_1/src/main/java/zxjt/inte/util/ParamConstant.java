@@ -24,12 +24,12 @@ public interface ParamConstant {
 	/** ************************************************************             
 	 *  ****************json schema文件的名称  **************************
 	 *  **********************************************************/
-	public  static final String A00_SCHEMA_ZL = "普通交易_普通业务_客户校验_schema";
-	public  static final String A00_SCHEMA_FL = "普通交易_普通业务_客户校验fail_schema";
-	public  static final String A01_SCHEMA_ZL = "普通交易_普通业务_委托下单_schema";
-	public  static final String A01_SCHEMA_FL = "普通交易_普通业务_委托下单fail_schema";
-	public  static final String A01_1_SCHEMA_ZL = "普通交易_普通业务_可买卖数量查询_schema";
-	public  static final String A01_2_SCHEMA_ZL = "普通交易_普通业务_市价可买卖数量查询_schema";
+	public  static final String SCHEMA_ZL = "_schema";
+	public  static final String SCHEMA_FL = "fail_schema";
+	public  static final String A00_SCHEMA = "普通交易_普通业务_客户校验";
+	public  static final String A01_SCHEMA = "普通交易_普通业务_委托下单";
+	public  static final String A01_1_SCHEMA = "普通交易_普通业务_可买卖数量查询";
+	public  static final String A01_2_SCHEMA = "普通交易_普通业务_市价可买卖数量查询";
 
 		
 	

@@ -100,11 +100,11 @@ public class TestNg extends TestNG {
 					String number = stuEle.attributeValue("name");
 					if ("PTJYLogin".equals(number)) {
 						PTJYindex = i;
-						continue;
+						
 					}
 					if ("RRLogin".equals(number)) {
 						RRindex = i;
-						continue;
+						
 					}
 					if (strParam.contains(number)) {
 

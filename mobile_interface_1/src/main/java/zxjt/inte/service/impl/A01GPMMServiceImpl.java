@@ -9,13 +9,9 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import zxjt.inte.dao.A01GPMMDao;
-import zxjt.inte.dao.A01_1KMMSLCXDao;
-import zxjt.inte.dao.A01_2SJKMMSLCXDao;
-import zxjt.inte.entity.A01GPMM;
-import zxjt.inte.entity.A01_1KMMSLCX;
-import zxjt.inte.entity.A01_2SJKMMSLCX;
+import zxjt.inte.dao.CommonJYDao;
 import zxjt.inte.entity.CommonInfo;
+import zxjt.inte.entity.CommonJY;
 import zxjt.inte.service.A01GPMMService;
 import zxjt.inte.util.CommonToolsUtil;
 import zxjt.inte.util.GetConfigProperties;
@@ -25,15 +21,9 @@ import zxjt.inte.util.ParamConstant;
 
 @Service
 public class A01GPMMServiceImpl implements A01GPMMService {
-	Logger log = Logger.getLogger(ParamConstant.LOGGER); 
+	Logger log = Logger.getLogger(ParamConstant.LOGGER);
 	@Resource
-	private A01GPMMDao gpmmDao;
-
-	@Resource
-	private A01_1KMMSLCXDao kmmxxDao;
-
-	@Resource
-	private A01_2SJKMMSLCXDao sjkmmxxDao;
+	private CommonJYDao gpmmDao;
 
 	public Object[][] getParamsInfo() {
 
@@ -42,15 +32,15 @@ public class A01GPMMServiceImpl implements A01GPMMService {
 		Map<String, String> commonParam = CommonToolsUtil.getCommonParam(lisag);
 
 		// 股票买卖数据操作
-		List<A01GPMM> lis = gpmmDao.getParamsInfo(ParamConstant.GPMM_ID);
+		List<CommonJY> lis = gpmmDao.getParamsInfo(ParamConstant.GPMM_ID);
 		List<Map<String, String>> lisTemp = CommonToolsUtil.getDependencyParamsInfo(lis, commonParam);
 
 		// 限价可买卖信息查询数据操作
-		List<A01_1KMMSLCX> listA01 = kmmxxDao.getParamsInfo(ParamConstant.KMMXXCX_ID);
+		List<CommonJY> listA01 = gpmmDao.getParamsInfo(ParamConstant.KMMXXCX_ID);
 		Map<String, String> MapDepenParam = CommonToolsUtil.getDependencyParamInfo(listA01, commonParam);
 
 		// 市价可买卖信息查询数据操作
-		List<A01_2SJKMMSLCX> listA02 = sjkmmxxDao.getParamsInfo(ParamConstant.SJKMMXXCX_ID);
+		List<CommonJY> listA02 = gpmmDao.getParamsInfo(ParamConstant.SJKMMXXCX_ID);
 		Map<String, String> MapDepenSjParam = CommonToolsUtil.getDependencyParamInfo(listA02, commonParam);
 
 		Object[][] obj = new Object[lisTemp.size()][2];
@@ -59,9 +49,9 @@ public class A01GPMMServiceImpl implements A01GPMMService {
 			obj[j][0] = lisTemp.get(j);
 			Map<String, String> mps = new HashMap<String, String>();
 			if ("0".equals(lisTemp.get(j).get("wtlx"))) {
-				
+
 				mps.putAll(MapDepenParam);
-				
+
 			} else {
 				mps.putAll(MapDepenSjParam);
 			}
@@ -69,13 +59,14 @@ public class A01GPMMServiceImpl implements A01GPMMService {
 		}
 		return obj;
 	}
-	
-	/** 发送请求并校验返回结果
+
+	/**
+	 * 发送请求并校验返回结果
+	 * 
 	 * @param 入参
 	 * @DependenceParam 依赖接口的入参
 	 */
-	public void test(Map<String, String> param, Map<String, String> DependenceParam)
-	{
+	public void test(Map<String, String> param, Map<String, String> DependenceParam) {
 
 		Map<String, String> map = CommonToolsUtil.getRParam(param);
 
@@ -87,23 +78,38 @@ public class A01GPMMServiceImpl implements A01GPMMService {
 			DependenceParam.put("zqdm", map.get("zqdm"));
 			DependenceParam.put("wtlx", map.get("wtlx"));
 		}
+		
+		//发请求
 		System.out.println(DependenceParam.toString());
 		log.info(DependenceParam.toString());
-		String cxResponse = CommonToolsUtil.getResponseInfo(DependenceParam);
+		Map<String, String> Depmap = CommonToolsUtil.getRParam(DependenceParam);
+		String cxResponse = HttpUtil_All.doPostSSL(DependenceParam.get("url"), Depmap);
+//		String cxResponse = CommonToolsUtil.getResponseInfo(DependenceParam);
 		System.out.println(cxResponse.toString());
 		log.info(cxResponse.toString());
-		if ("0".equals(map.get("wtlx"))) {
 
-			JsonAssertUtil.checkDependenceResponse(cxResponse, null, ParamConstant.PTYW, ParamConstant.A01_1_SCHEMA_ZL);
-		} else {
-			JsonAssertUtil.checkDependenceResponse(cxResponse, null, ParamConstant.PTYW, ParamConstant.A01_2_SCHEMA_ZL);
+		// 根据买卖类别判断校验内容
+		Map<String, String> mapRegex = new HashMap<String, String>();
+		if ("B".equals(map.get("mmlb"))) {
+			mapRegex.put("kmmxx_kmsl", "^[0-9]+$");
+		}
+		if ("S".equals(map.get("mmlb"))) {
+			mapRegex.put("kmmxx_gfkys", "^[0-9]+$");
 		}
 
+		// 根据类型校验响应
+		if ("0".equals(map.get("wtlx"))) {
+			JsonAssertUtil.checkResponse(DependenceParam, mapRegex, ParamConstant.A01_1_SCHEMA, ParamConstant.PTYW, cxResponse);
+		} else {
+			JsonAssertUtil.checkResponse(DependenceParam, mapRegex, ParamConstant.A01_2_SCHEMA, ParamConstant.PTYW, cxResponse);
+		}
+
+		// 从查询接口获取下单需要的数据
 		String price = CommonToolsUtil.getPrice(map.get("wtjg"), cxResponse);
 		String wtsl = CommonToolsUtil.getOverBSQty(map.get("mmlb"), map.get("wtsl"), cxResponse);
 		String jysdm = JsonAssertUtil.getValue(cxResponse, "$.kmmxx[0].jysdm");
 		String gddm = JsonAssertUtil.getValue(cxResponse, "$.kmmxx[0].gddm");
-		
+
 		// 处理接口的入参赋值、发送请求、返回值校验操作
 		map.put("wtjg", price);
 		map.put("wtsl", wtsl);
@@ -119,28 +125,13 @@ public class A01GPMMServiceImpl implements A01GPMMService {
 		System.out.println(response.toString());
 		log.info(response.toString());
 
-		JsonAssertUtil.checkNull(response);
+		//添加动态校验正则表达式
 		Map<String, String> valMap = new HashMap<>();
 		valMap.put("message", JsonAssertUtil.getMsgRex(param.get("expectMsg")));
-		String strjsonSchema = "";
-		try {
-			if (ParamConstant.ZL.equalsIgnoreCase(param.get("type"))) {
-				Map<String, String> regexMap = JsonAssertUtil.getRegex(valMap, ParamConstant.PTYW,
-						ParamConstant.A01_SCHEMA_ZL);
-				strjsonSchema = JsonAssertUtil.editSchemaInfo(ParamConstant.A01_SCHEMA_ZL, regexMap);
-			} else if (ParamConstant.FL.equalsIgnoreCase(param.get("type"))) {
-				Map<String, String> regexMap = JsonAssertUtil.getRegex(valMap, ParamConstant.PTYW,
-						ParamConstant.A01_SCHEMA_FL);
-				strjsonSchema = JsonAssertUtil.editSchemaInfo(ParamConstant.A01_SCHEMA_FL, regexMap);
-			} else {
-				throw new RuntimeException("测试数据类型缺失，请查证后再执行！");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-		// 验证 *自己的schema名称
-		JsonAssertUtil.JsonAssert(response, strjsonSchema);
+		
+		//校验响应字符串
+		JsonAssertUtil.checkResponse(param, valMap, ParamConstant.A01_SCHEMA,ParamConstant.PTYW, response);
+
 	}
 
 }
