@@ -18,4 +18,10 @@
 			<class name="zxjt.inte.web.A01GPMMTest" />
 		</classes>
 	</test>
+	
+	<test enabled="false" name="TestWW" needlogin="false">
+		<classes>
+			<class name="zxjt.inte.web.W00HQZXGHQTest" />
+		</classes>
+	</test>
 </suite>

@@ -1,20 +1,31 @@
 package zxjt.inte.util;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import zxjt.inte.protobuf.Protobuf;
+import zxjt.inte.protobuf.ProtobufHttp;
+import zxjt.inte.protobuf.ProtobufRep;
+import zxjt.inte.protobuf.ProtobufReq;
+
 
 public class ExcelData2DB {
 
@@ -112,10 +123,28 @@ public class ExcelData2DB {
 	}
 
 	public static void main(String[] args) {
-		Logger log = Logger.getLogger("zxjtInterface"); 
-         log.info("asdfsadfsadf"); 
+//		Logger log = Logger.getLogger("zxjtInterface"); 
+//         log.info("asdfsadfsadf"); 
 //         log.debug("IIIIIIIIIIIIIIIIII"); 
 		//readFile(new File("C:\\Users\\Administrator\\Desktop\\users1.xlsx"));
+		
+//		Map<String,String> map = new HashMap<String,String>();
+//		map.put("pszCodes", "000001,399001,399006");
+//		map.put("marketList", "2,1,1");
+//		map.put("wType", "0");
+//		map.put("bSort", "0");
+//		map.put("bDirect", "true");
+//		map.put("wFrom", "0");
+//		map.put("wCount", "3");
+//		map.put("fieldsBitMap", "13690212358");
+//		String url = "http://111.13.63.2:9800/api/quote/pb_selected";
+		              //http://111.13.63.2:9800/api/quote/pb_selected
+//		
+//		byte[] postdata = ProtobufReq.multi_selectedStocks_req(map);
+//		InputStream stream =ProtobufHttp.post(postdata, url);
+//		ProtobufRep.multi_selectedStocks_rep( stream);
+//	
+//		
 
 	}
 }

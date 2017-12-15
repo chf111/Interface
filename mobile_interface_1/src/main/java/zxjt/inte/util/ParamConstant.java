@@ -40,6 +40,7 @@ public interface ParamConstant {
 	public static final int KMMXXCX_ID = 4906;
 	public static final int SJKMMXXCX_ID = 5102;
 	public static final int PTJYLOGIN_ID = 4899;
+	public static final int HQZXGHQ_ID = 9000;
 	
 	
 	/** ************************************************************             
@@ -49,4 +50,23 @@ public interface ParamConstant {
 	public static final String 	VALIDATEPARAM = "validateParam";
 	public static final String MEHTOD = "method";
 	public static final String LOGGER = "zxjtInterface";
+	
+	/** ************************************************************             
+	 *  ***********************自选股行情查询用到的入参**************************
+	 *  **********************************************************/
+	public  static final String  PSZCODES= "pszCodes";
+	public  static final String  MARKETLIST= "marketList";
+	public  static final String  WTYPE= "wType";
+	public  static final String  BSORT= "bSort";
+	public  static final String  BDIRECT= "bDirect";
+	public  static final String  WFROM= "wFrom";
+	public  static final String  WCOUNT= "wCount";
+	public  static final String  FIELDSBITMAP= "fieldsBitMap";
+	
+	/** ************************************************************             
+	 *  ***********************不同业务的urlkey值**************************
+	 *  **********************************************************/
+	public  static final String  SAFEURL= "httpsurl";
+	public  static final String  UNSAFEURL= "httpurl";
+	
 }

@@ -11,9 +11,6 @@ public class httpMain {
 
 	public static void main(String[] args) throws Exception {
 
-		//1、修改report文件夹name
-		//2、修改kmsl校验
-		//3、整合公共的dao、db等
 		if (args.length <= 0) {
 			throw new RuntimeException("请输入需要执行的模块");
 		}

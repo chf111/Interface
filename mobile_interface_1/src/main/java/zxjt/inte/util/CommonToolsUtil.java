@@ -29,6 +29,8 @@ public class CommonToolsUtil {
 		RParam.remove("testPoint");
 		RParam.remove("url");
 		RParam.remove("row");
+		RParam.remove(ParamConstant.SAFEURL);
+		RParam.remove(ParamConstant.UNSAFEURL);
 		return RParam;
 	}
 
@@ -82,7 +84,7 @@ public class CommonToolsUtil {
 			Method mContent = clazz.getDeclaredMethod("getContent");
 
 			paramUrl = (String) mUrl.invoke(lisMap.get(0));
-			String url = commonParam.get("url") + paramUrl;
+			String url = commonParam.get(ParamConstant.SAFEURL) + paramUrl;
 
 			for (int i = 0; i < lisMap.size(); i++) {
 				Class evCla = lisMap.get(i).getClass();
@@ -144,7 +146,7 @@ public class CommonToolsUtil {
 					lisTemp.add(mapParam);
 					mapParam = new HashMap<>();
 					mapParam.putAll(commonParam);
-					String url = commonParam.get("url") + paramUrl;
+					String url = commonParam.get(ParamConstant.SAFEURL) + paramUrl;
 					mapParam.put("url", url);
 					mapParam.put("row", String.valueOf(rowIndex));
 				}
@@ -156,6 +158,54 @@ public class CommonToolsUtil {
 			// 校验
 			String content = (String) mContent.invoke(lisMap.get(0));
 			validateParamIsMatch(content, lisTemp.get(0));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return lisTemp;
+	}
+
+	/**
+	 * 将测试接口从数据库中取出来的值组合成入参的map集合
+	 * 
+	 * @param lisMap
+	 *            数据库查询出来入参值
+	 * @param commonParam
+	 *            从公共数据表中查询出来的公共入参
+	 * @return 拼接后指定url需要的入参值
+	 */
+	public static List<Map<String, String>> getWWParamsInfo(Object map, Map<String, String> commonParam) {
+
+		List<Object> lisMap = (List<Object>) map;
+		Map<String, String> mapParam = new HashMap<>();
+		List<Map<String, String>> lisTemp = new ArrayList<>();
+		int rowIndex = 0;
+		String paramUrl = "";
+		Class clazz = lisMap.get(0).getClass();
+		try {
+
+			for (int i = 0; i < lisMap.size(); i++) {
+				Class evCla = lisMap.get(i).getClass();
+				Method mRowIndex = evCla.getDeclaredMethod("getRowindex");
+				Method mCname = evCla.getDeclaredMethod("getCname");
+				Method mCvalue = evCla.getDeclaredMethod("getCvalue");
+
+				if (rowIndex != ((Integer) mRowIndex.invoke(lisMap.get(i)))) {
+					rowIndex = (Integer) mRowIndex.invoke(lisMap.get(i));
+					lisTemp.add(mapParam);
+					mapParam = new HashMap<>();
+					mapParam.put("row", String.valueOf(rowIndex));
+				}
+				if ("url".equals(mCname.invoke(lisMap.get(i)))) {
+					paramUrl = (String) mCvalue.invoke(lisMap.get(i));
+					String url = commonParam.get(ParamConstant.UNSAFEURL) + paramUrl;
+					mapParam.put("url", url);
+				} else {
+					mapParam.put((String) mCname.invoke(lisMap.get(i)), (String) mCvalue.invoke(lisMap.get(i)));
+				}
+			}
+			lisTemp.add(mapParam);
+			lisTemp.remove(0);
 
 		} catch (Exception e) {
 			e.printStackTrace();
