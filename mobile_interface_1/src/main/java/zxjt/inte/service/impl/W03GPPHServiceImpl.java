@@ -13,20 +13,20 @@ import zxjt.inte.dao.CommonWWDao;
 import zxjt.inte.protobuf.ProtobufHttp;
 import zxjt.inte.protobuf.ProtobufRep;
 import zxjt.inte.protobuf.ProtobufReq;
-import zxjt.inte.service.W00HQZXGHQService;
+import zxjt.inte.service.W03GPPHService;
 import zxjt.inte.util.CommonToolsUtil;
 import zxjt.inte.util.JsonAssertUtil;
 import zxjt.inte.util.ParamConstant;
 
 @Service
-public class W00HQZXGHQServiceImpl implements W00HQZXGHQService {
+public class W03GPPHServiceImpl implements W03GPPHService {
 	Logger log = Logger.getLogger(ParamConstant.LOGGER);
 	@Resource
 	private CommonWWDao wwDao;
 
 	public Object[][] getParamsInfo() {
 		try {
-			Object[][] obj = CommonToolsUtil.getWWservice(wwDao, ParamConstant.HQZXGHQ_ID);
+			Object[][] obj = CommonToolsUtil.getWWservice(wwDao, ParamConstant.GPPH_ID);
 			return obj;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -48,7 +48,7 @@ public class W00HQZXGHQServiceImpl implements W00HQZXGHQService {
 			log.info(map.toString());
 
 			// 发请求
-			byte[] postdata = ProtobufReq.multi_selectedStocks_req(map);
+			byte[] postdata = ProtobufReq.multi_stockRank_req(map);
 			InputStream stream = ProtobufHttp.post(postdata, param.get("url"));
 			
 			//添加动态校验正则表达式
@@ -60,9 +60,8 @@ public class W00HQZXGHQServiceImpl implements W00HQZXGHQService {
 			valMap.put(ParamConstant.WCOUNT, ParamConstant.REGEXBEGIN+param.get(ParamConstant.WCOUNT)+ParamConstant.REGEXEND);
 			valMap.put(ParamConstant.FIELDSBITMAP, ParamConstant.REGEXBEGIN+param.get(ParamConstant.FIELDSBITMAP)+ParamConstant.REGEXEND);
 			
-			Map<String, String> regexMap =JsonAssertUtil.getRegex(valMap, ParamConstant.WW, ParamConstant.W00_SCHEMA+ParamConstant.SCHEMA_ZL);
-			
-			ProtobufRep.multi_selectedStocks_rep(stream,regexMap);
+			Map<String, String> regexMap =JsonAssertUtil.getRegex(valMap, ParamConstant.WW, ParamConstant.W03_SCHEMA+ParamConstant.SCHEMA_ZL);
+			ProtobufRep.multi_stockRank_rep(stream,regexMap);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

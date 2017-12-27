@@ -38,8 +38,13 @@ public abstract class DBConnection {
 						desJsFile);
 			}
 			Class.forName("org.sqlite.JDBC");
+//			Class.forName("com.mysql.jdbc.Driver");
 			String vConnStr = "jdbc:sqlite://" + desDbFilePath;
+//			String vConnStr = "jdbc:mysql://localhost:3306/light?useUnicode=true&characterEncoding=utf8";
+//			String user = "web";
+//			String password = "123123";
 			conn = DriverManager.getConnection(vConnStr);
+//			conn = DriverManager.getConnection(vConnStr,user,password);
 			if (conn == null) {
 				System.out.println("conn is null");
 			}

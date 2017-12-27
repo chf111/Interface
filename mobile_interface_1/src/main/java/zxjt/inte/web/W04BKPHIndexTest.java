@@ -8,28 +8,29 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import zxjt.inte.dataprovider.TestDataProvider;
-import zxjt.inte.service.W00HQZXGHQService;
+import zxjt.inte.service.W04BKPHIndexService;
 import zxjt.inte.util.BeforeClassUse;
 
 /**
- * // http://ip:port/api/quote/pb_selected 自选股
+ * // http:// ip:port /api/quote/pb_blockRankIndex 板块排行索引
  * @author Administrator
  *
  */
-public class W00HQZXGHQTest extends BaseController {
-
+//自己的类名
+public class W04BKPHIndexTest extends BaseController {
+	
 	// *自己的Service名称
 	@Resource
-	private W00HQZXGHQService zxgService;
+	private W04BKPHIndexService bkphindexService;
 
 	@BeforeClass
 	public void setup() {
-		BeforeClassUse.setDPInfo(zxgService);
+		BeforeClassUse.setDPInfo(bkphindexService);
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void W00ZXGHQ(Map<String, String> param) {
+	public void W04BKPHIndex(Map<String, String> param) {
 
-		zxgService.test(param);
+		bkphindexService.test(param);
 	}
 }

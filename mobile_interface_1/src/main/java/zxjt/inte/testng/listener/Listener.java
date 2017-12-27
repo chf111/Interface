@@ -8,7 +8,10 @@ import java.lang.reflect.Parameter;
 import java.sql.Connection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.testng.ITestContext;
@@ -16,16 +19,21 @@ import org.testng.ITestResult;
 import org.testng.annotations.Test;
 import org.testng.internal.IResultListener2;
 
+import zxjt.inte.dao.CommonJYDao;
+import zxjt.inte.entity.CommonJY;
 import zxjt.inte.report.DBConnection;
 import zxjt.inte.report.StepBean;
 import zxjt.inte.report.StepDao;
 import zxjt.inte.report.TestBean;
 import zxjt.inte.report.TestDao;
 import zxjt.inte.util.JsonAssertUtil;
+import zxjt.inte.util.ParamConstant;
 import zxjt.inte.util.StringUtil;
 
 public class Listener implements IResultListener2 {
 
+	
+	
 	private String namePath = "name.json";
 	Map<String, String> nameMap = new HashMap<>();
 	// ----------------------------------------------------

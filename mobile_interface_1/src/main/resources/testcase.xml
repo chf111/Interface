@@ -13,7 +13,7 @@
 	</test>
 
 <!--注意事项3：出登录以外的test模块，needlogin和  filebelongto必填-->
-	<test enabled="false" name="TestGPMM" needlogin="true" filebelongto="PTJYLogin">
+	<test enabled="false" name="TestGPMM" needlogin="false" filebelongto="PTJYLogin">
 		<classes>
 			<class name="zxjt.inte.web.A01GPMMTest" />
 		</classes>
@@ -22,6 +22,12 @@
 	<test enabled="false" name="TestWW" needlogin="false">
 		<classes>
 			<class name="zxjt.inte.web.W00HQZXGHQTest" />
+			<class name="zxjt.inte.web.W01DMLTest" />
+			<class name="zxjt.inte.web.W02BKPHTest" />
+			<class name="zxjt.inte.web.W03GPPHTest" />
+			<class name="zxjt.inte.web.W04BKPHIndexTest" />
+			<class name="zxjt.inte.web.W05GGZHTest" />
+			<class name="zxjt.inte.web.W06YCXTest" />
 		</classes>
 	</test>
 </suite>

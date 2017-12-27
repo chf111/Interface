@@ -2,8 +2,12 @@ package zxjt.inte.protobuf;
 
 import java.util.List;
 
-public class ProtobufPair {
+import org.apache.log4j.Logger;
 
+import zxjt.inte.util.ParamConstant;
+
+public class ProtobufPair {
+	Logger log = Logger.getLogger(ParamConstant.LOGGER);
 	public static void price_volume_pair(Protobuf.stock_tradeClassify_data_repeated stock_tradeClassify_data_repeated) {
 		List<Protobuf.price_volume_pair> buypair = stock_tradeClassify_data_repeated.getBuyPairList();
 		List<Protobuf.price_volume_pair> sellpair = stock_tradeClassify_data_repeated.getSellPairList();

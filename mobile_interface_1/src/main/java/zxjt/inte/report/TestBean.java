@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class TestBean {
 	
+	private Date testTime;
 	private int id;
 	private String name;
 	private Date startTime;
@@ -43,6 +44,14 @@ public class TestBean {
 	@Override
 	public String toString() {
 		return "TestBean [id=" + id + ", name=" + name + ", startTime=" + startTime + ", endTime=" + endTime + "]";
+	}
+
+	public Date getTestTime() {
+		return testTime;
+	}
+
+	public void setTestTime(Date testTime) {
+		this.testTime = testTime;
 	}
 
 }

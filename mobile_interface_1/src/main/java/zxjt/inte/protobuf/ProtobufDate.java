@@ -1,7 +1,11 @@
 package zxjt.inte.protobuf;
 
-public class ProtobufDate {
+import org.apache.log4j.Logger;
 
+import zxjt.inte.util.ParamConstant;
+
+public class ProtobufDate {
+	Logger log = Logger.getLogger(ParamConstant.LOGGER);
 	public static void available_date(Protobuf.stock_details_data stockDetailsData)
 	{
 		Protobuf.available_date available_date = stockDetailsData.getAd();

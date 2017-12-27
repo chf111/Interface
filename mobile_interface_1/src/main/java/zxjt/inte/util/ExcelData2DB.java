@@ -15,11 +15,14 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.testng.Assert;
 
 import zxjt.inte.protobuf.Protobuf;
 import zxjt.inte.protobuf.ProtobufHttp;
@@ -123,6 +126,24 @@ public class ExcelData2DB {
 	}
 
 	public static void main(String[] args) {
+		
+	
+//		try {
+//			//TODO:一次校验显示所有错误
+//			 Pattern p1 = Pattern.compile(".*\\S+.*");   
+//			 Matcher m1 = p1.matcher("　");  
+//			 Assert.assertTrue(m1.matches(), "接口返回响应字段“!") ; 
+//			}catch(AssertionError e)
+//			{
+//				System.out.println(e.getMessage());
+//			}finally
+//			{
+//				
+//			}
+////		
+//		Map<String,String >s = new HashMap<>();
+//		s.put("a", "a");
+//		System.out.println(s.get("b"));;
 //		Logger log = Logger.getLogger("zxjtInterface"); 
 //         log.info("asdfsadfsadf"); 
 //         log.debug("IIIIIIIIIIIIIIIIII"); 
@@ -147,4 +168,16 @@ public class ExcelData2DB {
 //		
 
 	}
+	
+//	public void geta(List<Map<String, String>> lisTemp, Object... a) {
+//		Object[][] obj = new Object[lisTemp.size()][a.length];
+//		for (int j = 0; j < obj.length; j++) {
+//			obj[j][0] = lisTemp.get(j);
+//			if (a == null)
+//				continue;
+//			for (int k = 1; k <= a.length; k++) {
+//				obj[j][k] = a[k - 1];
+//			}
+//		}
+//	}
 }

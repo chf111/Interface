@@ -6,6 +6,7 @@ public class CommonWW {
 	private String cvalue;
 	private int rowindex;
 	private String desc;
+	private String url;
 
 	public int getId() {
 		return id;
@@ -45,5 +46,13 @@ public class CommonWW {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }

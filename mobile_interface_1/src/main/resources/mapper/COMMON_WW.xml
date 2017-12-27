@@ -5,10 +5,11 @@
 <mapper namespace="zxjt.inte.dao.CommonWWDao">
 	<select id="getParamsInfo" resultType="CommonWW" parameterType="int">
 		<!-- 具体的sql -->
-	SELECT C.ID AS 'id',C.CNAME AS 'cname'
+	SELECT C.ID AS 'id',S.SERVICE_FUNCTION_ID AS 'url',C.CNAME AS 'cname'
 	,R.CVALUE AS 'cvalue',R.RID AS 'rowindex' ,C.`DESC` AS 'desc'
-	FROM t_row_ww_info R  , t_column_ww_info C
+	FROM t_row_ptyw_info R  , t_column_ptyw_info C,t_service_info S
 	WHERE R.ID = #{id}
+	AND S.ID = R.ID
 	AND C.ID = R.ID
 	AND R.CID = C.CID
 	AND R.RID NOT IN(

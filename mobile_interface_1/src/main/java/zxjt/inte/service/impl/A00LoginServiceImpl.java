@@ -24,7 +24,6 @@ public class A00LoginServiceImpl implements A00LoginService {
 	Logger log = Logger.getLogger(ParamConstant.LOGGER);
 	@Resource
 	private CommonJYDao loginDao;
-
 	 public Object[][] getParamsInfo() {
 
 		// 公共参数操作

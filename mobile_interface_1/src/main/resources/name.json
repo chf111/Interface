@@ -1,7 +1,11 @@
 {
-  "A00LoginTest_A00LoginZL": "执行登陆接口正例",
-  "B00LoginTest_B00LoginZL": "执行登陆接口正例B",
   "A01GPMMTest_A01GPMM": "执行股票买卖接口A01",
   "A00LoginTest_A00Login":"执行普通交易登录接口A00",
-  "W00HQZXGHQTest_W00ZXGHQ":"执行自选股行情信息查询W00"
+  "W00HQZXGHQTest_W00ZXGHQ":"执行自选股行情信息查询W00",
+  "W01DMLTest_W01DML":"执行代码链查询W01",
+  "W02BKPHTest_W02BKPH":"执行板块排行W02",
+  "W03GPPHTest_W03GPPH":"执行股票排行W03",
+  "W04BKPHIndexTest_W04BKPHIndex":"执行板块排行索引W04",
+  "W05GGZHTest_W05GGZH":"执行个股综合W05",
+  "W06YCXTest_W06YCX":"执行代码云查询W06"
 }

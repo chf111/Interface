@@ -10,7 +10,9 @@ import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Predicate;
 
 import net.minidev.json.JSONArray;
+import zxjt.inte.dao.CommonWWDao;
 import zxjt.inte.entity.CommonInfo;
+import zxjt.inte.entity.CommonWW;
 
 public class CommonToolsUtil {
 	// 查询接口还灭有校验呢
@@ -184,6 +186,10 @@ public class CommonToolsUtil {
 		Class clazz = lisMap.get(0).getClass();
 		try {
 
+			Method mUrl = clazz.getDeclaredMethod("getUrl");
+
+			paramUrl = (String) mUrl.invoke(lisMap.get(0));
+
 			for (int i = 0; i < lisMap.size(); i++) {
 				Class evCla = lisMap.get(i).getClass();
 				Method mRowIndex = evCla.getDeclaredMethod("getRowindex");
@@ -194,15 +200,11 @@ public class CommonToolsUtil {
 					rowIndex = (Integer) mRowIndex.invoke(lisMap.get(i));
 					lisTemp.add(mapParam);
 					mapParam = new HashMap<>();
-					mapParam.put("row", String.valueOf(rowIndex));
-				}
-				if ("url".equals(mCname.invoke(lisMap.get(i)))) {
-					paramUrl = (String) mCvalue.invoke(lisMap.get(i));
 					String url = commonParam.get(ParamConstant.UNSAFEURL) + paramUrl;
 					mapParam.put("url", url);
-				} else {
-					mapParam.put((String) mCname.invoke(lisMap.get(i)), (String) mCvalue.invoke(lisMap.get(i)));
+					mapParam.put("row", String.valueOf(rowIndex));
 				}
+				mapParam.put((String) mCname.invoke(lisMap.get(i)), (String) mCvalue.invoke(lisMap.get(i)));
 			}
 			lisTemp.add(mapParam);
 			lisTemp.remove(0);
@@ -349,6 +351,19 @@ public class CommonToolsUtil {
 		for (int j = 0; j < obj.length; j++) {
 			obj[j][0] = lisTemp.get(j);
 		}
+		return obj;
+	}
+
+	public static Object[][] getWWservice(CommonWWDao wwDao, int id) {
+		// 公共参数操作
+		List<CommonInfo> lisag = GetConfigProperties.getConfigProToCommon();
+		Map<String, String> commonParam = CommonToolsUtil.getCommonParam(lisag);
+
+		// 数据操作
+		List<CommonWW> lis = wwDao.getParamsInfo(id);
+		List<Map<String, String>> lisTemp = CommonToolsUtil.getWWParamsInfo(lis, commonParam);
+
+		Object[][] obj = getObjParam(lisTemp);
 		return obj;
 	}
 

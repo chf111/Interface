@@ -3,6 +3,7 @@ package zxjt.inte.report;
 import java.util.Date;
 
 public class StepBean {
+	private Date testTime;
 	private int id;
 	private int testId;
 	private int status = -1;
@@ -81,6 +82,14 @@ public class StepBean {
 		return "StepBean [id=" + id + ", testId=" + testId + ", status=" + status + ", timeStamp=" + timeStamp
 				+ ", param=" + param + ", result=" + result + ", stackTrace=" + stackTrace + ", screenshot="
 				+ screenshot + "]";
+	}
+
+	public Date getTestTime() {
+		return testTime;
+	}
+
+	public void setTestTime(Date testTime) {
+		this.testTime = testTime;
 	}
 
 }

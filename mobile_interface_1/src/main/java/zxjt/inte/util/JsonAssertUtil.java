@@ -9,9 +9,13 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONObject;
+import org.testng.Assert;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -174,22 +178,33 @@ public class JsonAssertUtil {
 		JSONObject jb = null;
 		String local[] = new String[2];
 		JSONObject dataJson = new JSONObject(strmodify);
-		if (key.contains("_")) {
-			local = key.split("_");
-			jb = dataJson.getJSONObject("properties").getJSONObject(local[0]).getJSONObject("items")
-					.getJSONObject("properties").getJSONObject(local[1]);
-		} else {
-			switch (key) {
-			case "code":
-				jb = dataJson.getJSONObject("properties").getJSONObject("cljg").getJSONObject("items")
-						.getJSONObject("properties").getJSONObject("code");
-				break;
-			case "message":
-				jb = dataJson.getJSONObject("properties").getJSONObject("cljg").getJSONObject("items")
-						.getJSONObject("properties").getJSONObject("message");
-				break;
+		switch (key) {
+		case "code":
+			jb = dataJson.getJSONObject("properties").getJSONObject("cljg").getJSONObject("items")
+					.getJSONObject("properties").getJSONObject("code");
+			break;
+		case "message":
+			jb = dataJson.getJSONObject("properties").getJSONObject("cljg").getJSONObject("items")
+					.getJSONObject("properties").getJSONObject("message");
+			break;
+		case "stock_code":
+		case "stock_mark":
+		case "stock_market":
+		case "stock_name":
+		case "stock_pinyin":
+		case "stock_type":
+			jb = dataJson.getJSONObject("items").getJSONObject("properties").getJSONObject(key);
+			break;
+		default:
+			if (key.contains("_")) {
+				local = key.split("_");
+				jb = dataJson.getJSONObject("properties").getJSONObject(local[0]).getJSONObject("items")
+						.getJSONObject("properties").getJSONObject(local[1]);
+			} else {
+				throw new RuntimeException("正则所属类型超出设计范围，请修正代码后再执行！");
 			}
 		}
+
 		jb.remove("enum");
 		jb.put(datatype, msg);
 		return dataJson.toString();
@@ -255,7 +270,7 @@ public class JsonAssertUtil {
 	/**
 	 * 
 	 * @param respose
-	 *            服务器返回信息内容
+	 *            服务器返回信息内容，格式如下： {"":[{}],"":[{}]}
 	 */
 	public static void checkNull(String respose) {
 
@@ -268,6 +283,29 @@ public class JsonAssertUtil {
 				JSONArray js = result.get(key);
 				if (js.size() < 1) {
 					throw new RuntimeException("接口响应字符串中，节点：" + key + " 的内容为空");
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 
+	 * @param respose
+	 *            服务器返回信息内容格式如下： [{},{}]
+	 */
+	public static void checkWWNull(String respose) {
+
+		try {
+			if (respose == null) {
+				throw new RuntimeException("response is null!");
+			}
+			List<Object> result = JsonPath.read(respose, "$", new Predicate[0]);
+			for (Object key : result) {
+				Map<String, String> s = (Map<String, String>) key;
+				if (s.size() < 1) {
+					throw new RuntimeException("内容为空");
 				}
 			}
 		} catch (Exception e) {
@@ -320,22 +358,27 @@ public class JsonAssertUtil {
 	 *            需要动态传入的正则
 	 * @return Jsonschema文件的内容
 	 */
-	public static void checkResponse(Map<String, String> param, Map<String, String> valMap, String schemaName,String series,
-			String response) {
+	public static void checkResponse(Map<String, String> param, Map<String, String> valMap, String schemaName,
+			String series, String response) {
 		String strjsonSchema = "";
 
-		String schema_zl = schemaName + ParamConstant.SCHEMA_ZL;
-		String schema_fl = schemaName + ParamConstant.SCHEMA_FL;
-		
+		switch (series) {
 		// 判空
-		checkNull(response);
-		
-		//根据动态正则和schema文件获得最终的schema
+		case ParamConstant.WW:
+			checkWWNull(response);
+			break;
+		default:
+			checkNull(response);
+		}
+
+		// 根据动态正则和schema文件获得最终的schema
 		try {
 			if (ParamConstant.ZL.equalsIgnoreCase(param.get("type"))) {
-				Map<String, String> regexMap = getRegex(valMap,series, schema_zl);
+				String schema_zl = schemaName + ParamConstant.SCHEMA_ZL;
+				Map<String, String> regexMap = getRegex(valMap, series, schema_zl);
 				strjsonSchema = editSchemaInfo(schema_zl, regexMap);
 			} else if (ParamConstant.FL.equalsIgnoreCase(param.get("type"))) {
+				String schema_fl = schemaName + ParamConstant.SCHEMA_FL;
 				Map<String, String> regexMap = getRegex(valMap, series, schema_fl);
 				strjsonSchema = editSchemaInfo(schema_fl, regexMap);
 			} else {
@@ -346,7 +389,35 @@ public class JsonAssertUtil {
 			throw new RuntimeException(e);
 		}
 
-		//校验
+		// 校验
 		JsonAssert(response, strjsonSchema);
+	}
+
+	/**
+	 * 正则校验用
+	 */
+	public static void assertRegex(String expectName, String expectValue, String regex) {
+		try {
+			Pattern p1 = Pattern.compile(regex);
+			Matcher m1 = p1.matcher(expectValue);
+			Assert.assertTrue(m1.matches(),
+					"接口返回响应字段“" + expectName + "”的值“" + expectValue + "”不符合正则表达式“" + regex + "”!");
+		} catch (AssertionError e) {
+			ValidateExceptionBean.setveInfo(e);
+		}
+	}
+
+	public static void throwAssertError() {
+		if (ValidateExceptionBean.getveInfo().size() > 0) {
+			String report = "";
+			Map<Integer, Object> map = ValidateExceptionBean.getveInfo();
+			for (int i : map.keySet()) {
+				AssertionError e2 = (AssertionError) map.get(i);
+				report = report + e2.getMessage() + "\n";
+			}
+			ValidateExceptionBean.clear();
+			throw new RuntimeException(report);
+
+		}
 	}
 }
