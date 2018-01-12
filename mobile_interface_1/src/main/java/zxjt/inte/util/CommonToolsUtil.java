@@ -1,10 +1,16 @@
 package zxjt.inte.util;
 
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Predicate;
@@ -15,7 +21,7 @@ import zxjt.inte.entity.CommonInfo;
 import zxjt.inte.entity.CommonWW;
 
 public class CommonToolsUtil {
-	// 查询接口还灭有校验呢
+
 	/**
 	 * 去除入参数据中包含的非传入数据，例如“测试点”、“类型”等等
 	 * 
@@ -163,6 +169,7 @@ public class CommonToolsUtil {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return lisTemp;
 	}
@@ -327,7 +334,6 @@ public class CommonToolsUtil {
 						Integer.parseInt((String) JsonPath.read(CXRespose, qtyflag, new Predicate[0])) / 1000 * 1000
 								+ 1000);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				throw new RuntimeException(e.getMessage());// 123456
 			}
@@ -367,4 +373,80 @@ public class CommonToolsUtil {
 		return obj;
 	}
 
+	public static String getToday(String format) {
+
+		Date date = new Date();
+		SimpleDateFormat sd = new SimpleDateFormat(format);
+		String today = sd.format(date);
+		return today;
+	}
+	
+	/**
+	 * 获取查询日期信息
+	 * 
+	 * @param param
+	 *            下单发送的json转换的map
+	 * @return 返回修改好入参的下单报文map
+	 */
+	public static void getcxrqInfo(Map<String, String> param) {
+		Calendar cal = Calendar.getInstance();
+		Date dateNow = cal.getTime();
+		if ((param.get(ParamConstant.QSRQ).contains(ParamConstant.ONEMONTH))
+				||(param.get(ParamConstant.ZZRQ).contains(ParamConstant.ONEMONTH))) {
+			cal.add(Calendar.DAY_OF_YEAR, -1);
+			dateNow = cal.getTime();
+			cal.add(Calendar.MONTH, -1);
+
+		} else if ((param.get(ParamConstant.QSRQ).contains(ParamConstant.THREEMONTH))
+				||(param.get(ParamConstant.ZZRQ).contains(ParamConstant.THREEMONTH))) {
+			cal.add(Calendar.MONTH, -3);
+		} else {
+			return;
+		}
+		Date dateKS = cal.getTime();
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+		String dateKsrq = df.format(dateKS);
+		String dateZzrq = df.format(dateNow);
+		param.put(ParamConstant.QSRQ, dateKsrq);
+		param.put(ParamConstant.ZZRQ, dateZzrq);
+		
+	}
+	
+	/**
+	 * 返回数量值
+	 * 
+	 * @param mrdw
+	 *            买入单位（如果查询结果中不存在该字段，则传每手股最小单位即可，股票100，基金1000）
+	 * @param num
+	 *            买卖上限加情况下的计算基础值
+	 * @param parWtsl
+	 *            数量类型
+	 * @param plus
+	 *            可买卖上限加的数值 ETF-10000 ；LOF-10000；开放式基金-1000
+	 * @return 网下现金认购信息查询接口返回结果
+	 */
+	public static String getWtsl(String mrdw, String num, String parWtsl, int plus) {
+		int iMrdw = Math.round(Float.valueOf(mrdw));
+		int iWtsl = 0;
+
+		// 不同场合下处理方式
+		if ("1倍".equals(parWtsl)) {
+			iWtsl = iMrdw;
+		} else if ("可买卖上限加".equals(parWtsl)) {
+			iWtsl = Math.round(Float.valueOf(num)) / iMrdw * iMrdw + plus;
+
+		} else if ("不是整数倍".equals(parWtsl)) {
+			iWtsl = iMrdw + 1;
+		} else {
+			String pattern = "([0-9]+|[0-9]+\\.[0-9]+)";
+			Pattern p = Pattern.compile(pattern);
+			Matcher matcher = p.matcher(parWtsl);
+			if (matcher.matches()) {
+				iWtsl = Math.round(Float.valueOf(parWtsl));
+			} else {
+				throw new RuntimeException("数据库中委托数量有误");
+			}
+		}
+		return String.valueOf(iWtsl);
+	}
 }

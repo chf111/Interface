@@ -40,6 +40,16 @@ public interface ParamConstant {
 	public static final String W03_SCHEMA = "股票排行";
 	public static final String W04_SCHEMA = "板块排行索引";
 	public static final String W05_SCHEMA = "个股综合";
+	public static final String B00_SCHEMA = "沪深港股通_普通业务_持仓查询";
+	public static final String B01_SCHEMA = "沪深港股通_普通业务_交易状态信息查询";
+	public static final String B02_SCHEMA = "沪深港股通_普通业务_可买卖数量查询";
+	public static final String B03_SCHEMA = "沪深港股通_普通业务_资金查询";
+	public static final String B04_SCHEMA = "沪深港股通_普通业务_当日委托查询";
+	public static final String B05_SCHEMA = "沪深港股通_普通业务_当日成交查询";
+	public static final String B06_SCHEMA = "沪深港股通_普通业务_历史委托查询";
+	public static final String B07_SCHEMA = "沪深港股通_普通业务_历史成交查询";
+	public static final String B08_SCHEMA = "沪深港股通_普通业务_委托下单";
+	public static final String B09_SCHEMA = "沪深港股通_普通业务_委托撤单";
 
 	/**
 	 * ************************************************************
@@ -57,6 +67,17 @@ public interface ParamConstant {
 	public static final int BKPHINDEX_ID = 5491;
 	public static final int GGZH_ID = 5492;
 	public static final int YCX_ID = 5493;
+	
+	public static final int HSGGT_CCCX_ID = 4715;
+	public static final int HSGGT_JYZTXXCX_ID = 4753;
+	public static final int HSGGT_KMMSLCX_ID = 4716;
+	public static final int HSGGT_ZJCX_ID = 4723;
+	public static final int HSGGT_DRWTCX_ID = 4726;
+	public static final int HSGGT_DRCJCX_ID = 4730;
+	public static final int HSGGT_LSWTCX_ID = 4728;
+	public static final int HSGGT_LSCJCX_ID = 4736;
+	public static final int HSGGT_WTXD_ID = 4713;
+	public static final int HSGGT_WTCD_ID = 4721;
 
 	/**
 	 * ************************************************************
@@ -66,6 +87,11 @@ public interface ParamConstant {
 	public static final String VALIDATEPARAM = "validateParam";
 	public static final String MEHTOD = "method";
 	public static final String LOGGER = "zxjtInterface";
+	public static final String URL = "url";
+	public static final String ONEMONTH = "一个月内";
+	public static final String THREEMONTH = "三个月内";
+	
+	
 
 	/**
 	 * ************************************************************
@@ -232,5 +258,43 @@ public interface ParamConstant {
 	 **********************************************************/
 	public static final String REGEXBEGIN = "^";
 	public static final String REGEXEND = "$";
+	
+	/**
+	 * ************************************************************
+	 * ***********************沪深港股通的参数**************************
+	 **********************************************************/
+	public static final String SGT = "9";
+	public static final String HGT = "6";
+	public static final String B = "B";
+	public static final String S = "S";
+	
+	public static final String JYSDM = "jysdm";
+	public static final String ZQDM = "zqdm";
+	public static final String WTLX = "wtlx";
+	public static final String YYBDM = "yybdm";
+	public static final String QSRQ = "qsrq";
+	public static final String ZZRQ = "zzrq";
+	public static final String WTRQ = "wtrq";
+	public static final String CJRQ = "cjrq";
+	public static final String GDDM = "gddm";
+	public static final String WTJG = "wtjg";
+	public static final String MMLB = "mmlb";
+	public static final String WTSX = "wtsx";
+	public static final String WTSL = "wtsl";
+	public static final String EXPECTMSG = "expectMsg";
+	public static final String WTXH = "wtxh";
+	public static final String TYPE = "type";
+	public static final String GGTMM_KEY = "港股通买卖";
+	
+	
+	public static final String KMMXX_JYSDM = "kmmxx_jysdm";
+	public static final String KMMXX_ZQDM = "kmmxx_zqdm";
+	public static final String KMMXX_KMSL = "kmmxx_kmsl";
+	public static final String CXLB_GXRQ = "cxlb_gxrq";
+	public static final String ZJLB_YYBDM = "zjlb_yybdm";
+	public static final String CXLB_WTRQ = "cxlb_wtrq";
+	
+	public static final String KMSL_S = "^$|^[0-9]+$";
+	public static final String KMSL_H = "^[0-9]+$";
 
 }

@@ -7,7 +7,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -418,6 +424,39 @@ public class JsonAssertUtil {
 			ValidateExceptionBean.clear();
 			throw new RuntimeException(report);
 
+		}
+	}
+
+	/**
+	 * 校验指定日期是否在开始与终止日期范围内
+	 * 
+	 * @param response
+	 *            响应内容
+	 * @param date
+	 *            要检查的日期字段名称
+	 * @param param
+	 * @throws ParseException
+	 */
+	public static void checkDateIsBetweenIn(String response, String date, Map<String, String> param) {
+
+		List<String> list = JsonPath.read(response, "$.cxlb[*]." + date, new Predicate[0]);
+		List<String> cxList = new ArrayList<String>(new HashSet<String>(list));
+		DateFormat df = new SimpleDateFormat("yyyyMMdd");
+		try {
+			for (String con : cxList) {
+				Date conList = df.parse(con);
+				Date qsrq = df.parse(param.get(ParamConstant.QSRQ));
+				Date zzrq;
+
+				zzrq = df.parse(param.get(ParamConstant.ZZRQ));
+
+				if (conList.after(zzrq) || conList.before(qsrq)) {
+					throw new RuntimeException("查询结果中该条数据：“" + con + "”的日期不属于本次查询范围内");
+				}
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 }
