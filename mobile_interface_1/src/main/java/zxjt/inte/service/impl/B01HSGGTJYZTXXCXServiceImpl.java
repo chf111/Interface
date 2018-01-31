@@ -4,17 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import zxjt.inte.dao.CommonJYDao;
-import zxjt.inte.entity.CommonInfo;
-import zxjt.inte.entity.CommonJY;
+import zxjt.inte.dao.AccountRepository;
+import zxjt.inte.dao.AddressRepository;
+import zxjt.inte.dao.B01HSGGTJYZTXXCXRepository;
+import zxjt.inte.entity.B01HSGGTJYZTXXCX;
 import zxjt.inte.service.B01HSGGTJYZTXXCXService;
 import zxjt.inte.util.CommonToolsUtil;
-import zxjt.inte.util.GetConfigProperties;
 import zxjt.inte.util.HttpUtil_All;
 import zxjt.inte.util.JsonAssertUtil;
 import zxjt.inte.util.ParamConstant;
@@ -22,24 +21,26 @@ import zxjt.inte.util.ParamConstant;
 @Service
 public class B01HSGGTJYZTXXCXServiceImpl implements B01HSGGTJYZTXXCXService {
 	Logger log = Logger.getLogger(ParamConstant.LOGGER);
-	@Resource
-	private CommonJYDao jyztxxcxDao;
+	@Autowired
+	private B01HSGGTJYZTXXCXRepository hsggtDao;
+
+	@Autowired
+	private AddressRepository addrDao;
+
+	@Autowired
+	private AccountRepository accoDao;
 
 	public Object[][] getParamsInfo() {
 
-		// 公共参数操作
-		List<CommonInfo> lisag = GetConfigProperties.getConfigProToCommon();
-		Map<String, String> commonParam = CommonToolsUtil.getCommonParam(lisag);
-
 		// 股票买卖数据操作
-		List<CommonJY> lis = jyztxxcxDao.getParamsInfo(ParamConstant.HSGGT_JYZTXXCX_ID);
-		List<Map<String, String>> lisTemp = CommonToolsUtil.getDependencyParamsInfo(lis, commonParam);
+		List<B01HSGGTJYZTXXCX> lis = hsggtDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.HSGGT_JYZTXXCX_ID,
+				"true");
 
-		Object[][] obj = new Object[lisTemp.size()][1];
-		for (int j = 0; j < obj.length; j++) {
+		// 入参拼接
+		List<Map<String, String>> lisTemp = CommonToolsUtil.getTestData(lis, addrDao, accoDao,
+				ParamConstant.HSGGT_JYZTXXCX_ID);
 
-			obj[j][0] = lisTemp.get(j);
-		}
+		Object[][] obj = CommonToolsUtil.getTestObjArray(lisTemp);
 		return obj;
 	}
 
@@ -64,7 +65,8 @@ public class B01HSGGTJYZTXXCXServiceImpl implements B01HSGGTJYZTXXCXService {
 
 		// 拼接
 		Map<String, String> valMap = new HashMap<>();
-		valMap.put(ParamConstant.CXLB_GXRQ, ParamConstant.REGEXBEGIN + CommonToolsUtil.getToday("yyyyMMdd") + ParamConstant.REGEXEND);
+		valMap.put(ParamConstant.CXLB_GXRQ,
+				ParamConstant.REGEXBEGIN + CommonToolsUtil.getToday("yyyyMMdd") + ParamConstant.REGEXEND);
 
 		// 校验
 		JsonAssertUtil.checkResponse(param, valMap, ParamConstant.B01_SCHEMA, ParamConstant.PTYW, response);

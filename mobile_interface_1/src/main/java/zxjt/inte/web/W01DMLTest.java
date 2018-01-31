@@ -29,7 +29,7 @@ public class W01DMLTest extends BaseController {
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void W01DML(Map<String, String> param) {
+	public void W01(Map<String, String> param) {
 
 		dmlService.test(param);
 	}

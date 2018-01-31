@@ -2,14 +2,19 @@ package zxjt.inte.service.impl;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import zxjt.inte.dao.CommonWWDao;
+import zxjt.inte.dao.AccountRepository;
+import zxjt.inte.dao.AddressRepository;
+import zxjt.inte.dao.W00HQZXGHQRepository;
+import zxjt.inte.entity.W00HQZXGHQ;
 import zxjt.inte.protobuf.ProtobufHttp;
 import zxjt.inte.protobuf.ProtobufRep;
 import zxjt.inte.protobuf.ProtobufReq;
@@ -22,15 +27,21 @@ import zxjt.inte.util.ParamConstant;
 public class W00HQZXGHQServiceImpl implements W00HQZXGHQService {
 	Logger log = Logger.getLogger(ParamConstant.LOGGER);
 	@Resource
-	private CommonWWDao wwDao;
+	private W00HQZXGHQRepository wwDao;
+	
+	@Autowired
+	private  AddressRepository addrDao;
+	
+	@Autowired
+	private  AccountRepository accoDao;
 
 	public Object[][] getParamsInfo() {
-		try {
-			Object[][] obj = CommonToolsUtil.getWWservice(wwDao, ParamConstant.HQZXGHQ_ID);
-			return obj;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		// 股票买卖数据操作
+		List<W00HQZXGHQ> lis = wwDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.HQZXGHQ_ID,"true");
+		
+		Object[][] obj = CommonToolsUtil.getWWData(lis,addrDao,accoDao,ParamConstant.HQZXGHQ_ID);
+
+		return obj;
 	}
 
 	/**
@@ -49,20 +60,27 @@ public class W00HQZXGHQServiceImpl implements W00HQZXGHQService {
 
 			// 发请求
 			byte[] postdata = ProtobufReq.multi_selectedStocks_req(map);
-			InputStream stream = ProtobufHttp.post(postdata, param.get("url"));
-			
-			//添加动态校验正则表达式
+			InputStream stream = ProtobufHttp.post(postdata, param.get(ParamConstant.URL));
+
+			// 添加动态校验正则表达式
 			Map<String, String> valMap = new HashMap<>();
-			valMap.put(ParamConstant.WTYPE, ParamConstant.REGEXBEGIN+param.get(ParamConstant.WTYPE)+ParamConstant.REGEXEND);
-			valMap.put(ParamConstant.BSORT, ParamConstant.REGEXBEGIN+param.get(ParamConstant.BSORT)+ParamConstant.REGEXEND);
-			valMap.put(ParamConstant.BDIRECT, ParamConstant.REGEXBEGIN+param.get(ParamConstant.BDIRECT)+ParamConstant.REGEXEND);
-			valMap.put(ParamConstant.WFROM, ParamConstant.REGEXBEGIN+param.get(ParamConstant.WFROM)+ParamConstant.REGEXEND);
-			valMap.put(ParamConstant.WCOUNT, ParamConstant.REGEXBEGIN+param.get(ParamConstant.WCOUNT)+ParamConstant.REGEXEND);
-			valMap.put(ParamConstant.FIELDSBITMAP, ParamConstant.REGEXBEGIN+param.get(ParamConstant.FIELDSBITMAP)+ParamConstant.REGEXEND);
-			
-			Map<String, String> regexMap =JsonAssertUtil.getRegex(valMap, ParamConstant.WW, ParamConstant.W00_SCHEMA+ParamConstant.SCHEMA_ZL);
-			
-			ProtobufRep.multi_selectedStocks_rep(stream,regexMap);
+			valMap.put(ParamConstant.WTYPE,
+					ParamConstant.REGEXBEGIN + param.get(ParamConstant.WTYPE) + ParamConstant.REGEXEND);
+			valMap.put(ParamConstant.BSORT,
+					ParamConstant.REGEXBEGIN + param.get(ParamConstant.BSORT) + ParamConstant.REGEXEND);
+			valMap.put(ParamConstant.BDIRECT,
+					ParamConstant.REGEXBEGIN + param.get(ParamConstant.BDIRECT) + ParamConstant.REGEXEND);
+			valMap.put(ParamConstant.WFROM,
+					ParamConstant.REGEXBEGIN + param.get(ParamConstant.WFROM) + ParamConstant.REGEXEND);
+			valMap.put(ParamConstant.WCOUNT,
+					ParamConstant.REGEXBEGIN + param.get(ParamConstant.WCOUNT) + ParamConstant.REGEXEND);
+			valMap.put(ParamConstant.FIELDSBITMAP,
+					ParamConstant.REGEXBEGIN + param.get(ParamConstant.FIELDSBITMAP) + ParamConstant.REGEXEND);
+
+			Map<String, String> regexMap = JsonAssertUtil.getRegex(valMap, ParamConstant.WW,
+					ParamConstant.W00_SCHEMA + ParamConstant.SCHEMA_ZL);
+
+			ProtobufRep.multi_selectedStocks_rep(stream, regexMap);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

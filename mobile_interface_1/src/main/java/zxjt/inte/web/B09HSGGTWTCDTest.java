@@ -23,7 +23,7 @@ public class B09HSGGTWTCDTest extends BaseController {
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void B09HsggtWtcd(Map<String, String> param) {
+	public void B09(Map<String, String> param) {
 
 		hsggtService.test(param);
 	}

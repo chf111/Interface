@@ -29,7 +29,7 @@ public class W02BKPHTest extends BaseController {
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void W02BKPH(Map<String, String> param) {
+	public void W02(Map<String, String> param) {
 
 		bkphService.test(param);
 	}

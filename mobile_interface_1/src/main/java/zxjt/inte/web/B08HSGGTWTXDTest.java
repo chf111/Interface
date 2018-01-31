@@ -28,7 +28,7 @@ public class B08HSGGTWTXDTest extends BaseController {
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void B08HsggtWtxd(Map<String, String> param,Map<String, String> tempKmmsl) {
+	public void B08(Map<String, String> param,Map<String, String> tempKmmsl) {
 
 		wtxdService.test(param,tempKmmsl,kmmslcxService);
 	}

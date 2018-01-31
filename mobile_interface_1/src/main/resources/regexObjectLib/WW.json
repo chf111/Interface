@@ -4,7 +4,7 @@
 			"stock_code": "^000001$",
 			"stock_mark": "^$|^R$",
 			"stock_market": "^([0-9]{1}|[1]{1}[0-6]{1}|[3]{1}[2-9]{1}|[4]{1}[0-3]{1})$",
-			"stock_name": "\\S+",
+			"stock_name": ".*\\S{1,}.*",
 			"stock_pinyin": "^[A-Za-z0-9]+$",
 			"stock_type": "^16$|^1$"
 		}
@@ -45,7 +45,7 @@
 			"codeList_add_repeated_code": "^[A-Za-z]?[0-9]+$",
 			"pinyin": "^[A-Za-z0-9]+$",
 			"pszMark": "^$|^HK$|^HGT$|^R$|^SGT$",
-			"name": "\\S+",
+			"name": ".*\\S{1,}.*",
 			"codeList_del_repeated_code": "^initCodeList$"
 		}
 	],
@@ -60,9 +60,9 @@
 			"wTotalCount": "^[0-9]+$",
 			"fZdf": "^-?[0-9]+$",
 			"sCode": "^[0-9]+$",
-			"pszBkName": "\\S+",
+			"pszBkName": ".*\\S{1,}.*",
 			"sStockCode": "^[0-9]+$",
-			"pszStockName": "\\S+",
+			"pszStockName": ".*\\S{1,}.*",
 			"first_zdf": "^[0-9]+$",
 			"first_price": "^[0-9]+$"
 		}
@@ -77,7 +77,7 @@
 			"fieldsBitMap": "fieldsBitMap",
 			"marketID": "^([0-9]{1}|[1]{1}[0-6]{1}|[3]{1}[2-9]{1}|[4]{1}[0-3]{1})$",
 			"stock_code": "^[A-Za-z]?[0-9]+$",
-			"stock_name": "\\S+",
+			"stock_name": ".*\\S{1,}.*",
 			"pszMark": "^$|^HK$|^HGT$|^R$|^SGT$",
 			"dataArr_wType": "^[0-9]+$",
 			"nZrsp": "^[0-9]+$",
@@ -89,7 +89,7 @@
 			"nZf": "^[0-9]+$",
 			"nCjje": "^[0-9]+$",
 			"nZd": "^[0-9]+$",
-			"nZdf": "^[0-9]+$",
+			"nZdf": "^-?[0-9]+$",
 			"nLb": "^[0-9]+$",
 			"n5Min": "^-?[0-9]+$",
 			"bSuspended": "true|false",
@@ -111,9 +111,9 @@
 			"blockClassName": "^行业板块$|^热点概念$|^地域板块$",
 			"fZdf": "^-?[0-9]+$",
 			"sCode": "^[0-9]+$",
-			"pszBkName": "\\S+",
+			"pszBkName": ".*\\S{1,}.*",
 			"sStockCode": "^[0-9]+$",
-			"pszStockName": "\\S+",
+			"pszStockName": ".*\\S{1,}.*",
 			"first_zdf": "^[0-9]+$",
 			"first_price": "^[0-9]+$"
 		}
@@ -122,13 +122,13 @@
 		{
 			"marketID": "^([0-9]{1}|[1]{1}[0-6]{1}|[3]{1}[2-9]{1}|[4]{1}[0-3]{1})$",
 			"stock_code": "^[A-Za-z]?[0-9]+$",
-			"stock_name": "\\S+",
+			"stock_name": ".*\\S{1,}.*",
 			"pszMark": "^$|^HK$|^HGT$|^R$|^SGT$",
 			"wType": "^[0-9]+$",
 			"nZjcj": "^[0-9]+$",
-			"nZdf": "^[0-9]+$",
+			"nZdf": "^-?[0-9]+$",
 			"bSuspended": "true|false",
-			"nRqSj": "^[0-9]{8}$",
+			"nRqSj": "^[0-9]+$",
 			"blockID": "^10$",
 			"blockName": "^工程机械$",
 			"blockZDF": "^-?[0-9]+$",

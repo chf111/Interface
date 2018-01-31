@@ -24,7 +24,7 @@ public class B04HSGGTDRWTCXTest extends BaseController {
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void B04HsggtDrwtcx(Map<String, String> param) {
+	public void B04(Map<String, String> param) {
 
 		hsggtService.test(param);
 	}

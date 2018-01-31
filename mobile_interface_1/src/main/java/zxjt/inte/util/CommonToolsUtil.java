@@ -1,5 +1,6 @@
 package zxjt.inte.util;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -15,10 +16,10 @@ import java.util.regex.Pattern;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Predicate;
 
-import net.minidev.json.JSONArray;
-import zxjt.inte.dao.CommonWWDao;
-import zxjt.inte.entity.CommonInfo;
-import zxjt.inte.entity.CommonWW;
+import zxjt.inte.dao.AccountRepository;
+import zxjt.inte.dao.AddressRepository;
+import zxjt.inte.entity.CommonAccount;
+import zxjt.inte.entity.CommonAddress;
 
 public class CommonToolsUtil {
 
@@ -31,142 +32,130 @@ public class CommonToolsUtil {
 	public static Map<String, String> getRParam(Map<String, String> param) {
 		Map<String, String> RParam = new HashMap<>();
 		RParam.putAll(param);
+		RParam.remove("id");
 		RParam.remove("isExcute");
 		RParam.remove("type");
 		RParam.remove("expectMsg");
 		RParam.remove("testPoint");
 		RParam.remove("url");
 		RParam.remove("row");
+		RParam.remove("functionid");
 		RParam.remove(ParamConstant.SAFEURL);
 		RParam.remove(ParamConstant.UNSAFEURL);
 		return RParam;
 	}
 
 	/**
-	 * 返回校验列的集合，用来校验入参是否与数据库一致的
-	 * 
-	 * @param content
-	 *            从数据中取出来的content
-	 * @return 返回存储了method和入参params的map；params用来校验，method用来判断本次请求是哪种方式（post、get等）
+	 * 获取帐号相关信息，并以map存储返回
+	 * @param accoEntity 帐号entity
+	 * @return
 	 */
-	public static Map<String, List<String>> getValidateParam(String content) {
-		Map<String, List<String>> mapParam = new HashMap<String, List<String>>();
-		List<String> param = new ArrayList<>();
-		List<String> method = new ArrayList<>();
-		Object o = JsonPath.read(content, "$.params", new Predicate[0]);
-		JSONArray ja = (JSONArray) o;
-		for (int i = 0; i < ja.size(); i++) {
-			Map<String, String> map = (Map<String, String>) ja.get(i);
-			param.add(map.get("name"));
-		}
-		mapParam.put(ParamConstant.VALIDATEPARAM, param);
-		JSONArray jsMethod = (JSONArray) (JsonPath.read(content, "$.methods", new Predicate[0]));
-		String strMethod = "";
-		if (jsMethod.size() > 0) {
-			strMethod = (String) jsMethod.get(0);
-		}
-		method.add(strMethod);
-		mapParam.put(ParamConstant.MEHTOD, method);
-		return mapParam;
-	}
+	private static Map<String, String> getAccountMap(CommonAccount accoEntity) {
+		Map<String, String> map = new HashMap<String, String>();
 
-	/**
-	 * 将被依赖接口从数据库中取出来的值组合成入参的map
-	 * 
-	 * @param lisMap
-	 *            数据库查询出来入参值
-	 * @param commonParam
-	 *            从公共数据表中查询出来的公共入参
-	 * @return 拼接后指定url需要的入参值
-	 */
-	public static Map<String, String> getDependencyParamInfo(Object map, Map<String, String> commonParam) {
-
-		List<Object> lisMap = (List<Object>) map;
-		Map<String, String> mapParam = new HashMap<>();
-		int rowIndex = 1;
-		String paramUrl = "";
-		Class clazz = lisMap.get(0).getClass();
-		try {
-
-			Method mUrl = clazz.getDeclaredMethod("getUrl");
-			Method mContent = clazz.getDeclaredMethod("getContent");
-
-			paramUrl = (String) mUrl.invoke(lisMap.get(0));
-			String url = commonParam.get(ParamConstant.SAFEURL) + paramUrl;
-
-			for (int i = 0; i < lisMap.size(); i++) {
-				Class evCla = lisMap.get(i).getClass();
-				Method mRowIndex = evCla.getDeclaredMethod("getRowindex");
-				Method mCname = evCla.getDeclaredMethod("getCname");
-				Method mCvalue = evCla.getDeclaredMethod("getCvalue");
-				if (rowIndex != ((Integer) mRowIndex.invoke(lisMap.get(i)))) {
-					throw new RuntimeException("依赖接口不能存在多条数据，请查证！");
+		Field[] fEntity = accoEntity.getClass().getDeclaredFields();
+		for (Field f : fEntity) {
+			f.setAccessible(true);
+			try {
+				if ("id".equals(f.getName()) || f.getName().contains(ParamConstant.GDDM)) {
+					continue;
 				}
+				map.put(f.getName(), String.valueOf(f.get(accoEntity)));
+			} catch (IllegalArgumentException e) {
 
-				mapParam.put((String) mCname.invoke(lisMap.get(i)), (String) mCvalue.invoke(lisMap.get(i)));
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			} catch (IllegalAccessException e) {
 
+				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
-			String content = (String) mContent.invoke(lisMap.get(0));
-			mapParam.putAll(commonParam);
-			mapParam.put("url", url);
-
-			// 校验
-			validateParamIsMatch(content, mapParam);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
 		}
-		return mapParam;
+		return map;
 	}
 
 	/**
-	 * 将测试接口从数据库中取出来的值组合成入参的map集合
-	 * 
-	 * @param lisMap
-	 *            数据库查询出来入参值
-	 * @param commonParam
-	 *            从公共数据表中查询出来的公共入参
-	 * @return 拼接后指定url需要的入参值
+	 * entity转成map
+	 * @param obj
+	 * @return
 	 */
-	public static List<Map<String, String>> getDependencyParamsInfo(Object map, Map<String, String> commonParam) {
+	private static Map<String, String> entity2Map(Object obj) {
+		Map<String, String> map = new HashMap<String, String>();
 
-		List<Object> lisMap = (List<Object>) map;
-		Map<String, String> mapParam = new HashMap<>();
+		Field[] fEntity = obj.getClass().getDeclaredFields();
+		for (Field f : fEntity) {
+			f.setAccessible(true);
+			try {
+				map.put(f.getName(), String.valueOf(f.get(obj)));
+			} catch (IllegalArgumentException e) {
+
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			} catch (IllegalAccessException e) {
+
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+		return map;
+	}
+
+	/**
+	 * 返回测试数据
+	 * 
+	 * @param lisTestEntity
+	 * @param addrDao
+	 * @param accoDao
+	 * @param functionid
+	 * @return
+	 */
+	public static List<Map<String, String>> getTestData(Object lisTestEntity, AddressRepository addrDao,
+			AccountRepository accoDao, int functionid) {
+
+		// 公共参数操作
+		Map<String, String> commonData = GetConfigProperties.getConfigProToCommon();
+
+		// url获取
+		CommonAddress addrEntity = addrDao.findByFunctionid(functionid);
+
+		// 账户信息获取
+		CommonAccount accoEntity = accoDao.findByKhbz(commonData.get(ParamConstant.KHBZ));
+		Map<String, String> accountMap = getAccountMap(accoEntity);
+
 		List<Map<String, String>> lisTemp = new ArrayList<>();
-		int rowIndex = 0;
-		String paramUrl = "";
-		Class clazz = lisMap.get(0).getClass();
+
 		try {
+			// 测试数据操作
 
-			Method mUrl = clazz.getDeclaredMethod("getUrl");
-			Method mContent = clazz.getDeclaredMethod("getContent");
+			List<Object> lisEntity = (List<Object>) lisTestEntity;
 
-			paramUrl = (String) mUrl.invoke(lisMap.get(0));
+			for (Object entity : lisEntity) {
+				Map<String, String> testDataMap = new HashMap<String, String>();
+				testDataMap.putAll(accountMap);
+				Field[] fEntity = entity.getClass().getDeclaredFields();
 
-			for (int i = 0; i < lisMap.size(); i++) {
-				Class evCla = lisMap.get(i).getClass();
-				Method mRowIndex = evCla.getDeclaredMethod("getRowindex");
-				Method mCname = evCla.getDeclaredMethod("getCname");
-				Method mCvalue = evCla.getDeclaredMethod("getCvalue");
+				for (Field f : fEntity) {
+					f.setAccessible(true);
 
-				if (rowIndex != ((Integer) mRowIndex.invoke(lisMap.get(i)))) {
-					rowIndex = (Integer) mRowIndex.invoke(lisMap.get(i));
-					lisTemp.add(mapParam);
-					mapParam = new HashMap<>();
-					mapParam.putAll(commonParam);
-					String url = commonParam.get(ParamConstant.SAFEURL) + paramUrl;
-					mapParam.put("url", url);
-					mapParam.put("row", String.valueOf(rowIndex));
+					System.out.println(f.getName() + ":" + f.get(entity));
+
+					// 处理股东代码，读取config文件的值进行入参拼接
+					if (f.getName().equalsIgnoreCase(ParamConstant.GDDM)) {
+						String methodName = "get" + toUpperCase4Index(String.valueOf(f.get(entity)));
+						Method mGddm = accoEntity.getClass().getDeclaredMethod(methodName);
+						String strGddm = (String) mGddm.invoke(accoEntity);
+						testDataMap.put(f.getName(), strGddm);
+						continue;
+					}
+					testDataMap.put(f.getName(), String.valueOf(f.get(entity)));
+
 				}
-				mapParam.put((String) mCname.invoke(lisMap.get(i)), (String) mCvalue.invoke(lisMap.get(i)));
+
+				String url = commonData.get(ParamConstant.SAFEURL) + addrEntity.getUrl();
+				testDataMap.put(ParamConstant.URL, url);
+				lisTemp.add(testDataMap);
+
 			}
-			lisTemp.add(mapParam);
-			lisTemp.remove(0);
-
-			// 校验
-			String content = (String) mContent.invoke(lisMap.get(0));
-			validateParamIsMatch(content, lisTemp.get(0));
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -175,89 +164,137 @@ public class CommonToolsUtil {
 	}
 
 	/**
-	 * 将测试接口从数据库中取出来的值组合成入参的map集合
-	 * 
-	 * @param lisMap
-	 *            数据库查询出来入参值
-	 * @param commonParam
-	 *            从公共数据表中查询出来的公共入参
-	 * @return 拼接后指定url需要的入参值
+	 * 返回被依赖接口入参的map
+	 * @param testEntity
+	 * @param addrDao
+	 * @param accoDao
+	 * @param functionid
+	 * @return
 	 */
-	public static List<Map<String, String>> getWWParamsInfo(Object map, Map<String, String> commonParam) {
+	public static Map<String, String> getDepenTestData(Object testEntity, AddressRepository addrDao,
+			AccountRepository accoDao, int functionid) {
 
-		List<Object> lisMap = (List<Object>) map;
-		Map<String, String> mapParam = new HashMap<>();
-		List<Map<String, String>> lisTemp = new ArrayList<>();
-		int rowIndex = 0;
-		String paramUrl = "";
-		Class clazz = lisMap.get(0).getClass();
+		// 公共参数操作
+		Map<String, String> commonData = GetConfigProperties.getConfigProToCommon();
+
+		// url获取
+		CommonAddress addrEntity = addrDao.findByFunctionid(functionid);
+
+		// 账户信息获取
+		CommonAccount accoEntity = accoDao.findByKhbz(commonData.get(ParamConstant.KHBZ));
+		Map<String, String> accountMap = getAccountMap(accoEntity);
+
+		Map<String, String> testDataMap = new HashMap<String, String>();
 		try {
+			// 测试数据操作
+			Object entity = (Object) testEntity;
 
-			Method mUrl = clazz.getDeclaredMethod("getUrl");
+			testDataMap.putAll(accountMap);
+			Field[] fEntity = entity.getClass().getDeclaredFields();
 
-			paramUrl = (String) mUrl.invoke(lisMap.get(0));
+			for (Field f : fEntity) {
+				f.setAccessible(true);
 
-			for (int i = 0; i < lisMap.size(); i++) {
-				Class evCla = lisMap.get(i).getClass();
-				Method mRowIndex = evCla.getDeclaredMethod("getRowindex");
-				Method mCname = evCla.getDeclaredMethod("getCname");
-				Method mCvalue = evCla.getDeclaredMethod("getCvalue");
+				System.out.println(f.getName() + ":" + f.get(entity));;
+				testDataMap.put(f.getName(), String.valueOf(f.get(entity)));
 
-				if (rowIndex != ((Integer) mRowIndex.invoke(lisMap.get(i)))) {
-					rowIndex = (Integer) mRowIndex.invoke(lisMap.get(i));
-					lisTemp.add(mapParam);
-					mapParam = new HashMap<>();
-					String url = commonParam.get(ParamConstant.UNSAFEURL) + paramUrl;
-					mapParam.put("url", url);
-					mapParam.put("row", String.valueOf(rowIndex));
-				}
-				mapParam.put((String) mCname.invoke(lisMap.get(i)), (String) mCvalue.invoke(lisMap.get(i)));
 			}
-			lisTemp.add(mapParam);
-			lisTemp.remove(0);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return lisTemp;
-	}
+			String url = commonData.get(ParamConstant.SAFEURL) + addrEntity.getUrl();
+			testDataMap.put(ParamConstant.URL, url);
 
-	public static List<Map<String, String>> filterOfIsExcute(List<Map<String, String>> lisParams) {
-		List<Map<String, String>> lis = new ArrayList<>();
-		lis.addAll(lisParams);
-		for (int i = 0; i < lis.size(); i++) {
-			Map<String, String> map = lis.get(i);
-			if (!Boolean.valueOf(map.get("type"))) {
-				lis.remove(map);
-			}
-		}
-		return lis;
-	}
-
-	/**
-	 * 
-	 * @param content
-	 *            数据库搜索出来的content
-	 * @param mapTemp
-	 *            要校验的每行数据的map
-	 */
-	public static void validateParamIsMatch(String content, Map<String, String> mapTemp) {
-		try {
-			Map<String, List<String>> mapStr = CommonToolsUtil.getValidateParam(content);
-			List<String> lStr = mapStr.get(ParamConstant.VALIDATEPARAM);
-			Map<String, String> m = CommonToolsUtil.getRParam(mapTemp);
-			List<String> list2 = new ArrayList<String>();
-			List<String> list3 = new ArrayList<String>();
-			list2.addAll(m.keySet());
-			if (!list2.containsAll(lStr) || !lStr.containsAll(list2)) {
-				throw new RuntimeException("该接口入参已更新，请修正代码以匹配数据库的更改再执行！");
-			} else {
-				System.out.println("入参校验通过！");
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
+		return testDataMap;
+	}
+
+	public static Object[][] getTestObjArray(List<Map<String, String>> lisTemp) {
+		Object[][] obj = new Object[lisTemp.size()][1];
+		for (int j = 0; j < obj.length; j++) {
+
+			obj[j][0] = lisTemp.get(j);
+		}
+		return obj;
+	}
+
+	public static Object[][] getDepenTestObjArray(String flg, List<Map<String, String>> lisTemp, Map<String, String>... mapDepen) {
+		Object[][] obj = new Object[lisTemp.size()][2];
+		switch (flg) {
+		case ParamConstant.GPMM:
+			for (int j = 0; j < obj.length; j++) {
+
+				obj[j][0] = lisTemp.get(j);
+				if ("0".equals(lisTemp.get(j).get(ParamConstant.WTLX))) {
+
+					obj[j][1] = mapDepen[0];
+
+				} else {
+					obj[j][1] = mapDepen[1];
+				}
+			}
+			// 将依赖接口的测试数据放到map中存起来
+			break;
+		default:
+			for (int j = 0; j < obj.length; j++) {
+
+				obj[j][0] = lisTemp.get(j);
+				obj[j][1] = mapDepen[0];
+			}
+			break;
+		}
+		return obj;
+	}
+
+	/**
+	 * 不需要帐号密码
+	 * 
+	 * @param objlisEntity
+	 * @return
+	 */
+	public static Object[][] getWWData(Object lisWWEntity, AddressRepository addrDao, AccountRepository accoDao,
+			int functionid) {
+		// 公共参数操作
+		Map<String, String> commonData = GetConfigProperties.getConfigProToCommon();
+
+		// url获取
+		CommonAddress addrEntity = addrDao.findByFunctionid(functionid);
+
+		List<Map<String, String>> lisTemp = new ArrayList<>();
+
+		List<Object> lisEntity = (List<Object>) lisWWEntity;
+		for (Object entity : lisEntity) {
+			Map<String, String> testDataMap = new HashMap<String, String>();
+			Field[] fEntity = entity.getClass().getDeclaredFields();
+			for (Field f : fEntity) {
+				f.setAccessible(true);
+				try {
+					System.out.println(f.getName() + ":" + f.get(entity));
+					testDataMap.put(f.getName(), String.valueOf(f.get(entity)));
+				} catch (IllegalArgumentException e) {
+
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				} catch (IllegalAccessException e) {
+
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+
+			}
+			String url = commonData.get(ParamConstant.UNSAFEURL) + addrEntity.getUrl();
+			testDataMap.put("url", url);
+			lisTemp.add(testDataMap);
+
+		}
+
+		Object[][] obj = new Object[lisTemp.size()][1];
+		for (int j = 0; j < obj.length; j++) {
+
+			obj[j][0] = lisTemp.get(j);
+		}
+		return obj;
 	}
 
 	public static String getPrice(String pricetype, String response) {
@@ -344,35 +381,6 @@ public class CommonToolsUtil {
 		return actualqty;
 	}
 
-	public static Map<String, String> getCommonParam(List<CommonInfo> lisCo) {
-		Map<String, String> commonParam = new HashMap<>();
-		for (CommonInfo a : lisCo) {
-			commonParam.put(a.getCname(), a.getCvalue());
-		}
-		return commonParam;
-	}
-
-	public static Object[][] getObjParam(List<Map<String, String>> lisTemp) {
-		Object[][] obj = new Object[lisTemp.size()][1];
-		for (int j = 0; j < obj.length; j++) {
-			obj[j][0] = lisTemp.get(j);
-		}
-		return obj;
-	}
-
-	public static Object[][] getWWservice(CommonWWDao wwDao, int id) {
-		// 公共参数操作
-		List<CommonInfo> lisag = GetConfigProperties.getConfigProToCommon();
-		Map<String, String> commonParam = CommonToolsUtil.getCommonParam(lisag);
-
-		// 数据操作
-		List<CommonWW> lis = wwDao.getParamsInfo(id);
-		List<Map<String, String>> lisTemp = CommonToolsUtil.getWWParamsInfo(lis, commonParam);
-
-		Object[][] obj = getObjParam(lisTemp);
-		return obj;
-	}
-
 	public static String getToday(String format) {
 
 		Date date = new Date();
@@ -380,7 +388,7 @@ public class CommonToolsUtil {
 		String today = sd.format(date);
 		return today;
 	}
-	
+
 	/**
 	 * 获取查询日期信息
 	 * 
@@ -392,13 +400,13 @@ public class CommonToolsUtil {
 		Calendar cal = Calendar.getInstance();
 		Date dateNow = cal.getTime();
 		if ((param.get(ParamConstant.QSRQ).contains(ParamConstant.ONEMONTH))
-				||(param.get(ParamConstant.ZZRQ).contains(ParamConstant.ONEMONTH))) {
+				|| (param.get(ParamConstant.ZZRQ).contains(ParamConstant.ONEMONTH))) {
 			cal.add(Calendar.DAY_OF_YEAR, -1);
 			dateNow = cal.getTime();
 			cal.add(Calendar.MONTH, -1);
 
 		} else if ((param.get(ParamConstant.QSRQ).contains(ParamConstant.THREEMONTH))
-				||(param.get(ParamConstant.ZZRQ).contains(ParamConstant.THREEMONTH))) {
+				|| (param.get(ParamConstant.ZZRQ).contains(ParamConstant.THREEMONTH))) {
 			cal.add(Calendar.MONTH, -3);
 		} else {
 			return;
@@ -409,9 +417,9 @@ public class CommonToolsUtil {
 		String dateZzrq = df.format(dateNow);
 		param.put(ParamConstant.QSRQ, dateKsrq);
 		param.put(ParamConstant.ZZRQ, dateZzrq);
-		
+
 	}
-	
+
 	/**
 	 * 返回数量值
 	 * 
@@ -448,5 +456,11 @@ public class CommonToolsUtil {
 			}
 		}
 		return String.valueOf(iWtsl);
+	}
+
+	private static String toUpperCase4Index(String string) {
+		char[] mWord = string.toCharArray();
+		mWord[0] -= (mWord[0] > 96 && mWord[0] < 123) ? 32 : 0;
+		return String.valueOf(mWord);
 	}
 }

@@ -29,7 +29,7 @@ public class W05GGZHTest extends BaseController {
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void W05GGZH(Map<String, String> param) {
+	public void W05(Map<String, String> param) {
 
 		ggzhService.test(param);
 	}

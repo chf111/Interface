@@ -118,7 +118,7 @@ public class TestNg extends TestNG {
 							} else if (!RRLogin && "RRLogin".equals(loginBelong)) {
 								stuEleList.get(RRindex).setAttributeValue("enabled", "true");
 								RRLogin = true;
-							} else {
+							} else if(!"RRLogin".equals(loginBelong) && !"PTJYLogin".equals(loginBelong)){
 								throw new RuntimeException(
 										"测试接口所关联的登录接口名称属性只能是“PTJYLogin”或“RRLogin”，您的定义范围已超出规定，请确认后再执行！");
 							}

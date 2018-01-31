@@ -28,7 +28,7 @@ public class W00HQZXGHQTest extends BaseController {
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void W00ZXGHQ(Map<String, String> param) {
+	public void W00(Map<String, String> param) {
 
 		zxgService.test(param);
 	}

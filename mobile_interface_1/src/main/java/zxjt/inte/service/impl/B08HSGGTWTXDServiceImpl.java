@@ -8,21 +8,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Predicate;
 
-import zxjt.inte.dao.CommonJYDao;
-import zxjt.inte.entity.CommonInfo;
-import zxjt.inte.entity.CommonJY;
+import zxjt.inte.dao.AccountRepository;
+import zxjt.inte.dao.AddressRepository;
+import zxjt.inte.dao.B02HSGGTKMMSLCXRepository;
+import zxjt.inte.dao.B08HSGGTWTXDRepository;
+import zxjt.inte.entity.B02HSGGTKMMSLCX;
+import zxjt.inte.entity.B08HSGGTWTXD;
 import zxjt.inte.service.B02HSGGTKMMSLCXService;
 import zxjt.inte.service.B08HSGGTWTXDService;
 import zxjt.inte.util.CommonToolsUtil;
-import zxjt.inte.util.GetConfigProperties;
 import zxjt.inte.util.HttpUtil_All;
 import zxjt.inte.util.JsonAssertUtil;
 import zxjt.inte.util.ParamConstant;
@@ -31,29 +32,33 @@ import zxjt.inte.util.WTXHBean;
 @Service
 public class B08HSGGTWTXDServiceImpl implements B08HSGGTWTXDService {
 	Logger log = Logger.getLogger(ParamConstant.LOGGER);
-	@Resource
-	private CommonJYDao hsggtDao;
+	@Autowired
+	private B08HSGGTWTXDRepository wtxdDao;
+	@Autowired
+	private B02HSGGTKMMSLCXRepository kmmslDao;
+
+	@Autowired
+	private AddressRepository addrDao;
+
+	@Autowired
+	private AccountRepository accoDao;
 
 	public Object[][] getParamsInfo() {
 
-		// 公共参数操作
-		List<CommonInfo> lisag = GetConfigProperties.getConfigProToCommon();
-		Map<String, String> commonParam = CommonToolsUtil.getCommonParam(lisag);
-
 		// 股票买卖数据操作
-		List<CommonJY> lis = hsggtDao.getParamsInfo(ParamConstant.HSGGT_WTXD_ID);
-		List<Map<String, String>> lisTemp = CommonToolsUtil.getDependencyParamsInfo(lis, commonParam);
+		List<B08HSGGTWTXD> liswtxd = wtxdDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.HSGGT_WTXD_ID, "true");
 
-		// 股票买卖数据操作
-		List<CommonJY> lisKmmsl = hsggtDao.getParamsInfo(ParamConstant.HSGGT_KMMSLCX_ID);
-		Map<String, String> tempKmmsl = CommonToolsUtil.getDependencyParamInfo(lisKmmsl, commonParam);
+		// 入参拼接
+		List<Map<String, String>> lisTemp = CommonToolsUtil.getTestData(liswtxd, addrDao, accoDao,
+				ParamConstant.HSGGT_WTXD_ID);
 
-		Object[][] obj = new Object[lisTemp.size()][2];
-		for (int j = 0; j < obj.length; j++) {
+		B02HSGGTKMMSLCX kmmslEntity = kmmslDao.findOneByFunctionid(ParamConstant.HSGGT_KMMSLCX_ID);
 
-			obj[j][0] = lisTemp.get(j);
-			obj[j][1] = tempKmmsl;
-		}
+		Map<String, String> mapkmmsl = CommonToolsUtil.getDepenTestData(kmmslEntity, addrDao, accoDao,
+				ParamConstant.HSGGT_KMMSLCX_ID);
+
+		Object[][] obj = CommonToolsUtil.getDepenTestObjArray(ParamConstant.HSGGT, lisTemp, mapkmmsl);
+
 		return obj;
 	}
 
@@ -100,11 +105,11 @@ public class B08HSGGTWTXDServiceImpl implements B08HSGGTWTXDService {
 			cdxx.put(ParamConstant.WTXH, wtxh);
 			cdxx.put(ParamConstant.GDDM, gddm);
 			cdxx.put(ParamConstant.JYSDM, jysdm);
-			/** 在此处以“key_类别_类型_交易市场”的格式拼接，这样保证每个类型都可以撤一个；在撤单时，根据key的
-			 * 头和尾部的值去判断并合成撤单的入参
+			/**
+			 * 在此处以“key_类别_类型_交易市场”的格式拼接，这样保证每个类型都可以撤一个；在撤单时，根据key的 头和尾部的值去判断并合成撤单的入参
 			 */
-			String key = ParamConstant.GGTMM_KEY +"_" +param.get(ParamConstant.MMLB) 
-					+  "_" +param.get(ParamConstant.WTLX)+ "_" +param.get(ParamConstant.JYSDM);
+			String key = ParamConstant.GGTMM_KEY + "_" + param.get(ParamConstant.MMLB) + "_"
+					+ param.get(ParamConstant.WTLX) + "_" + param.get(ParamConstant.JYSDM);
 			WTXHBean.putMap(key, cdxx);
 		}
 	}
@@ -128,7 +133,6 @@ public class B08HSGGTWTXDServiceImpl implements B08HSGGTWTXDService {
 		ggtMap.put(ParamConstant.WTJG, "");
 		ggtMap.put(ParamConstant.MMLB, param.get(ParamConstant.MMLB));
 		ggtMap.put(ParamConstant.WTLX, param.get(ParamConstant.WTLX));
-		ggtMap.put(ParamConstant.WTSX, param.get(ParamConstant.WTSX));
 
 		String kmmslResponse = kmmslcxService.dependentDest(ggtMap);
 		return kmmslResponse;
@@ -167,7 +171,7 @@ public class B08HSGGTWTXDServiceImpl implements B08HSGGTWTXDService {
 
 		// 对委托数量根据买入单位进行处理
 		String parWtsl = param.get(ParamConstant.WTSL);
-		if (ParamConstant.B.equals(param.get(ParamConstant.MMLB))) {
+		if (ParamConstant.BUY.equals(param.get(ParamConstant.MMLB))) {
 			wtsl = CommonToolsUtil.getWtsl(mrzxdw, kmsl, parWtsl, 10000);
 		} else {
 			wtsl = CommonToolsUtil.getWtsl(mczxdw, gfkys, parWtsl, 10000);

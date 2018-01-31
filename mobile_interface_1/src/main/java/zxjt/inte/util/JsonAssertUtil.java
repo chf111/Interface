@@ -207,7 +207,7 @@ public class JsonAssertUtil {
 				jb = dataJson.getJSONObject("properties").getJSONObject(local[0]).getJSONObject("items")
 						.getJSONObject("properties").getJSONObject(local[1]);
 			} else {
-				throw new RuntimeException("正则所属类型超出设计范围，请修正代码后再执行！");
+				throw new RuntimeException(ParamConstant.ERR15);
 			}
 		}
 
@@ -282,13 +282,13 @@ public class JsonAssertUtil {
 
 		try {
 			if (respose == null) {
-				throw new RuntimeException("response is null!");
+				throw new RuntimeException(ParamConstant.ERR12);
 			}
 			LinkedHashMap<String, JSONArray> result = JsonPath.read(respose, "$", new Predicate[0]);
 			for (String key : result.keySet()) {
 				JSONArray js = result.get(key);
 				if (js.size() < 1) {
-					throw new RuntimeException("接口响应字符串中，节点：" + key + " 的内容为空");
+					throw new RuntimeException(ParamConstant.ERR13 + key + ParamConstant.ERR14);
 				}
 			}
 		} catch (Exception e) {
@@ -305,13 +305,13 @@ public class JsonAssertUtil {
 
 		try {
 			if (respose == null) {
-				throw new RuntimeException("response is null!");
+				throw new RuntimeException(ParamConstant.ERR12);
 			}
 			List<Object> result = JsonPath.read(respose, "$", new Predicate[0]);
 			for (Object key : result) {
 				Map<String, String> s = (Map<String, String>) key;
 				if (s.size() < 1) {
-					throw new RuntimeException("内容为空");
+					throw new RuntimeException(ParamConstant.ERR11);
 				}
 			}
 		} catch (Exception e) {
@@ -344,11 +344,11 @@ public class JsonAssertUtil {
 				private static final long serialVersionUID = -7318315516540777308L;
 			}.getType());
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		} catch (ReflectiveOperationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 
 		return jsonMap;
@@ -379,16 +379,16 @@ public class JsonAssertUtil {
 
 		// 根据动态正则和schema文件获得最终的schema
 		try {
-			if (ParamConstant.ZL.equalsIgnoreCase(param.get("type"))) {
+			if (ParamConstant.ZL.equalsIgnoreCase(param.get(ParamConstant.TYPE))) {
 				String schema_zl = schemaName + ParamConstant.SCHEMA_ZL;
 				Map<String, String> regexMap = getRegex(valMap, series, schema_zl);
 				strjsonSchema = editSchemaInfo(schema_zl, regexMap);
-			} else if (ParamConstant.FL.equalsIgnoreCase(param.get("type"))) {
+			} else if (ParamConstant.FL.equalsIgnoreCase(param.get(ParamConstant.TYPE))) {
 				String schema_fl = schemaName + ParamConstant.SCHEMA_FL;
 				Map<String, String> regexMap = getRegex(valMap, series, schema_fl);
 				strjsonSchema = editSchemaInfo(schema_fl, regexMap);
 			} else {
-				throw new RuntimeException("测试数据类型缺失，请查证后再执行！");
+				throw new RuntimeException(ParamConstant.ERR08);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -406,8 +406,8 @@ public class JsonAssertUtil {
 		try {
 			Pattern p1 = Pattern.compile(regex);
 			Matcher m1 = p1.matcher(expectValue);
-			Assert.assertTrue(m1.matches(),
-					"接口返回响应字段“" + expectName + "”的值“" + expectValue + "”不符合正则表达式“" + regex + "”!");
+			Assert.assertTrue(m1.matches(), ParamConstant.ERR04 + expectName + ParamConstant.ERR05 + expectValue
+					+ ParamConstant.ERR06 + regex + ParamConstant.ERR07);
 		} catch (AssertionError e) {
 			ValidateExceptionBean.setveInfo(e);
 		}
@@ -451,7 +451,7 @@ public class JsonAssertUtil {
 				zzrq = df.parse(param.get(ParamConstant.ZZRQ));
 
 				if (conList.after(zzrq) || conList.before(qsrq)) {
-					throw new RuntimeException("查询结果中该条数据：“" + con + "”的日期不属于本次查询范围内");
+					throw new RuntimeException( ParamConstant.ERR09 + con + ParamConstant.ERR10);
 				}
 			}
 		} catch (ParseException e) {

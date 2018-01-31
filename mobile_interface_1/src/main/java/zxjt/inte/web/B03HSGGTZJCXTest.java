@@ -24,7 +24,7 @@ public class B03HSGGTZJCXTest extends BaseController {
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void B03HsggtZjcx(Map<String, String> param) {
+	public void B03(Map<String, String> param) {
 
 		hsggtService.test(param);
 	}

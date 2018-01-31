@@ -1,14 +1,19 @@
 package zxjt.inte.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import zxjt.inte.dao.CommonWWDao;
+import zxjt.inte.dao.AccountRepository;
+import zxjt.inte.dao.AddressRepository;
+import zxjt.inte.dao.W06YCXRepository;
+import zxjt.inte.entity.W06YCX;
 import zxjt.inte.service.W06YCXService;
 import zxjt.inte.util.CommonToolsUtil;
 import zxjt.inte.util.HttpUtil_All;
@@ -19,15 +24,21 @@ import zxjt.inte.util.ParamConstant;
 public class W06YCXServiceImpl implements W06YCXService {
 	Logger log = Logger.getLogger(ParamConstant.LOGGER);
 	@Resource
-	private CommonWWDao wwDao;
+	private W06YCXRepository wwDao;
+	
+	@Autowired
+	private  AddressRepository addrDao;
+	
+	@Autowired
+	private  AccountRepository accoDao;
 
 	public Object[][] getParamsInfo() {
-		try {
-			Object[][] obj = CommonToolsUtil.getWWservice(wwDao, ParamConstant.YCX_ID);
-			return obj;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		// 股票买卖数据操作
+		List<W06YCX> lis = wwDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.YCX_ID,"true");
+		
+		Object[][] obj = CommonToolsUtil.getWWData(lis,addrDao,accoDao,ParamConstant.YCX_ID);
+
+		return obj;
 	}
 
 	/**
@@ -45,13 +56,13 @@ public class W06YCXServiceImpl implements W06YCXService {
 			log.info(map.toString());
 
 			// 发请求
-			String response = HttpUtil_All.doGet(param.get("url"));
+			String response = HttpUtil_All.doGet(param.get(ParamConstant.URL));
 			System.out.println(response);
 			log.info(response.toString());
 			
 			// 拼接
 			Map<String, String> valMap = new HashMap<>();
-			valMap.put("stock_code", "^000001$");
+			valMap.put(ParamConstant.STOCK_CODE, "^000001$");
 
 			// 校验
 			JsonAssertUtil.checkResponse(param, valMap, ParamConstant.W06_SCHEMA, ParamConstant.WW, response);

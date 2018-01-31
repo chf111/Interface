@@ -24,7 +24,7 @@ public class A00LoginTest extends BaseController {
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void A00Login(Map<String, String> param) {
+	public void A00(Map<String, String> param) {
 
 		loginService.test(param);
 	}

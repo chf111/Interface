@@ -29,7 +29,7 @@ public class W03GPPHTest extends BaseController {
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void W03GPPH(Map<String, String> param) {
+	public void W03(Map<String, String> param) {
 
 		gpphService.test(param);
 	}

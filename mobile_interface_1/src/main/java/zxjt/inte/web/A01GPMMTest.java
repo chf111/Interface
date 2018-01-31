@@ -24,7 +24,7 @@ public class A01GPMMTest extends BaseController {
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void A01GPMM(Map<String, String> param, Map<String, String> DependenceParam) {
+	public void A01(Map<String, String> param, Map<String, String> DependenceParam) {
 
 		gpmmService.test(param, DependenceParam);
 	}

@@ -29,7 +29,7 @@ public class W04BKPHIndexTest extends BaseController {
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void W04BKPHIndex(Map<String, String> param) {
+	public void W04(Map<String, String> param) {
 
 		bkphindexService.test(param);
 	}

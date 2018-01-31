@@ -29,7 +29,7 @@ public class W06YCXTest extends BaseController {
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void W06YCX(Map<String, String> param) {
+	public void W06(Map<String, String> param) {
 
 		ycxService.test(param);
 	}

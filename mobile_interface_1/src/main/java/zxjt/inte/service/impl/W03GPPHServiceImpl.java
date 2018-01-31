@@ -2,14 +2,19 @@ package zxjt.inte.service.impl;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import zxjt.inte.dao.CommonWWDao;
+import zxjt.inte.dao.AccountRepository;
+import zxjt.inte.dao.AddressRepository;
+import zxjt.inte.dao.W03GPPHRepository;
+import zxjt.inte.entity.W03GPPH;
 import zxjt.inte.protobuf.ProtobufHttp;
 import zxjt.inte.protobuf.ProtobufRep;
 import zxjt.inte.protobuf.ProtobufReq;
@@ -22,15 +27,21 @@ import zxjt.inte.util.ParamConstant;
 public class W03GPPHServiceImpl implements W03GPPHService {
 	Logger log = Logger.getLogger(ParamConstant.LOGGER);
 	@Resource
-	private CommonWWDao wwDao;
+	private W03GPPHRepository wwDao;
+	
+	@Autowired
+	private  AddressRepository addrDao;
+	
+	@Autowired
+	private  AccountRepository accoDao;
 
 	public Object[][] getParamsInfo() {
-		try {
-			Object[][] obj = CommonToolsUtil.getWWservice(wwDao, ParamConstant.GPPH_ID);
-			return obj;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		// 股票买卖数据操作
+		List<W03GPPH> lis = wwDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.GPPH_ID,"true");
+		
+		Object[][] obj = CommonToolsUtil.getWWData(lis,addrDao,accoDao,ParamConstant.GPPH_ID);
+
+		return obj;
 	}
 
 	/**

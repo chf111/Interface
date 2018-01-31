@@ -31,8 +31,8 @@ public interface ParamConstant {
 	public static final String SCHEMA_FL = "fail_schema";
 	public static final String A00_SCHEMA = "普通交易_普通业务_客户校验";
 	public static final String A01_SCHEMA = "普通交易_普通业务_委托下单";
-	public static final String A01_1_SCHEMA = "普通交易_普通业务_可买卖数量查询";
-	public static final String A01_2_SCHEMA = "普通交易_普通业务_市价可买卖数量查询";
+	public static final String A02_SCHEMA = "普通交易_普通业务_可买卖数量查询";
+	public static final String A03_SCHEMA = "普通交易_普通业务_市价可买卖数量查询";
 	public static final String W06_SCHEMA = "代码云查询";
 	public static final String W00_SCHEMA = "自选股行情查询";
 	public static final String W01_SCHEMA = "代码链查询";
@@ -55,29 +55,29 @@ public interface ParamConstant {
 	 * ************************************************************
 	 * ***********************url对应的ID号 **************************
 	 **********************************************************/
-	public static final int GPMM_ID = 4885;
-	public static final int KMMXXCX_ID = 4906;
-	public static final int SJKMMXXCX_ID = 5102;
-	public static final int PTJYLOGIN_ID = 4899;
+	public static final int PTJYLOGIN_ID = 2;
+	public static final int GPMM_ID = 1;
+	public static final int KMMXXCX_ID = 4;
+	public static final int SJKMMXXCX_ID = 5;
 	
-	public static final int HQZXGHQ_ID = 5487;
-	public static final int DML_ID = 5488;
-	public static final int BKPH_ID = 5489;
-	public static final int GPPH_ID = 5490;
-	public static final int BKPHINDEX_ID = 5491;
-	public static final int GGZH_ID = 5492;
-	public static final int YCX_ID = 5493;
+	public static final int HSGGT_CCCX_ID = 6;
+	public static final int HSGGT_JYZTXXCX_ID = 7;
+	public static final int HSGGT_KMMSLCX_ID = 8;
+	public static final int HSGGT_ZJCX_ID = 9;
+	public static final int HSGGT_DRWTCX_ID = 10;
+	public static final int HSGGT_DRCJCX_ID = 11;
+	public static final int HSGGT_LSWTCX_ID = 12;
+	public static final int HSGGT_LSCJCX_ID = 13;
+	public static final int HSGGT_WTXD_ID = 14;
+	public static final int HSGGT_WTCD_ID = 15;
 	
-	public static final int HSGGT_CCCX_ID = 4715;
-	public static final int HSGGT_JYZTXXCX_ID = 4753;
-	public static final int HSGGT_KMMSLCX_ID = 4716;
-	public static final int HSGGT_ZJCX_ID = 4723;
-	public static final int HSGGT_DRWTCX_ID = 4726;
-	public static final int HSGGT_DRCJCX_ID = 4730;
-	public static final int HSGGT_LSWTCX_ID = 4728;
-	public static final int HSGGT_LSCJCX_ID = 4736;
-	public static final int HSGGT_WTXD_ID = 4713;
-	public static final int HSGGT_WTCD_ID = 4721;
+	public static final int HQZXGHQ_ID = 3;
+	public static final int DML_ID = 16;
+	public static final int BKPH_ID = 17;
+	public static final int GPPH_ID = 18;
+	public static final int BKPHINDEX_ID = 19;
+	public static final int GGZH_ID = 20;
+	public static final int YCX_ID = 21;
 
 	/**
 	 * ************************************************************
@@ -90,6 +90,7 @@ public interface ParamConstant {
 	public static final String URL = "url";
 	public static final String ONEMONTH = "一个月内";
 	public static final String THREEMONTH = "三个月内";
+	public static final String SERVICE = "service";
 	
 	
 
@@ -265,8 +266,8 @@ public interface ParamConstant {
 	 **********************************************************/
 	public static final String SGT = "9";
 	public static final String HGT = "6";
-	public static final String B = "B";
-	public static final String S = "S";
+	public static final String BUY = "B";
+	public static final String SELL = "S";
 	
 	public static final String JYSDM = "jysdm";
 	public static final String ZQDM = "zqdm";
@@ -284,6 +285,7 @@ public interface ParamConstant {
 	public static final String EXPECTMSG = "expectMsg";
 	public static final String WTXH = "wtxh";
 	public static final String TYPE = "type";
+	public static final String KHBZ = "khbz";
 	public static final String GGTMM_KEY = "港股通买卖";
 	
 	
@@ -293,8 +295,35 @@ public interface ParamConstant {
 	public static final String CXLB_GXRQ = "cxlb_gxrq";
 	public static final String ZJLB_YYBDM = "zjlb_yybdm";
 	public static final String CXLB_WTRQ = "cxlb_wtrq";
+	public static final String KMMXX_GFKYS = "kmmxx_gfkys";
 	
 	public static final String KMSL_S = "^$|^[0-9]+$";
 	public static final String KMSL_H = "^[0-9]+$";
 
+	/**
+	 * ************************************************************
+	 * ***带有依赖接口的接口分类，命名规则为当前源代码命名中大写首字母部分**************************
+	 **********************************************************/
+	public static final String GPMM = "gpmm";
+	public static final String HSGGT = "hsggt";
+	
+	/**
+	 * ************************************************************
+	 * *******************message**************************
+	 **********************************************************/
+	public static final String ERR01 = "买卖类别只能是B或S，请检查测试数据！";
+	public static final String ERR02 = "该交易市场“";
+	public static final String ERR03 = "”下无可撤单数据，请重新准备测试数据进行测试！";
+	public static final String ERR04 = "接口返回响应字段“";
+	public static final String ERR05 = "”的值“";
+	public static final String ERR06 = "”不符合正则表达式“";
+	public static final String ERR07 = "”!";
+	public static final String ERR08 = "测试数据类型缺失，请查证后再执行！";
+	public static final String ERR09 = "查询结果中该条数据：“";
+	public static final String ERR10 = "”的日期不属于本次查询范围内";
+	public static final String ERR11 = "接口返回0条数据!";
+	public static final String ERR12 = "接口返回值为null!";
+	public static final String ERR13 = "接口响应字符串中，节点：";
+	public static final String ERR14 = " 的内容为空";
+	public static final String ERR15 = "接口响应字段所属类型超出设计范围，请修正代码后再执行！";
 }

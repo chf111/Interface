@@ -1,14 +1,19 @@
 package zxjt.inte.service.impl;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import zxjt.inte.dao.CommonWWDao;
+import zxjt.inte.dao.AccountRepository;
+import zxjt.inte.dao.AddressRepository;
+import zxjt.inte.dao.W01DMLRepository;
+import zxjt.inte.entity.W01DML;
 import zxjt.inte.protobuf.ProtobufHttp;
 import zxjt.inte.protobuf.ProtobufRep;
 import zxjt.inte.protobuf.ProtobufReq;
@@ -27,15 +32,21 @@ import zxjt.inte.util.ParamConstant;
 public class W01DMLServiceImpl implements W01DMLService {
 	Logger log = Logger.getLogger(ParamConstant.LOGGER);
 	@Resource
-	private CommonWWDao wwDao;
+	private W01DMLRepository wwDao;
+	
+	@Autowired
+	private  AddressRepository addrDao;
+	
+	@Autowired
+	private  AccountRepository accoDao;
 
 	public Object[][] getParamsInfo() {
-		try {
-			Object[][] obj = CommonToolsUtil.getWWservice(wwDao, ParamConstant.DML_ID);
-			return obj;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		// 股票买卖数据操作
+		List<W01DML> lis = wwDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.DML_ID,"true");
+		
+		Object[][] obj = CommonToolsUtil.getWWData(lis,addrDao,accoDao,ParamConstant.DML_ID);
+
+		return obj;
 	}
 
 	/**
@@ -54,7 +65,7 @@ public class W01DMLServiceImpl implements W01DMLService {
 
 			// 发请求
 			byte[] postdata = ProtobufReq.codeList_req(map);
-			InputStream stream = ProtobufHttp.post(postdata, param.get("url"));
+			InputStream stream = ProtobufHttp.post(postdata, param.get(ParamConstant.URL));
 
 			// 添加动态校验正则表达式
 			Map<String, String> regexMap = JsonAssertUtil.getRegex(null, ParamConstant.WW,

@@ -12,7 +12,7 @@ import zxjt.inte.service.B01HSGGTJYZTXXCXService;
 import zxjt.inte.util.BeforeClassUse;
 
 //自己的类名
-public class B01HSGGTJTZTXXCXTest extends BaseController {
+public class B01HSGGTJYZTXXCXTest extends BaseController {
 
 	// *自己的Service名称
 	@Resource
@@ -24,7 +24,7 @@ public class B01HSGGTJTZTXXCXTest extends BaseController {
 	}
 
 	@Test(dataProvider = "testData", dataProviderClass = TestDataProvider.class)
-	public void B01HsggtJyztxxcx(Map<String, String> param) {
+	public void B01(Map<String, String> param) {
 
 		jyztxxcxService.test(param);
 	}
