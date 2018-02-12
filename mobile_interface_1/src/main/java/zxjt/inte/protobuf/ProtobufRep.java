@@ -118,6 +118,8 @@ public class ProtobufRep {
 
 		try {
 			Protobuf.multi_stock_united_rep response = Protobuf.multi_stock_united_rep.parseFrom(stream);
+			System.out.println(response.toBuilder());
+//			System.out.println(response.toString());
 			stock_united_rep(response,regexMap);
 		}  catch (Exception e) {
 			e.printStackTrace();

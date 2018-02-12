@@ -39,13 +39,13 @@
     <!--手机行情 -->
 	<test enabled="false" name="TestWW" needlogin="false">
 		<classes>
-			<class name="zxjt.inte.web.W00HQZXGHQTest" />
-			<class name="zxjt.inte.web.W01DMLTest" />
-			<class name="zxjt.inte.web.W02BKPHTest" />
-			<class name="zxjt.inte.web.W03GPPHTest" />
-			<class name="zxjt.inte.web.W04BKPHIndexTest" />
+<!-- 			<class name="zxjt.inte.web.W00HQZXGHQTest" /> -->
+<!-- 			<class name="zxjt.inte.web.W01DMLTest" /> -->
+<!-- 			<class name="zxjt.inte.web.W02BKPHTest" /> -->
+<!-- 			<class name="zxjt.inte.web.W03GPPHTest" /> -->
+<!-- 			<class name="zxjt.inte.web.W04BKPHIndexTest" /> -->
 			<class name="zxjt.inte.web.W05GGZHTest" />
-			<class name="zxjt.inte.web.W06YCXTest" />
+<!-- 			<class name="zxjt.inte.web.W06YCXTest" /> -->
 		</classes>
 	</test>
 </suite>

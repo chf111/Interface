@@ -16,6 +16,12 @@ public class W05GGZH {
 	private String sPszCode;
 	private String wType;
 	private String fieldsBitMap;
+	
+	private String wKXType;
+	private String dwKXDate;
+	private String dwKXTime;
+	private String wKXCount;
+	private String wFQType;
 	private String dwFSDate;
 	private String dwFSTime;
 	private String count;
@@ -26,8 +32,9 @@ public class W05GGZH {
 
 	@PersistenceConstructor
 	public W05GGZH(ObjectId id, int functionid, String row, String wMarketID, String sPszCode, String wType,
-			String fieldsBitMap, String dwFSDate, String dwFSTime, String count, String isExcute, String type,
-			String expectMsg, String testPoint) {
+			String fieldsBitMap, String wKXType, String dwKXDate, String dwKXTime, String wKXCount, String wFQType,
+			String dwFSDate, String dwFSTime, String count, String isExcute, String type, String expectMsg,
+			String testPoint) {
 		super();
 		this.id = id;
 		this.functionid = functionid;
@@ -36,6 +43,11 @@ public class W05GGZH {
 		this.sPszCode = sPszCode;
 		this.wType = wType;
 		this.fieldsBitMap = fieldsBitMap;
+		this.wKXType = wKXType;
+		this.dwKXDate = dwKXDate;
+		this.dwKXTime = dwKXTime;
+		this.wKXCount = wKXCount;
+		this.wFQType = wFQType;
 		this.dwFSDate = dwFSDate;
 		this.dwFSTime = dwFSTime;
 		this.count = count;
@@ -49,6 +61,7 @@ public class W05GGZH {
 		return id;
 	}
 
+	
 	public void setId(ObjectId id) {
 		this.id = id;
 	}
@@ -107,6 +120,45 @@ public class W05GGZH {
 
 	public void setDwFSDate(String dwFSDate) {
 		this.dwFSDate = dwFSDate;
+	}
+	public String getwKXType() {
+		return wKXType;
+	}
+
+	public void setwKXType(String wKXType) {
+		this.wKXType = wKXType;
+	}
+
+	public String getDwKXDate() {
+		return dwKXDate;
+	}
+
+	public void setDwKXDate(String dwKXDate) {
+		this.dwKXDate = dwKXDate;
+	}
+
+	public String getDwKXTime() {
+		return dwKXTime;
+	}
+
+	public void setDwKXTime(String dwKXTime) {
+		this.dwKXTime = dwKXTime;
+	}
+
+	public String getwKXCount() {
+		return wKXCount;
+	}
+
+	public void setwKXCount(String wKXCount) {
+		this.wKXCount = wKXCount;
+	}
+
+	public String getwFQType() {
+		return wFQType;
+	}
+
+	public void setwFQType(String wFQType) {
+		this.wFQType = wFQType;
 	}
 
 	public String getDwFSTime() {

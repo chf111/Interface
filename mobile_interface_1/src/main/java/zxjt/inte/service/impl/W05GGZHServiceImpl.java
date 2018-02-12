@@ -56,9 +56,8 @@ public class W05GGZHServiceImpl implements W05GGZHService {
 			System.out.println(map.toString());
 			log.info(param.toString());
 			log.info(map.toString());
-
 			// 发请求
-			byte[] postdata = ProtobufReq.multi_stock_united_req(map, false, true, true);
+			byte[] postdata = ProtobufReq.multi_stock_united_req(map);
 			InputStream stream = ProtobufHttp.post(postdata, param.get("url"));
 			
 			Map<String, String> regexMap =JsonAssertUtil.getRegex(null, ParamConstant.WW, ParamConstant.W05_SCHEMA+ParamConstant.SCHEMA_ZL);

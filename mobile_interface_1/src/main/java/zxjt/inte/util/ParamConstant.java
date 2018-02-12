@@ -78,6 +78,9 @@ public interface ParamConstant {
 	public static final int BKPHINDEX_ID = 19;
 	public static final int GGZH_ID = 20;
 	public static final int YCX_ID = 21;
+	
+	
+	public static final int LEVEL2_AUTH = 22;
 
 	/**
 	 * ************************************************************

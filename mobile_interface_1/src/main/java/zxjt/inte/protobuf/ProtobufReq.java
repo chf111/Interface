@@ -53,11 +53,10 @@ public class ProtobufReq {
 		return request.toByteArray();
 	}
 
-	public static byte[] multi_stock_united_req(Map<String, String> map, Boolean isUseKlineReq,
-			Boolean isUsetimeDivisionReq, Boolean isUseTradeDetailReq) {
+	public static byte[] multi_stock_united_req(Map<String, String> map) {
 		Protobuf.multi_stock_united_req.Builder multiStockUnitedBuilder = Protobuf.multi_stock_united_req.newBuilder();
 		multiStockUnitedBuilder.addReqs(
-				ProtobufBuilder.stock_united_req(map, isUseKlineReq, isUsetimeDivisionReq, isUseTradeDetailReq));
+				ProtobufBuilder.stock_united_req(map));
 		Protobuf.multi_stock_united_req request = multiStockUnitedBuilder.build();
 		return request.toByteArray();
 	}

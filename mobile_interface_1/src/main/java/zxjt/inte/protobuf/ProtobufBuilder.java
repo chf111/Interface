@@ -49,8 +49,7 @@ public class ProtobufBuilder {
 		return stockRankBuilder;
 	}
 
-	public static Protobuf.stock_united_req.Builder stock_united_req(Map<String, String> map, Boolean isUseKlineReq,
-			Boolean isUsetimeDivisionReq, Boolean isUseTradeDetailReq) {
+	public static Protobuf.stock_united_req.Builder stock_united_req(Map<String, String> map) {
 		Protobuf.stock_united_req.Builder stockUnitedReqBuilder = Protobuf.stock_united_req.newBuilder();
 		stockUnitedReqBuilder.setWMarketID(Integer.valueOf(map.get(ParamConstant.WMARKETID)));// 必须
 		stockUnitedReqBuilder.setSPszCode(map.get(ParamConstant.SPSZCODE));// 必须
@@ -58,15 +57,18 @@ public class ProtobufBuilder {
 		if (null != map.get(ParamConstant.FIELDSBITMAP)) {
 			stockUnitedReqBuilder.setFieldsBitMap(Long.valueOf(map.get(ParamConstant.FIELDSBITMAP)));
 		}
-		if (isUseKlineReq) {
+
+		if (!"null".equals(map.get(ParamConstant.WKXTYPE)) && !"null".equals(map.get(ParamConstant.DWKXDATE))
+				&& !"null".equals(map.get(ParamConstant.DWKXTIME)) && !"null".equals(map.get(ParamConstant.WKXCOUNT))
+				&& !"null".equals(map.get(ParamConstant.WFQTYPE))) {
+
 			stockUnitedReqBuilder.setKlineReq(stock_kline_req(map));
 		}
-		if (isUsetimeDivisionReq) {
-			stockUnitedReqBuilder.setTimeDivisionReq(stock_timeDivision_req(map));
-		}
-		if (isUseTradeDetailReq) {
-			stockUnitedReqBuilder.setTradeDetailReq(stock_tradeDetail_req(map));
-		}
+
+		stockUnitedReqBuilder.setTimeDivisionReq(stock_timeDivision_req(map));
+
+		stockUnitedReqBuilder.setTradeDetailReq(stock_tradeDetail_req(map));
+
 		return stockUnitedReqBuilder;
 	}
 
