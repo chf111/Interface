@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required": true,
+  "type": "object",
+  "properties": {
+    "message": {
+      "id": "message",
+      "required": true,
+      "type": "string"
+    },
+    "result": {
+      "id": "result",
+      "required": true,
+      "type": "object",
+      "properties": {
+        "avatar": {
+          "id": "avatar",
+          "required": true,
+          "type": "string"
+        },
+        "fundId": {
+          "id": "fundId",
+          "required": true,
+          "type": "string"
+        },
+        "level": {
+          "id": "level",
+          "required": true,
+          "type": "string"
+        },
+        "mobileId": {
+          "id": "mobileId",
+          "required": true,
+          "type": "string"
+        },
+        "name": {
+          "id": "name",
+          "required": true,
+          "type": "string"
+        },
+        "userId": {
+          "id": "userId",
+          "required": true,
+          "type": "string"
+        }
+      }
+    },
+    "status": {
+      "id": "status",
+      "required": true,
+      "type": "string"
+    }
+  }
+}

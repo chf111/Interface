@@ -66,7 +66,7 @@ public class A00LoginServiceImpl implements A00LoginService {
 
 		// 拼接
 		Map<String, String> valMap = new HashMap<>();
-		valMap.put(ParamConstant.MESSAGE
+		valMap.put(ParamConstant.CLJG_MESSAGE
 				, JsonAssertUtil.getMsgRex(param.get(ParamConstant.EXPECTMSG)));
 
 		// 校验

@@ -248,7 +248,7 @@ public class CommonToolsUtil {
 	}
 
 	/**
-	 * 不需要帐号密码
+	 * 不需要帐号密码，url是http的
 	 * 
 	 * @param objlisEntity
 	 * @return
@@ -284,6 +284,56 @@ public class CommonToolsUtil {
 
 			}
 			String url = commonData.get(ParamConstant.UNSAFEURL) + addrEntity.getUrl();
+			testDataMap.put("url", url);
+			lisTemp.add(testDataMap);
+
+		}
+
+		Object[][] obj = new Object[lisTemp.size()][1];
+		for (int j = 0; j < obj.length; j++) {
+
+			obj[j][0] = lisTemp.get(j);
+		}
+		return obj;
+	}
+	
+	/**
+	 * 不需要帐号密码,url是https的
+	 * 
+	 * @param objlisEntity
+	 * @return
+	 */
+	public static Object[][] getSafeWWData(Object lisWWEntity, AddressRepository addrDao, AccountRepository accoDao,
+			int functionid) {
+		// 公共参数操作
+		Map<String, String> commonData = GetConfigProperties.getConfigProToCommon();
+
+		// url获取
+		CommonAddress addrEntity = addrDao.findByFunctionid(functionid);
+
+		List<Map<String, String>> lisTemp = new ArrayList<>();
+
+		List<Object> lisEntity = (List<Object>) lisWWEntity;
+		for (Object entity : lisEntity) {
+			Map<String, String> testDataMap = new HashMap<String, String>();
+			Field[] fEntity = entity.getClass().getDeclaredFields();
+			for (Field f : fEntity) {
+				f.setAccessible(true);
+				try {
+					System.out.println(f.getName() + ":" + f.get(entity));
+					testDataMap.put(f.getName(), String.valueOf(f.get(entity)));
+				} catch (IllegalArgumentException e) {
+
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				} catch (IllegalAccessException e) {
+
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+
+			}
+			String url = commonData.get(ParamConstant.SAFEURL) + addrEntity.getUrl();
 			testDataMap.put("url", url);
 			lisTemp.add(testDataMap);
 

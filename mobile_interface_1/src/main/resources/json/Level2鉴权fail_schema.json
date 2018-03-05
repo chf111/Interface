@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required": true,
+  "type": "object",
+  "properties": {
+    "endDate": {
+      "id": "endDate",
+      "required": true,
+      "type": "string"
+    },
+    "isAuth": {
+      "id": "isAuth",
+      "required": true,
+      "type": "string"
+    },
+    "restDays": {
+      "id": "restDays",
+      "required": true,
+      "type": "string"
+    },
+    "startDate": {
+      "id": "startDate",
+      "required": true,
+      "type": "string"
+    }
+  }
+}

@@ -22,6 +22,7 @@ public interface ParamConstant {
 	public static final String PTYW = "PTYW";
 	public static final String RZRQ = "RZRQ";
 	public static final String WW = "WW";
+	public static final String SYSTEM = "SYSTEM";
 
 	/**
 	 * ************************************************************
@@ -50,6 +51,22 @@ public interface ParamConstant {
 	public static final String B07_SCHEMA = "沪深港股通_普通业务_历史成交查询";
 	public static final String B08_SCHEMA = "沪深港股通_普通业务_委托下单";
 	public static final String B09_SCHEMA = "沪深港股通_普通业务_委托撤单";
+	
+	public static final String S01_SCHEMA = "手机号码登录";
+	public static final String S00_SCHEMA = "手机号码注册";
+	public static final String S02_SCHEMA = "Level2鉴权";
+	public static final String S03_SCHEMA = "个人信息查询";
+	public static final String S04_SCHEMA = "同步下载自选股";
+	public static final String S05_SCHEMA = "更新自选股";
+	public static final String S06_SCHEMA = "我要吐槽";
+	public static final String S07_SCHEMA = "登录设备检查";
+	public static final String S08_SCHEMA = "股票热搜";
+	public static final String S08_COUNT_SCHEMA = "股票热搜_count";
+	public static final String S09_SCHEMA = "猜你喜欢";
+	public static final String S10_SCHEMA = "股票擂台";
+	public static final String S11_SCHEMA = "投顾指路";
+	public static final String S12_SCHEMA = "用户信息查询";
+	public static final String S13_SCHEMA = "语音验证码";
 
 	/**
 	 * ************************************************************
@@ -81,7 +98,25 @@ public interface ParamConstant {
 	
 	
 	public static final int LEVEL2_AUTH = 22;
-
+	public static final int AUTH_LOGIN = 23;///api/auth/login/100000登录必须先写 
+ ///api/system/favor/select/100000
+	///api/system/user/info/select/
+	///api/system/user/info/select/
+	///api/system/level2/auth/100000
+	// 上面这几个接口都是要用到登录是响应头中的cookie，放入请求中去发送的
+	
+	public static final int AUTH_REGIST = 24;
+	public static final int CUSTMGR_QUERY = 25;
+	public static final int FAVOR_SELECT = 26;
+	public static final int FAVOR_UPDATE = 27;
+	public static final int FEEDBACK_ADD = 28;
+	public static final int DEVICECHECK = 29;
+	public static final int HOTSEARCH = 30;
+	public static final int CNXH = 31;
+	public static final int GPLT = 32;
+	public static final int TGZL = 33;
+	public static final int USERINFO_SELECT = 34;
+	public static final int RL_YTX = 35;
 	/**
 	 * ************************************************************
 	 * ***********************其他用到的自定义参数 **************************
@@ -94,6 +129,8 @@ public interface ParamConstant {
 	public static final String ONEMONTH = "一个月内";
 	public static final String THREEMONTH = "三个月内";
 	public static final String SERVICE = "service";
+	public static final String NEED_PUT_REQ_HEADER_INFO = "setReqHeader";
+	public static final String NEED_GET_REP_HEADER_INFO = "getRepHeader";
 	
 	
 
@@ -292,13 +329,14 @@ public interface ParamConstant {
 	public static final String GGTMM_KEY = "港股通买卖";
 	
 	
-	public static final String KMMXX_JYSDM = "kmmxx_jysdm";
-	public static final String KMMXX_ZQDM = "kmmxx_zqdm";
-	public static final String KMMXX_KMSL = "kmmxx_kmsl";
-	public static final String CXLB_GXRQ = "cxlb_gxrq";
-	public static final String ZJLB_YYBDM = "zjlb_yybdm";
-	public static final String CXLB_WTRQ = "cxlb_wtrq";
-	public static final String KMMXX_GFKYS = "kmmxx_gfkys";
+	public static final String KMMXX_JYSDM = "kmmxx,[,jysdm";
+	public static final String KMMXX_ZQDM = "kmmxx,[,zqdm";
+	public static final String KMMXX_KMSL = "kmmxx,[,kmsl";
+	public static final String CXLB_GXRQ = "cxlb,[,gxrq";
+	public static final String ZJLB_YYBDM = "zjlb,[,yybdm";
+	public static final String CXLB_WTRQ = "cxlb,[,wtrq";
+	public static final String KMMXX_GFKYS = "kmmxx,[,gfkys";
+	public static final String CLJG_MESSAGE = "cljg,[,message";
 	
 	public static final String KMSL_S = "^$|^[0-9]+$";
 	public static final String KMSL_H = "^[0-9]+$";
@@ -329,4 +367,5 @@ public interface ParamConstant {
 	public static final String ERR13 = "接口响应字符串中，节点：";
 	public static final String ERR14 = " 的内容为空";
 	public static final String ERR15 = "接口响应字段所属类型超出设计范围，请修正代码后再执行！";
+	public static final String ERR16 = "又出现了新的json字符串格式，请修改";
 }

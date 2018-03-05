@@ -4,24 +4,26 @@
 		<listener class-name="zxjt.inte.testng.listener.Listener" />
 
 	</listeners>
-<!--注意事项1：普通交易登录和融资融券登录的可以不填needlogin和  filebelongto-->
-<!--注意事项2：普通交易登录name="PTJYLogin" 融资融券name="RRLogin"，不可更改-->
-    <!-- 登录 -->
-	<test enabled="false" name="PTJYLogin" >
+	<!--注意事项1：普通交易登录和融资融券登录的可以不填needlogin和 filebelongto -->
+	<!--注意事项2：普通交易登录name="PTJYLogin" 融资融券name="RRLogin"，不可更改 -->
+	<!-- 登录 -->
+	<test enabled="false" name="PTJYLogin">
 		<classes>
 			<class name="zxjt.inte.web.A00LoginTest" />
 		</classes>
 	</test>
-<!--注意事项3：出登录以外的test模块，needlogin和  filebelongto必填-->
-    <!-- 股票买卖 -->
-	<test enabled="false" name="TestGPMM" needlogin="true" filebelongto="PTJYLogin">
+	<!--注意事项3：出登录以外的test模块，needlogin和 filebelongto必填 -->
+	<!-- 股票买卖 -->
+	<test enabled="false" name="TestGPMM" needlogin="true"
+		filebelongto="PTJYLogin">
 		<classes>
 			<class name="zxjt.inte.web.A01GPMMTest" />
 		</classes>
 	</test>
-	
-    <!-- 沪深港股通 -->
-	<test enabled="false" name="TestHSGGT" needlogin="true" filebelongto="PTJYLogin">
+
+	<!-- 沪深港股通 -->
+	<test enabled="false" name="TestHSGGT" needlogin="false"
+		filebelongto="PTJYLogin">
 		<classes>
 			<class name="zxjt.inte.web.B00HSGGTCCCXTest" />
 			<class name="zxjt.inte.web.B01HSGGTJYZTXXCXTest" />
@@ -35,8 +37,8 @@
 			<class name="zxjt.inte.web.B09HSGGTWTCDTest" />
 		</classes>
 	</test>
-	
-    <!--手机行情 -->
+
+	<!--手机行情 -->
 	<test enabled="false" name="TestWW" needlogin="false">
 		<classes>
 <!-- 			<class name="zxjt.inte.web.W00HQZXGHQTest" /> -->
@@ -44,8 +46,27 @@
 <!-- 			<class name="zxjt.inte.web.W02BKPHTest" /> -->
 <!-- 			<class name="zxjt.inte.web.W03GPPHTest" /> -->
 <!-- 			<class name="zxjt.inte.web.W04BKPHIndexTest" /> -->
-			<class name="zxjt.inte.web.W05GGZHTest" />
-<!-- 			<class name="zxjt.inte.web.W06YCXTest" /> -->
+<!-- 			<class name="zxjt.inte.web.W05GGZHTest" /> -->
+			<class name="zxjt.inte.web.W06YCXTest" />
+		</classes>
+	</test>
+
+	<test enabled="false" name="TestSYS" needlogin="false">
+		<classes>
+			<class name="zxjt.inte.web.S00AUTHREGISTTest" />
+			<class name="zxjt.inte.web.S01AUTHLOGINTest" /> <!--依赖于s00 -->
+			 <class name="zxjt.inte.web.S02LEVEL2AUTHTest" /><!--依赖于s01 -->
+			<class name="zxjt.inte.web.S03CUSTMGRQUERYTest" />
+			<class name="zxjt.inte.web.S04FAVORSELECTTest" /> <!--依赖于s01 -->
+			 <class name="zxjt.inte.web.S05FAVORUPDATETest" /> <!--依赖于s01 -->
+			<class name="zxjt.inte.web.S06FEEDBACKADDTest" />
+			<class name="zxjt.inte.web.S07DEVICECHECKTest" />
+			<class name="zxjt.inte.web.S08HOTSEARCHTest" />
+			<class name="zxjt.inte.web.S09CNXHTest" />
+			<class name="zxjt.inte.web.S10GPLTTest" />
+			<class name="zxjt.inte.web.S11TGZLTest" />
+			<class name="zxjt.inte.web.S12USERINFOSELECTTest" /><!--依赖于s01 -->
+			<class name="zxjt.inte.web.S13RLYTXTest" />
 		</classes>
 	</test>
 </suite>

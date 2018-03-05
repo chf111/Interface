@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required": true,
+  "type": "object",
+  "properties": {
+    "errCode": {
+      "id": "errCode",
+      "required": true,
+      "type": "string"
+    },
+    "reply_content": {
+      "id": "reply_content",
+      "required": true,
+      "type": "string"
+    },
+    "toofrequent": {
+      "id": "toofrequent",
+      "required": true,
+      "type": "string"
+    }
+  }
+}

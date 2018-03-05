@@ -1,0 +1,190 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required": true,
+  "type": "object",
+  "properties": {
+    "customerid": {
+      "id": "customerid",
+      "required": true,
+      "type": "string"
+    },
+    "stocks": {
+      "id": "stocks",
+      "required": true,
+      "type": "array",
+      "items": {
+        "id": "0",
+        "type": "string",
+        "required": true
+      }
+    },
+    "tougus": {
+      "id": "tougus",
+      "required": true,
+      "type": "array",
+      "items": {
+        "id": "0",
+        "type": "object",
+        "required": true,
+        "properties": {
+          "investPid": {
+            "id": "investPid",
+            "type": "string",
+            "required": true
+          },
+          "rebateBgnDate": {
+            "id": "rebateBgnDate",
+            "type": "string",
+            "required": true
+          },
+          "trialDays": {
+            "id": "trialDays",
+            "type": "string",
+            "required": true
+          },
+          "termEndDate": {
+            "id": "termEndDate",
+            "type": "string",
+            "required": true
+          },
+          "endDate": {
+            "id": "endDate",
+            "type": "string",
+            "required": true
+          },
+          "rebateEndDate": {
+            "id": "rebateEndDate",
+            "type": "string",
+            "required": true
+          },
+          "cycle": {
+            "id": "cycle",
+            "type": "string",
+            "required": true
+          },
+          "pushChannel": {
+            "id": "pushChannel",
+            "type": "string",
+            "required": true
+          },
+          "price": {
+            "id": "price",
+            "type": "string",
+            "required": true
+          },
+          "procode": {
+            "id": "procode",
+            "type": "string",
+            "required": true
+          },
+          "proid": {
+            "id": "proid",
+            "type": "string",
+            "required": true
+          },
+          "preSubDays": {
+            "id": "preSubDays",
+            "type": "string",
+            "required": true
+          },
+          "isscode": {
+            "id": "isscode",
+            "type": "string",
+            "required": true
+          },
+          "trdStat": {
+            "id": "trdStat",
+            "type": "string",
+            "required": true
+          },
+          "productType": {
+            "id": "productType",
+            "type": "string",
+            "required": true
+          },
+          "investType": {
+            "id": "investType",
+            "type": "string",
+            "required": true
+          },
+          "termBeginDate": {
+            "id": "termBeginDate",
+            "type": "string",
+            "required": true
+          },
+          "image": {
+            "id": "image",
+            "type": "string",
+            "required": true
+          },
+          "adviseSendTime": {
+            "id": "adviseSendTime",
+            "type": "string",
+            "required": true
+          },
+          "rebateRate": {
+            "id": "rebateRate",
+            "type": "string",
+            "required": true
+          },
+          "feeRule": {
+            "id": "feeRule",
+            "type": "string",
+            "required": true
+          },
+          "proname": {
+            "id": "proname",
+            "type": "string",
+            "required": true
+          },
+          "riskLvl": {
+            "id": "riskLvl",
+            "type": "string",
+            "required": true
+          },
+          "tacode": {
+            "id": "tacode",
+            "type": "string",
+            "required": true
+          },
+          "nextRecordExistFlg": {
+            "id": "nextRecordExistFlg",
+            "type": "string",
+            "required": true
+          },
+          "mgrStat": {
+            "id": "mgrStat",
+            "type": "string",
+            "required": true
+          },
+          "saleChannel": {
+            "id": "saleChannel",
+            "type": "string",
+            "required": true
+          },
+          "proInfo": {
+            "id": "proInfo",
+            "type": "string",
+            "required": true
+          },
+          "performanceReview": {
+            "id": "performanceReview",
+            "type": "string",
+            "required": true
+          },
+          "proManager": {
+            "id": "proManager",
+            "type": "string",
+            "required": true
+          },
+          "status": {
+            "id": "status",
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    }
+  }
+}

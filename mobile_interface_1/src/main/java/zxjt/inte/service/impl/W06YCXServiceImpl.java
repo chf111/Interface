@@ -62,7 +62,7 @@ public class W06YCXServiceImpl implements W06YCXService {
 			
 			// 拼接
 			Map<String, String> valMap = new HashMap<>();
-			valMap.put(ParamConstant.STOCK_CODE, "^000001$");
+			valMap.put("[,stock_code", "^000001$");
 
 			// 校验
 			JsonAssertUtil.checkResponse(param, valMap, ParamConstant.W06_SCHEMA, ParamConstant.WW, response);

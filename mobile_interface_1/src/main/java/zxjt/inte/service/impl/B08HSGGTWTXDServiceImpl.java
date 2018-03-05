@@ -91,7 +91,7 @@ public class B08HSGGTWTXDServiceImpl implements B08HSGGTWTXDService {
 
 		// 添加动态校验正则表达式
 		Map<String, String> valMap = new HashMap<>();
-		valMap.put(ParamConstant.MESSAGE, JsonAssertUtil.getMsgRex(param.get(ParamConstant.EXPECTMSG)));
+		valMap.put(ParamConstant.CLJG_MESSAGE, JsonAssertUtil.getMsgRex(param.get(ParamConstant.EXPECTMSG)));
 
 		// 校验
 		JsonAssertUtil.checkResponse(param, valMap, ParamConstant.B08_SCHEMA, ParamConstant.PTYW, response);

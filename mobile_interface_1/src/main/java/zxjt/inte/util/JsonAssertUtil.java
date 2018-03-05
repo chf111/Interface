@@ -2,7 +2,6 @@ package zxjt.inte.util;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -114,15 +113,17 @@ public class JsonAssertUtil {
 	}
 
 	/**
+	 * 修改录制的schema文件
 	 * 
 	 * @param vSchemaName
-	 *            Schema的名称
-	 * @param param
-	 *            从data.xml中获取到的入参
+	 *            schema名称
 	 * @param paramSchema
-	 *            存储了要验证的合同序号类型（名称：正则）的map
+	 *            正则表达式map
+	 * @param series
+	 *            测试case所属类型
+	 * @return 修改后的schema流
 	 */
-	public static String editSchemaInfo(String vSchemaName, Map<String, String> paramSchema) {
+	public static String editSchemaInfo(String vSchemaName, Map<String, String> paramSchema, String series) {
 
 		String strSchema = "";
 		String line = "";
@@ -142,14 +143,7 @@ public class JsonAssertUtil {
 
 				strSchema = sb.toString();
 			}
-
-			for (String key : paramSchema.keySet()) {
-				// String value = "\"" + paramSchema.get(key) + "\"";
-				String value = paramSchema.get(key);
-				strSchema = strPj(strSchema, key, "pattern", value);
-			}
-		} catch (FileNotFoundException e1) {
-			throw new RuntimeException(e1);
+			strSchema = strPj(series, strSchema, paramSchema, "pattern");
 		} catch (InstantiationException e2) {
 			throw new RuntimeException(e2);
 		} catch (IllegalAccessException e2) {
@@ -168,53 +162,84 @@ public class JsonAssertUtil {
 	}
 
 	/**
+	 * 修改后的schema字符串
+	 * 
+	 * @param series
+	 *            测试case所属类型
+	 * @param strmodify
+	 *            要修改的schema字符串
+	 * @param paramSchema
+	 *            正则表达式map
+	 * @param pattern
+	 *            固定字符串pattern
+	 * @return
+	 */
+	private static String strPj(String series, String strmodify, Map<String, String> paramSchema, String pattern) {
+		String strSchema = "";
+		// switch (series) {
+		// case ParamConstant.WW:
+		// strSchema = getWWPj(strmodify, paramSchema, pattern);
+		// break;
+		// case ParamConstant.SYSTEM:
+		strSchema = getSystemPj(strmodify, paramSchema, pattern);
+		// break;
+		// default:
+		// strSchema = getTradePj(strmodify, paramSchema, pattern);
+		// }
+		return strSchema;
+	}
+
+	/**
+	 * sys接口修改后的schema文件，适用于不规则的json串，混合了k-v、k-Array等多种模式
 	 * 
 	 * @param strmodify
-	 *            要修改的字符串
-	 * @param key
-	 *            字符串中的关键字(大项目）
+	 *            要修改的schema字符串
+	 * @param paramSchema
+	 *            正则表达式map
 	 * @param pattern
-	 *            文本比较需要用到的keyword
-	 * @param msg
-	 *            keyword对应的文本内容或者正则（已拼接好的）
-	 * @return 修改后的字符串
+	 * @return trade接口修改后的schema文件
 	 */
-
-	private static String strPj(String strmodify, String key, String datatype, String msg) {
-		JSONObject jb = null;
-		String local[] = new String[2];
+	private static String getSystemPj(String strmodify, Map<String, String> paramSchema, String pattern) {
 		JSONObject dataJson = new JSONObject(strmodify);
-		switch (key) {
-		case "code":
-			jb = dataJson.getJSONObject("properties").getJSONObject("cljg").getJSONObject("items")
-					.getJSONObject("properties").getJSONObject("code");
-			break;
-		case "message":
-			jb = dataJson.getJSONObject("properties").getJSONObject("cljg").getJSONObject("items")
-					.getJSONObject("properties").getJSONObject("message");
-			break;
-		case "stock_code":
-		case "stock_mark":
-		case "stock_market":
-		case "stock_name":
-		case "stock_pinyin":
-		case "stock_type":
-			jb = dataJson.getJSONObject("items").getJSONObject("properties").getJSONObject(key);
-			break;
-		default:
-			if (key.contains("_")) {
-				local = key.split("_");
-				jb = dataJson.getJSONObject("properties").getJSONObject(local[0]).getJSONObject("items")
-						.getJSONObject("properties").getJSONObject(local[1]);
+		for (String key : paramSchema.keySet()) {
+			JSONObject jb = null;
+			String local[] = new String[5];
+			String value = paramSchema.get(key);
+			if (key.contains(",")) {
+				local = key.split(",");
+				int count = getCounts(local);
+
+				if (!"[".equals(local[0])) {
+					jb = dataJson.getJSONObject("properties").getJSONObject(local[0]);
+				} else {
+					jb = dataJson;
+				}
+				// "a":{"b":""}该种形式的，按以下方法取值，在regex。json中按照a_b的形式编写
+				for (int j = 0; j < count; j++) {
+					jb = jb.getJSONObject("items");
+				}
+
+				if (!"[".equals(local[local.length - 1])) {
+					jb = jb.getJSONObject("properties").getJSONObject(local[local.length - 1]);
+				}
+
 			} else {
-				throw new RuntimeException(ParamConstant.ERR15);
+				jb = dataJson.getJSONObject("properties").getJSONObject(key);
+			}
+
+			jb.put(pattern, value);
+		}
+		return dataJson.toString();
+	}
+
+	private static int getCounts(String[] strArr) {
+		int count = 0;
+		for (String str : strArr) {
+			if ("[".equals(str)) {
+				count += 1;
 			}
 		}
-
-		jb.remove("enum");
-		jb.put(datatype, msg);
-		return dataJson.toString();
-
+		return count;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -276,7 +301,7 @@ public class JsonAssertUtil {
 	/**
 	 * 
 	 * @param respose
-	 *            服务器返回信息内容，格式如下： {"":[{}],"":[{}]}
+	 *            服务器返回信息内容，格式如下： {"":[{}],"":[{}]}或 {"":[[{}],"":[{}]]}
 	 */
 	public static void checkNull(String respose) {
 
@@ -291,6 +316,7 @@ public class JsonAssertUtil {
 					throw new RuntimeException(ParamConstant.ERR13 + key + ParamConstant.ERR14);
 				}
 			}
+
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -312,6 +338,52 @@ public class JsonAssertUtil {
 				Map<String, String> s = (Map<String, String>) key;
 				if (s.size() < 1) {
 					throw new RuntimeException(ParamConstant.ERR11);
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 
+	 * @param respose
+	 *            服务器返回信息内容格式为不统一的类型
+	 */
+	public static void checkSystemNull(String respose) {
+
+		try {
+			if (respose == null) {
+				throw new RuntimeException(ParamConstant.ERR12);
+			}
+			LinkedHashMap<String, Object> result = JsonPath.read(respose, "$", new Predicate[0]);
+
+			if (result.size() < 1) {
+				throw new RuntimeException(ParamConstant.ERR11);
+
+			} else {
+				for (Object value : result.values()) {
+					String s = value.getClass().getSimpleName();
+					
+					// json串中是k-v类型
+					if ("String".equals(s)) {
+						continue;
+						
+						// k-jsonarray类型
+					} else if ("JSONArray".equals(s)) {
+						JSONArray ja = (JSONArray) value;
+						if (ja.size() < 1) {
+							throw new RuntimeException(ParamConstant.ERR11);
+						}
+						// k-map类型
+					} else if ("LinkedHashMap".equals(s)) {
+						LinkedHashMap<String, Object> lhm = (LinkedHashMap<String, Object>) value;
+						if (lhm.size() < 1) {
+							throw new RuntimeException(ParamConstant.ERR11);
+						}
+					} else {
+						throw new RuntimeException(ParamConstant.ERR16);
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -373,6 +445,9 @@ public class JsonAssertUtil {
 		case ParamConstant.WW:
 			checkWWNull(response);
 			break;
+		case ParamConstant.SYSTEM:
+			checkSystemNull(response);
+			break;
 		default:
 			checkNull(response);
 		}
@@ -381,12 +456,13 @@ public class JsonAssertUtil {
 		try {
 			if (ParamConstant.ZL.equalsIgnoreCase(param.get(ParamConstant.TYPE))) {
 				String schema_zl = schemaName + ParamConstant.SCHEMA_ZL;
+				;
 				Map<String, String> regexMap = getRegex(valMap, series, schema_zl);
-				strjsonSchema = editSchemaInfo(schema_zl, regexMap);
+				strjsonSchema = editSchemaInfo(schema_zl, regexMap, series);
 			} else if (ParamConstant.FL.equalsIgnoreCase(param.get(ParamConstant.TYPE))) {
 				String schema_fl = schemaName + ParamConstant.SCHEMA_FL;
 				Map<String, String> regexMap = getRegex(valMap, series, schema_fl);
-				strjsonSchema = editSchemaInfo(schema_fl, regexMap);
+				strjsonSchema = editSchemaInfo(schema_fl, regexMap, series);
 			} else {
 				throw new RuntimeException(ParamConstant.ERR08);
 			}
@@ -451,7 +527,7 @@ public class JsonAssertUtil {
 				zzrq = df.parse(param.get(ParamConstant.ZZRQ));
 
 				if (conList.after(zzrq) || conList.before(qsrq)) {
-					throw new RuntimeException( ParamConstant.ERR09 + con + ParamConstant.ERR10);
+					throw new RuntimeException(ParamConstant.ERR09 + con + ParamConstant.ERR10);
 				}
 			}
 		} catch (ParseException e) {

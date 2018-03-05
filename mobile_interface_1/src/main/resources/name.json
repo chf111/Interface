@@ -17,5 +17,19 @@
   "B06HSGGTLSWTCXTest_B06":"沪深港股通历史委托查询B06",
   "B07HSGGTLSCJCXTest_B07":"沪深港股通历史成交查询B07",
   "B08HSGGTWTXDTest_B08":"沪深港股通委托下单B08",
-  "B09HSGGTWTCDTest_B09":"沪深港股通委托撤单B09"
+  "B09HSGGTWTCDTest_B09":"沪深港股通委托撤单B09",
+  "S01AUTHLOGINTest_S01":"手机号码登录S01",
+  "S00AUTHREGISTTest_S00":"手机号码注册S00",
+  "S02LEVEL2AUTHTest_S02":"level2鉴权S02",
+  "S03CUSTMGRQUERYTest_S03":"个人信息查询S03",
+  "S04FAVORSELECTTest_S04":"同步下载自选股S04",
+  "S05FAVORUPDATETest_S05":"更新自选股S05",
+  "S06FEEDBACKADDTest_S06":"我要吐槽S06",
+  "S07DEVICECHECKTest_S07":"登录设备检查S07",
+  "S08HOTSEARCHTest_S08":"登录设备检查S08",
+  "S09CNXHTest_S09":"猜你喜欢S09",
+  "S10GPLTTest_S10":"股票擂台S10",
+  "S11TGZLTest_S11":"投顾指路S11",
+  "S12USERINFOSELECTTest_S12":"用户信息查询S12",
+  "S13RLYTXTest_S13":"语音验证码S13"
 }

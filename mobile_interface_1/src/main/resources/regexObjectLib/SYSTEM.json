@@ -1,0 +1,152 @@
+{
+	"手机号码登录": [
+		{
+			"errCode": "^0$",
+			"errMsg": "^ok$"
+		}
+	],
+	"手机号码注册": [
+		{
+			"errCode": "^0$",
+			"errMsg": "^ok$",
+			"sec_code":"[0-9]+"
+		}
+	],
+	"Level2鉴权": [
+		{
+			"endDate": "^$",
+			"isAuth": "^0$",
+			"restDays":"^$",
+			"startDate":"^$"
+		}
+	],
+	"Level2鉴权fail": [
+		{
+			"endDate": "^$",
+			"isAuth": "^-1$",
+			"restDays":"^$",
+			"startDate":"^$"
+		}
+	],
+	"个人信息查询": [
+		{
+			"staffName": "^.*\\S{1,}.*$",
+			"departName": "^.*\\S{1,}.*$",
+			"jobTitle":"^.*\\S{1,}.*$",
+			"mobilePhone":"^[0-9]{11}$",
+			"telPhone":"^[0-9]{8}$"
+		}
+	],
+	"同步下载自选股":[
+		{
+			"errCode": "^0$",
+			"errMsg": "^ok$",
+			"favors":"^([0-9]+[:]{1}[0-9]+[,]{0,1}){1,}$"
+		}
+	],
+	"更新自选股":[
+		{
+			"errCode": "^0$",
+			"errMsg": "^ok$"
+		}
+	],
+	"我要吐槽":[
+		{
+			"errCode": "^0$",
+			"reply_content": "^感谢您的宝贵意见，我们会尽快为您解答！$",
+			"toofrequent": "^0$"
+		}
+	],
+	"登录设备检查":[
+		{
+			"errCode": "^0$",
+			"errMsg": "^ok$"
+		}
+	],
+	"语音验证码": [
+		{
+			"errCode": "^0$",
+			"errMsg": "^ok$"
+		}
+	],
+	"股票热搜":[
+		{
+			"data,[,code": "^[0-9]+$",
+			"data,[,market": "^[0-9]+$",
+			"data,[,name": ".*\\S{1,}.*"
+		}
+	],
+	"股票热搜_count":[
+		{
+			"data,[,code": "^[0-9]+$",
+			"data,[,market": "^[0-9]+$",
+			"data,[,name": ".*\\S{1,}.*",
+			"data,[,count": "^[0-9]+$"
+		}
+	],
+	"猜你喜欢":[
+		{
+			"data,[,market": "^[0-9]+$",
+			"data,[,sname": ".*\\S{1,}.*",
+			"data,[,symbol": "^[0-9]+$",
+			"data,[,weekpercent": "^-?[0-9]+\\.[0-9]{0,4}$",
+			"data,[,count": "^[0-9]+\\.[0-9]+$"
+		}
+	],
+	"股票擂台":[
+		{
+			"data,[,[,market": "^[0-9]+$",
+			"data,[,[,sname": ".*\\S{1,}.*",
+			"data,[,[,symbol": "^[0-9]+$",
+			"data,[,[,weekpercent": "^-?[0-9]+\\.[0-9]{0,4}$"
+		}
+	],"投顾指路":[
+		{
+			"customerid": "^[0-9]+$",
+ 			"stocks,[": "^[A-Z0-9]+$", 
+			"tougus,[,procode": "^[A-Z0-9]+$",
+			"tougus,[,proname": ".*\\S{1,}.*",
+			"tougus,[,proid": "^[A-Z0-9]+$",
+			"tougus,[,isscode": "[0-9]+",
+			"tougus,[,trdStat": "^[0-9]+$",
+			"tougus,[,mgrStat": "^[0-9]+$",
+			"tougus,[,tacode": "^[A-Z]+$",
+			"tougus,[,proInfo": ".*\\S{1,}.*",
+			"tougus,[,feeRule": "^[0-9]+$",
+			"tougus,[,trialDays": "^[0-9]+$",
+			"tougus,[,saleChannel": "^@$",
+			"tougus,[,pushChannel": "^[0-9]+$",
+			"tougus,[,proManager": "^[0-9]+$",
+			"tougus,[,performanceReview": ".*\\S{1,}.*",
+			"tougus,[,termBeginDate": "^[0-9]+$",
+			"tougus,[,termEndDate": "^[0-9]+$",
+			"tougus,[,adviseSendTime": ".*\\S{1,}.*",
+			"tougus,[,preSubDays": "[0-9]+",
+			"tougus,[,endDate": "^[0-9]+$",
+			"tougus,[,price": "^[0-9]+$",
+			"tougus,[,status": "^[0-9]+$",
+			"tougus,[,riskLvl": "^[0-9]+$",
+			"tougus,[,cycle": "^[0-9]+$",
+			"tougus,[,image": "^https:\/\/",
+			"tougus,[,nextRecordExistFlg": "^$",
+			"tougus,[,investPid": ".*\\S{1,}.*",
+			"tougus,[,investType": ".*\\S{1,}.*",
+			"tougus,[,productType": ".*\\S{1,}.*",
+			"tougus,[,rebateRate": "[0-9]+",
+			"tougus,[,rebateBgnDate": "^[0-9]+$",
+			"tougus,[,rebateEndDate": "^[0-9]+$"
+		}
+	],
+	"用户信息查询":[
+		{
+			"message": "^查询成功$",
+			"result,avatar":"^$",
+			"result,fundId":"^$",
+			"result,level":"^[0-9]+$",
+			"result,mobileId":"^[0-9]{11}$",
+			"result,name":"^$",
+			"result,userId":"^[0-9]+$",
+			"status":"^0$"
+		}
+	]
+}

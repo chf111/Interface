@@ -50,6 +50,16 @@ public class ProtobufReq {
 		Protobuf.blockRankIndex_req.Builder blockRankIndexBuilder = Protobuf.blockRankIndex_req.newBuilder();
 		blockRankIndexBuilder.setOptions(ProtobufBuilder.rank_option(map));
 		Protobuf.blockRankIndex_req request = blockRankIndexBuilder.build();
+		String s =request.toString();
+	    
+	    String str = "";
+	    for (int i = 0; i < s.length(); i++) {
+	        int ch = (int) s.charAt(i);
+	        String s4 = Integer.toHexString(ch);
+	        str = str + "	"+s4;
+	    }
+	    System.out.println(str); ;
+	    
 		return request.toByteArray();
 	}
 

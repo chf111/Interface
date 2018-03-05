@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required": true,
+  "type": "object",
+  "properties": {
+    "data": {
+      "id": "data",
+      "required": true,
+      "type": "array",
+      "items": {
+        "id": "0",
+        "type": "object",
+        "required": true,
+        "properties": {
+          "market": {
+            "id": "market",
+            "type": "string",
+            "required": true
+          },
+          "symbol": {
+            "id": "symbol",
+            "type": "string",
+            "required": true
+          },
+          "sname": {
+            "id": "sname",
+            "type": "string",
+            "required": true
+          },
+          "count": {
+            "id": "count",
+            "type": "number",
+            "required": true
+          },
+          "weekpercent": {
+            "id": "weekpercent",
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    }
+  }
+}

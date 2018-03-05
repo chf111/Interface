@@ -134,7 +134,7 @@ public class A01GPMMServiceImpl implements A01GPMMService {
 
 		// 添加动态校验正则表达式
 		Map<String, String> valMap = new HashMap<>();
-		valMap.put(ParamConstant.MESSAGE, JsonAssertUtil.getMsgRex(param.get(ParamConstant.EXPECTMSG)));
+		valMap.put(ParamConstant.CLJG_MESSAGE, JsonAssertUtil.getMsgRex(param.get(ParamConstant.EXPECTMSG)));
 
 		// 校验响应字符串
 		JsonAssertUtil.checkResponse(param, valMap, ParamConstant.A01_SCHEMA, ParamConstant.PTYW, response);

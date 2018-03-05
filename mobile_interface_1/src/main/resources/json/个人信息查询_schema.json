@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required": true,
+  "type": "object",
+  "properties": {
+    "staffName": {
+      "id": "staffName",
+      "required": true,
+      "type": "string"
+    },
+    "departName": {
+      "id": "departName",
+      "required": true,
+      "type": "string"
+    },
+    "jobTitle": {
+      "id": "jobTitle",
+      "required": true,
+      "type": "string"
+    },
+    "mobilePhone": {
+      "id": "mobilePhone",
+      "required": true,
+      "type": "string"
+    },
+    "telPhone": {
+      "id": "telPhone",
+      "required": true,
+      "type": "string"
+    }
+  }
+}

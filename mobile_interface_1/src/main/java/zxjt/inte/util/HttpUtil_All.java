@@ -1,7 +1,15 @@
 package zxjt.inte.util;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
 import java.security.KeyManagementException;
@@ -53,6 +61,7 @@ public class HttpUtil_All {
 	private static PoolingHttpClientConnectionManager connMgr;
 	private static RequestConfig requestConfig;
 	private static final int MAX_TIMEOUT = 7000;
+	private static final String BOUNDARY = "--5f2775d8-3f84-40fa-affa-1c5f24de036a";
 
 	static {
 		// 设置连接池
@@ -221,18 +230,24 @@ public class HttpUtil_All {
 	 *            参数map
 	 * @return
 	 */
-	// public static String doPostSSL(String apiUrl, Map<String, Object> params)
+	// public static String doPostSSL(String apiUrl, Map<String, Object>
+	// params,Boolean flg)
 	// {
 	// CloseableHttpClient httpClient = createSSLClientDefault();
-	//// CloseableHttpClient httpClient =
-	// HttpClients.custom().setSSLSocketFactory(createSSLConnSocketFactory())
-	//// .setConnectionManager(connMgr).setDefaultRequestConfig(requestConfig).build();
+	// // CloseableHttpClient httpClient =
+	//// HttpClients.custom().setSSLSocketFactory(createSSLConnSocketFactory())
+	// //
+	// .setConnectionManager(connMgr).setDefaultRequestConfig(requestConfig).build();
 	// HttpPost httpPost = new HttpPost(apiUrl);
 	// CloseableHttpResponse response = null;
 	// String httpStr = null;
 	//
 	// try {
+	//
 	// httpPost.setConfig(requestConfig);
+	// httpPost.setHeader("Content-Type",
+	// ContentType.MULTIPART_FORM_DATA.toString());
+	// httpPost.setHeader("charset", "utf-8");
 	// List<NameValuePair> pairList = new
 	// ArrayList<NameValuePair>(params.size());
 	// for (Map.Entry<String, Object> entry : params.entrySet()) {
@@ -281,8 +296,7 @@ public class HttpUtil_All {
 		CloseableHttpClient httpClient = createSSLClientDefault();
 		/*
 		 * CloseableHttpClient httpClient =
-		 * HttpClients.custom().setSSLSocketFactory(createSSLConnSocketFactory()
-		 * )
+		 * HttpClients.custom().setSSLSocketFactory(createSSLConnSocketFactory() )
 		 * .setConnectionManager(connMgr).setDefaultRequestConfig(requestConfig)
 		 * .build();
 		 */
@@ -298,6 +312,57 @@ public class HttpUtil_All {
 			stringEntity.setContentType("application/json");
 			httpPost.setEntity(stringEntity);
 			response = httpClient.execute(httpPost);
+			int statusCode = response.getStatusLine().getStatusCode();
+
+			if (statusCode != HttpStatus.SC_OK) {
+				throw new RuntimeException("状态码 " + statusCode);
+			}
+			HttpEntity entity = response.getEntity();
+
+			if (entity == null) {
+				return null;
+			}
+			httpStr = EntityUtils.toString(entity, "utf-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} finally {
+			if (response != null) {
+				try {
+					EntityUtils.consume(response.getEntity());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}
+		return httpStr;
+	}
+
+	public static String doPostSSL(String apiUrl, Map<String, String> param, String infoType) {
+
+		Object json = map2JsonObject(param);
+		CloseableHttpClient httpClient = createSSLClientDefault();
+
+		HttpPost httpPost = new HttpPost(apiUrl);
+		CloseableHttpResponse response = null;
+		String httpStr = null;
+
+		try {
+			if (ParamConstant.NEED_PUT_REQ_HEADER_INFO.equals(infoType)) {
+				String cookie = SYSBean.getSysData("cookie");
+				httpPost.setHeader("cookie", cookie);
+			}
+			httpPost.setConfig(requestConfig);
+			StringEntity stringEntity = new StringEntity(json.toString(), "UTF-8");// 解决中文乱码问题
+			stringEntity.setContentEncoding("UTF-8");
+			stringEntity.setContentType("application/json");
+			httpPost.setEntity(stringEntity);
+			response = httpClient.execute(httpPost);
+			if (ParamConstant.NEED_GET_REP_HEADER_INFO.equals(infoType)) {
+				String cookie = response.getLastHeader("Set-Cookie").getValue();
+				SYSBean.putSysData("cookie", cookie);
+			}
 
 			int statusCode = response.getStatusLine().getStatusCode();
 
@@ -421,4 +486,80 @@ public class HttpUtil_All {
 		return sslsf;
 	}
 
+	/**
+	 * 发送form请求
+	 */
+	public static String sendFormPostRequest(String serverUrl, ArrayList<FieldPairBean> FormInfos,
+			ArrayList<FilePairBean> fileInfos) throws Exception {
+
+		// 向服务器发送post请求
+		URL url = new URL(serverUrl);
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+		// 发送POST请求设置内容
+		connection.setDoOutput(true);
+		connection.setDoInput(true);
+		connection.setUseCaches(false);
+		connection.setRequestMethod("POST");
+		connection.setRequestProperty("Connection", "Keep-Alive");
+		connection.setRequestProperty("Charset", "UTF-8");
+		connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
+
+		String boundary = BOUNDARY;
+		StringBuffer contentBody = new StringBuffer("--" + BOUNDARY);
+		String endBoundary = "\r\n--" + boundary + "--\r\n";
+		OutputStream out = connection.getOutputStream();
+
+		// 处理文字形式的POST请求
+		for (FieldPairBean fp : FormInfos) {
+			contentBody.append("\r\n").append("Content-Disposition: form-data; name=\"").append(fp.getKey() + "\"")
+					.append("\r\n").append("\r\n").append(fp.getValue()).append("\r\n").append("--")
+					.append(boundary);
+		}
+
+		String boundaryFp = contentBody.toString();
+		out.write(boundaryFp.getBytes("UTF-8"));
+
+		// 处理文件上传
+		for (FilePairBean fip : fileInfos) {
+			contentBody = new StringBuffer();
+			contentBody.append("\r\n").append("Content-Disposition:form-data; name=\"")
+					.append(fip.getFormFieldName() + "\"; ") // form中field的名称
+					.append("filename=\"").append(fip.getFileName() + "\"") // 上传文件的文件名，包括目录
+					.append("\r\n").append("Content-Type:application/octet-stream").append("\r\n\r\n");
+
+			String boundaryFip = contentBody.toString();
+			out.write(boundaryFip.getBytes("UTF-8"));
+
+			// 开始真正向服务器写文件
+			File file = new File(fip.getFileName());
+
+			DataInputStream dis = new DataInputStream(new FileInputStream(file));
+			int bytes = 0;
+			byte[] bufferOut = new byte[(int) file.length()];
+			bytes = dis.read(bufferOut);
+			out.write(bufferOut, 0, bytes);
+			dis.close();
+			contentBody.append(BOUNDARY);
+			String boundaryMessage = contentBody.toString();
+			out.write(boundaryMessage.getBytes("UTF-8"));
+
+		}
+		out.write((BOUNDARY+"--\r\n").getBytes("UTF-8"));
+
+		// 写结尾
+		out.write(endBoundary.getBytes("UTF-8"));
+		out.flush();
+		out.close();
+
+		// 从服务器获得回答的内容
+		String strLine = "";
+		String strResponse = "";
+		InputStream in = connection.getInputStream();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		while ((strLine = reader.readLine()) != null) {
+			strResponse += strLine + "\n";
+		}
+		return strResponse;
+	}
 }

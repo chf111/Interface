@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required": true,
+  "type": "object",
+  "properties": {
+    "errCode": {
+      "id": "errCode",
+      "required": true,
+      "type": "string"
+    },
+    "errMsg": {
+      "id": "errMsg",
+      "required": true,
+      "type": "string"
+    },
+    "sec_code": {
+      "id": "sec_code",
+      "required": true,
+      "type": "string"
+    }
+  }
+}
