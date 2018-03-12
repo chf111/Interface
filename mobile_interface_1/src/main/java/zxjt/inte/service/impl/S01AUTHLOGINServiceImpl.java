@@ -63,7 +63,6 @@ public class S01AUTHLOGINServiceImpl implements S01AUTHLOGINService {
 
 			// 校验
 			JsonAssertUtil.checkResponse(param, null, ParamConstant.S01_SCHEMA, ParamConstant.SYSTEM, response);
-//			JsonAssertUtil.checkResponse(param, null, ParamConstant.S01_SCHEMA, ParamConstant.SYS, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

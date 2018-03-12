@@ -61,7 +61,6 @@ public class S02LEVEL2AUTHServiceImpl implements S02LEVEL2AUTHService {
 
 			// 校验
 			JsonAssertUtil.checkResponse(param, null, ParamConstant.S02_SCHEMA, ParamConstant.SYSTEM, response);
-//			JsonAssertUtil.checkResponse(param, null, ParamConstant.S02_SCHEMA, ParamConstant.SYS, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

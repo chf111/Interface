@@ -59,7 +59,6 @@ public class S10GPLTServiceImpl implements S10GPLTService {
 
 			// 校验
 			JsonAssertUtil.checkResponse(param, null, ParamConstant.S10_SCHEMA, ParamConstant.SYSTEM, response);
-//			JsonAssertUtil.checkResponse(param, null, ParamConstant.S10_SCHEMA, ParamConstant.SYS_3, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

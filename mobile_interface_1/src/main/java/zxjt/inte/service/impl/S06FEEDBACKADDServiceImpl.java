@@ -72,7 +72,6 @@ public class S06FEEDBACKADDServiceImpl implements S06FEEDBACKADDService {
 
 			// 校验
 			JsonAssertUtil.checkResponse(param, null, ParamConstant.S06_SCHEMA, ParamConstant.SYSTEM, response);
-//			JsonAssertUtil.checkResponse(param, null, ParamConstant.S06_SCHEMA, ParamConstant.SYS, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

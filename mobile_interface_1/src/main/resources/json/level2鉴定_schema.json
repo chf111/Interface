@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required": true,
+  "type": "object",
+  "properties": {
+    "respCode": {
+      "id": "respCode",
+      "required": true,
+      "type": "string"
+    },
+    "respMsg": {
+      "id": "respMsg",
+      "required": true,
+      "type": "string"
+    }
+  }
+}

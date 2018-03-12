@@ -59,7 +59,6 @@ public class S11TGZLServiceImpl implements S11TGZLService {
 
 			// 校验
 			JsonAssertUtil.checkResponse(param, null, ParamConstant.S11_SCHEMA, ParamConstant.SYSTEM, response);
-//			JsonAssertUtil.checkResponse(param, null, ParamConstant.S11_SCHEMA, ParamConstant.SYS_4, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

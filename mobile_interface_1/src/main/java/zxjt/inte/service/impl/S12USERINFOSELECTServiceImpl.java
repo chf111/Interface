@@ -61,7 +61,6 @@ public class S12USERINFOSELECTServiceImpl implements S12USERINFOSELECTService {
 
 			// 校验
 			JsonAssertUtil.checkResponse(param, null, ParamConstant.S12_SCHEMA, ParamConstant.SYSTEM, response);
-//			JsonAssertUtil.checkResponse(param, null, ParamConstant.S12_SCHEMA, ParamConstant.SYS_4, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

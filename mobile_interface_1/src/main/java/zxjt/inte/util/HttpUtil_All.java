@@ -349,6 +349,7 @@ public class HttpUtil_All {
 		String httpStr = null;
 
 		try {
+			// 根据传入参数，判断该case是否为需要传入cookie
 			if (ParamConstant.NEED_PUT_REQ_HEADER_INFO.equals(infoType)) {
 				String cookie = SYSBean.getSysData("cookie");
 				httpPost.setHeader("cookie", cookie);
@@ -359,6 +360,8 @@ public class HttpUtil_All {
 			stringEntity.setContentType("application/json");
 			httpPost.setEntity(stringEntity);
 			response = httpClient.execute(httpPost);
+			
+			// 根据传入参数，判断该case是否是返回了cookie的
 			if (ParamConstant.NEED_GET_REP_HEADER_INFO.equals(infoType)) {
 				String cookie = response.getLastHeader("Set-Cookie").getValue();
 				SYSBean.putSysData("cookie", cookie);

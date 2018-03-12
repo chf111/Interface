@@ -11,19 +11,19 @@ import org.springframework.stereotype.Service;
 
 import zxjt.inte.dao.AccountRepository;
 import zxjt.inte.dao.AddressRepository;
-import zxjt.inte.dao.S13RLYTXRepository;
-import zxjt.inte.entity.S13RLYTX;
-import zxjt.inte.service.S13RLYTXService;
+import zxjt.inte.dao.S17GPZDFRepository;
+import zxjt.inte.entity.S17GPZDF;
+import zxjt.inte.service.S17GPZDFService;
 import zxjt.inte.util.CommonToolsUtil;
 import zxjt.inte.util.HttpUtil_All;
 import zxjt.inte.util.JsonAssertUtil;
 import zxjt.inte.util.ParamConstant;
 
 @Service
-public class S13RLYTXServiceImpl implements S13RLYTXService {
+public class S17GPZDFServiceImpl implements S17GPZDFService {
 	Logger log = Logger.getLogger(ParamConstant.LOGGER);
 	@Resource
-	private S13RLYTXRepository systemDao;
+	private S17GPZDFRepository systemDao;
 
 	@Autowired
 	private AddressRepository addrDao;
@@ -33,9 +33,9 @@ public class S13RLYTXServiceImpl implements S13RLYTXService {
 
 	public Object[][] getParamsInfo() {
 		// 股票买卖数据操作
-		List<S13RLYTX> lis = systemDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.RL_YTX, "true");
+		List<S17GPZDF> lis = systemDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.GPZDF, "true");
 
-		Object[][] obj = CommonToolsUtil.getSafeWWData(lis, addrDao, accoDao, ParamConstant.RL_YTX);
+		Object[][] obj = CommonToolsUtil.getWWData(lis, addrDao, accoDao, ParamConstant.GPZDF);
 
 		return obj;
 	}
@@ -58,7 +58,7 @@ public class S13RLYTXServiceImpl implements S13RLYTXService {
 			log.info(response.toString());
 
 			// 校验
-			JsonAssertUtil.checkResponse(param, null, ParamConstant.S13_SCHEMA, ParamConstant.SYSTEM, response);
+			JsonAssertUtil.checkResponse(param, null, ParamConstant.S17_SCHEMA, ParamConstant.SYSTEM, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

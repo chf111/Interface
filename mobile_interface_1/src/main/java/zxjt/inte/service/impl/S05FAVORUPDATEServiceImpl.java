@@ -62,7 +62,6 @@ public class S05FAVORUPDATEServiceImpl implements S05FAVORUPDATEService {
 
 			// 校验
 			JsonAssertUtil.checkResponse(param, null, ParamConstant.S05_SCHEMA, ParamConstant.SYSTEM, response);
-//			JsonAssertUtil.checkResponse(param, null, ParamConstant.S05_SCHEMA, ParamConstant.SYS, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

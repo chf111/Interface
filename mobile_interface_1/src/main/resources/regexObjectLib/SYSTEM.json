@@ -148,5 +148,51 @@
 			"result,userId":"^[0-9]+$",
 			"status":"^0$"
 		}
+	],
+	"资金帐号登录验证码显示":[
+		{
+			"errCode": "^0$",
+			"rand_code":"^[0-9]+$",
+			"tocken":"^[0-9]+$"
+		}
+	],
+	"资金帐号登录验证码验证":[
+		{
+			"errCode": "^0$",
+			"errMsg":"^Success$"
+		}
+	],
+	"首页版本登录":[
+		{
+			"errCode": "^0$",
+			"errMsg":"^Success$"
+		}
+	],
+	"股票涨跌幅":[
+		{
+			"data,[,five_changepercent": "^-?[0-9]+\\.[0-9]{0,4}$",
+			"data,[,five_turnovervolume": "^[0-9]+$",
+			"data,[,month_changepercent": "^-?[0-9]+\\.[0-9]{0,4}$",
+			"data,[,pb": "^[0-9]+\\.[0-9]{0,4}$",
+			"data,[,pe": "^[0-9]+\\.[0-9]{0,4}$",
+			"data,[,quarter_changepercent": "^-?[0-9]+\\.[0-9]{0,4}$",
+			"data,[,sname": ".*\\S{1,}.*",
+			"data,[,symbol": "^[0-9]+$",
+			"data,[,turnoverrate": "^[0-9]+\\.[0-9]{0,2}$",
+			"data,[,year_changepercent": "^-?[0-9]+\\.[0-9]{0,4}$"
+		}
+	],
+	"Level2鉴定":[
+		{
+			"respCode": "^0$",
+			"respMsg":"^成功$"
+		}
+	],
+	"Level2更新":[
+		{
+			"respCode": "^0$",
+			"respLevel": "^[0-9]+$",
+			"respMsg":"^Ok$"
+		}
 	]
 }

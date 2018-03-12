@@ -11,19 +11,19 @@ import org.springframework.stereotype.Service;
 
 import zxjt.inte.dao.AccountRepository;
 import zxjt.inte.dao.AddressRepository;
-import zxjt.inte.dao.S13RLYTXRepository;
-import zxjt.inte.entity.S13RLYTX;
-import zxjt.inte.service.S13RLYTXService;
+import zxjt.inte.dao.S19LEVEL2UPDATERepository;
+import zxjt.inte.entity.S19LEVEL2UPDATE;
+import zxjt.inte.service.S19LEVEL2UPDATEService;
 import zxjt.inte.util.CommonToolsUtil;
 import zxjt.inte.util.HttpUtil_All;
 import zxjt.inte.util.JsonAssertUtil;
 import zxjt.inte.util.ParamConstant;
 
 @Service
-public class S13RLYTXServiceImpl implements S13RLYTXService {
+public class S19LEVEL2UPDATEServiceImpl implements S19LEVEL2UPDATEService {
 	Logger log = Logger.getLogger(ParamConstant.LOGGER);
 	@Resource
-	private S13RLYTXRepository systemDao;
+	private S19LEVEL2UPDATERepository systemDao;
 
 	@Autowired
 	private AddressRepository addrDao;
@@ -33,9 +33,9 @@ public class S13RLYTXServiceImpl implements S13RLYTXService {
 
 	public Object[][] getParamsInfo() {
 		// 股票买卖数据操作
-		List<S13RLYTX> lis = systemDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.RL_YTX, "true");
+		List<S19LEVEL2UPDATE> lis = systemDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.LEVEL2_UPDATE, "true");
 
-		Object[][] obj = CommonToolsUtil.getSafeWWData(lis, addrDao, accoDao, ParamConstant.RL_YTX);
+		Object[][] obj = CommonToolsUtil.getWWData(lis, addrDao, accoDao, ParamConstant.LEVEL2_UPDATE);
 
 		return obj;
 	}
@@ -53,12 +53,14 @@ public class S13RLYTXServiceImpl implements S13RLYTXService {
 			System.out.println(map.toString());
 			log.info(param.toString());
 			log.info(map.toString());
-			String response = HttpUtil_All.doPostSSL(param.get(ParamConstant.URL), map);
+
+			String response = HttpUtil_All.doPostSSL(param.get(ParamConstant.URL), map,
+					ParamConstant.NEED_PUT_REQ_HEADER_INFO);
 			System.out.println(response.toString());
 			log.info(response.toString());
 
 			// 校验
-			JsonAssertUtil.checkResponse(param, null, ParamConstant.S13_SCHEMA, ParamConstant.SYSTEM, response);
+			JsonAssertUtil.checkResponse(param, null, ParamConstant.S19_SCHEMA, ParamConstant.SYSTEM, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

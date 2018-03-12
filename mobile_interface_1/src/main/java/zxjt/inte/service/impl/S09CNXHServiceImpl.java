@@ -59,7 +59,6 @@ public class S09CNXHServiceImpl implements S09CNXHService {
 
 			// 校验
 			JsonAssertUtil.checkResponse(param, null, ParamConstant.S09_SCHEMA, ParamConstant.SYSTEM, response);
-//			JsonAssertUtil.checkResponse(param, null, ParamConstant.S09_SCHEMA, ParamConstant.SYS_2, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

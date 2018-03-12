@@ -1,5 +1,6 @@
 package zxjt.inte.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,19 +12,20 @@ import org.springframework.stereotype.Service;
 
 import zxjt.inte.dao.AccountRepository;
 import zxjt.inte.dao.AddressRepository;
-import zxjt.inte.dao.S13RLYTXRepository;
-import zxjt.inte.entity.S13RLYTX;
-import zxjt.inte.service.S13RLYTXService;
+import zxjt.inte.dao.S15RDVERIFYRepository;
+import zxjt.inte.entity.S15RDVERIFY;
+import zxjt.inte.service.S15RDVERIFYService;
 import zxjt.inte.util.CommonToolsUtil;
 import zxjt.inte.util.HttpUtil_All;
 import zxjt.inte.util.JsonAssertUtil;
 import zxjt.inte.util.ParamConstant;
+import zxjt.inte.util.SYSBean;
 
 @Service
-public class S13RLYTXServiceImpl implements S13RLYTXService {
+public class S15RDVERIFYServiceImpl implements S15RDVERIFYService {
 	Logger log = Logger.getLogger(ParamConstant.LOGGER);
 	@Resource
-	private S13RLYTXRepository systemDao;
+	private S15RDVERIFYRepository systemDao;
 
 	@Autowired
 	private AddressRepository addrDao;
@@ -33,9 +35,34 @@ public class S13RLYTXServiceImpl implements S13RLYTXService {
 
 	public Object[][] getParamsInfo() {
 		// 股票买卖数据操作
-		List<S13RLYTX> lis = systemDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.RL_YTX, "true");
+		List<S15RDVERIFY> lis = systemDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.RANDCODE_VERIFY, "true");
 
-		Object[][] obj = CommonToolsUtil.getSafeWWData(lis, addrDao, accoDao, ParamConstant.RL_YTX);
+		List<S15RDVERIFY> lis1 = new ArrayList<S15RDVERIFY>();
+		int i=1;
+		for(Object key:SYSBean.ConkeySet())
+		{
+			String s15key = (String) key;
+			if(s15key.contains("s15"))
+			{
+				Map<String,String> s15map = SYSBean.getMap((String) key);
+				S15RDVERIFY s15entity = new S15RDVERIFY();
+				s15entity.setPhone_number(s15map.get("phone_number"));
+				s15entity.setRand_code(s15map.get("rand_code"));
+				s15entity.setTocken(s15map.get("tocken"));
+				s15entity.setRow(String.valueOf(i));
+				s15entity.setType("zl");
+				lis1.add(s15entity);
+				i++;
+			}
+		}
+		Object[][] obj =null;
+		if(lis1.size()>0)
+		{
+			obj = CommonToolsUtil.getWWData(lis1, addrDao, accoDao, ParamConstant.RANDCODE_VERIFY);
+		}else
+		{
+			obj = CommonToolsUtil.getWWData(lis, addrDao, accoDao, ParamConstant.RANDCODE_VERIFY);
+		}
 
 		return obj;
 	}
@@ -58,7 +85,7 @@ public class S13RLYTXServiceImpl implements S13RLYTXService {
 			log.info(response.toString());
 
 			// 校验
-			JsonAssertUtil.checkResponse(param, null, ParamConstant.S13_SCHEMA, ParamConstant.SYSTEM, response);
+			JsonAssertUtil.checkResponse(param, null, ParamConstant.S15_SCHEMA, ParamConstant.SYSTEM, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

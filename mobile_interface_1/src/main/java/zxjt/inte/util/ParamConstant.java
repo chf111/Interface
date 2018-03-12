@@ -67,6 +67,12 @@ public interface ParamConstant {
 	public static final String S11_SCHEMA = "投顾指路";
 	public static final String S12_SCHEMA = "用户信息查询";
 	public static final String S13_SCHEMA = "语音验证码";
+	public static final String S14_SCHEMA = "资金帐号登录验证码显示";
+	public static final String S15_SCHEMA = "资金帐号登录验证码验证";
+	public static final String S16_SCHEMA = "首页版本登录";
+	public static final String S17_SCHEMA = "股票涨跌幅";
+	public static final String S18_SCHEMA = "Level2鉴定";
+	public static final String S19_SCHEMA = "Level2更新";
 
 	/**
 	 * ************************************************************
@@ -117,6 +123,12 @@ public interface ParamConstant {
 	public static final int TGZL = 33;
 	public static final int USERINFO_SELECT = 34;
 	public static final int RL_YTX = 35;
+	public static final int RANDCODE_GEN = 36;
+	public static final int RANDCODE_VERIFY = 37;
+	public static final int LMTVERSIONLOGIN = 38;
+	public static final int GPZDF = 39;
+	public static final int LEVEL2_JUDGE = 40;
+	public static final int LEVEL2_UPDATE = 41;
 	/**
 	 * ************************************************************
 	 * ***********************其他用到的自定义参数 **************************

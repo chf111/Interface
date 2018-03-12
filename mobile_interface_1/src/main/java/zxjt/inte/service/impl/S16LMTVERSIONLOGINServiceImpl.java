@@ -11,31 +11,31 @@ import org.springframework.stereotype.Service;
 
 import zxjt.inte.dao.AccountRepository;
 import zxjt.inte.dao.AddressRepository;
-import zxjt.inte.dao.S13RLYTXRepository;
-import zxjt.inte.entity.S13RLYTX;
-import zxjt.inte.service.S13RLYTXService;
+import zxjt.inte.dao.S16LMTVERSIONLOGINRepository;
+import zxjt.inte.entity.S16LMTVERSIONLOGIN;
+import zxjt.inte.service.S16LMTVERSIONLOGINService;
 import zxjt.inte.util.CommonToolsUtil;
 import zxjt.inte.util.HttpUtil_All;
 import zxjt.inte.util.JsonAssertUtil;
 import zxjt.inte.util.ParamConstant;
 
 @Service
-public class S13RLYTXServiceImpl implements S13RLYTXService {
+public class S16LMTVERSIONLOGINServiceImpl implements S16LMTVERSIONLOGINService {
 	Logger log = Logger.getLogger(ParamConstant.LOGGER);
 	@Resource
-	private S13RLYTXRepository systemDao;
-
+	private S16LMTVERSIONLOGINRepository systemDao;
+	
 	@Autowired
-	private AddressRepository addrDao;
-
+	private  AddressRepository addrDao;
+	
 	@Autowired
-	private AccountRepository accoDao;
+	private  AccountRepository accoDao;
 
 	public Object[][] getParamsInfo() {
 		// 股票买卖数据操作
-		List<S13RLYTX> lis = systemDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.RL_YTX, "true");
-
-		Object[][] obj = CommonToolsUtil.getSafeWWData(lis, addrDao, accoDao, ParamConstant.RL_YTX);
+		List<S16LMTVERSIONLOGIN> lis = systemDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.LMTVERSIONLOGIN,"true");
+		
+		Object[][] obj = CommonToolsUtil.getWWData(lis,addrDao,accoDao,ParamConstant.LMTVERSIONLOGIN);
 
 		return obj;
 	}
@@ -49,16 +49,18 @@ public class S13RLYTXServiceImpl implements S13RLYTXService {
 	public void test(Map<String, String> param) {
 		try {
 			Map<String, String> map = CommonToolsUtil.getRParam(param);
+			
 			System.out.println(param.toString());
 			System.out.println(map.toString());
 			log.info(param.toString());
 			log.info(map.toString());
+
 			String response = HttpUtil_All.doPostSSL(param.get(ParamConstant.URL), map);
 			System.out.println(response.toString());
 			log.info(response.toString());
 
 			// 校验
-			JsonAssertUtil.checkResponse(param, null, ParamConstant.S13_SCHEMA, ParamConstant.SYSTEM, response);
+			JsonAssertUtil.checkResponse(param, null, ParamConstant.S16_SCHEMA, ParamConstant.SYSTEM, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

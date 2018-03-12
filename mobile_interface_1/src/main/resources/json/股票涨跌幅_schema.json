@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required": true,
+  "type": "object",
+  "properties": {
+    "data": {
+      "id": "data",
+      "required": true,
+      "type": "array",
+      "items": {
+        "id": "0",
+        "type": "object",
+        "required": true,
+        "properties": {
+          "symbol": {
+            "id": "symbol",
+            "type": "string",
+            "required": true
+          },
+          "five_turnovervolume": {
+            "id": "five_turnovervolume",
+            "type": "string",
+            "required": true
+          },
+          "pb": {
+            "id": "pb",
+            "type": "string",
+            "required": true
+          },
+          "five_changepercent": {
+            "id": "five_changepercent",
+            "type": "string",
+            "required": true
+          },
+          "pe": {
+            "id": "pe",
+            "type": "string",
+            "required": true
+          },
+          "sname": {
+            "id": "sname",
+            "type": "string",
+            "required": true
+          },
+          "turnoverrate": {
+            "id": "turnoverrate",
+            "type": "string",
+            "required": true
+          },
+          "year_changepercent": {
+            "id": "year_changepercent",
+            "type": "string",
+            "required": true
+          },
+          "quarter_changepercent": {
+            "id": "quarter_changepercent",
+            "type": "string",
+            "required": true
+          },
+          "month_changepercent": {
+            "id": "month_changepercent",
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    }
+  }
+}

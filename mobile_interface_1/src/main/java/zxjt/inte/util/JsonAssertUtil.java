@@ -176,16 +176,7 @@ public class JsonAssertUtil {
 	 */
 	private static String strPj(String series, String strmodify, Map<String, String> paramSchema, String pattern) {
 		String strSchema = "";
-		// switch (series) {
-		// case ParamConstant.WW:
-		// strSchema = getWWPj(strmodify, paramSchema, pattern);
-		// break;
-		// case ParamConstant.SYSTEM:
 		strSchema = getSystemPj(strmodify, paramSchema, pattern);
-		// break;
-		// default:
-		// strSchema = getTradePj(strmodify, paramSchema, pattern);
-		// }
 		return strSchema;
 	}
 
@@ -232,6 +223,13 @@ public class JsonAssertUtil {
 		return dataJson.toString();
 	}
 
+	/**
+	 * 判断获取到的regex中，是存在几个jsonArray的json串格式
+	 * 
+	 * @param strArr
+	 *            从regex.json中获取到的case的正则表达式类
+	 * @return
+	 */
 	private static int getCounts(String[] strArr) {
 		int count = 0;
 		for (String str : strArr) {
@@ -255,7 +253,6 @@ public class JsonAssertUtil {
 			isIn = jau.getClass().getResourceAsStream("/regexObjectLib/" + series + ".json");
 			InputStreamReader reader;
 			Gson gson = new Gson();
-			// FileReader reader;
 
 			reader = new InputStreamReader(isIn);
 			JsonObject jsonRegex = gson.fromJson(reader, JsonObject.class);
@@ -364,11 +361,11 @@ public class JsonAssertUtil {
 			} else {
 				for (Object value : result.values()) {
 					String s = value.getClass().getSimpleName();
-					
+
 					// json串中是k-v类型
 					if ("String".equals(s)) {
 						continue;
-						
+
 						// k-jsonarray类型
 					} else if ("JSONArray".equals(s)) {
 						JSONArray ja = (JSONArray) value;
@@ -405,6 +402,11 @@ public class JsonAssertUtil {
 		return ret;
 	}
 
+	/**
+	 * 将name.json中的内容转换成map
+	 * @param filepath
+	 * @return
+	 */
 	public static Map<String, String> parseJson2(String filepath) {
 		Map<String, String> jsonMap = new HashMap<String, String>();
 		Gson json = new Gson();
@@ -489,6 +491,9 @@ public class JsonAssertUtil {
 		}
 	}
 
+	/**
+	 * 手机行情抛出异常专用，用于将所有的异常集中抛出
+	 */
 	public static void throwAssertError() {
 		if (ValidateExceptionBean.getveInfo().size() > 0) {
 			String report = "";

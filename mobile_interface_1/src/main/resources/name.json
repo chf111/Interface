@@ -31,5 +31,11 @@
   "S10GPLTTest_S10":"股票擂台S10",
   "S11TGZLTest_S11":"投顾指路S11",
   "S12USERINFOSELECTTest_S12":"用户信息查询S12",
-  "S13RLYTXTest_S13":"语音验证码S13"
+  "S13RLYTXTest_S13":"语音验证码S13",
+  "S14RDGENTest_S14":"资金帐号登录验证码显示S14",
+  "S15RDVERIFYTest_S15":"资金帐号登录验证码验证S15",
+  "S16LMTVERSIONLOGINTest_S16":"首页版本登录S16",
+  "S17GPZDFTest_S17":"股票涨跌幅S17",
+  "S18LEVEL2JUDGETest_S18":"level2鉴定S18",
+  "S19LEVEL2UPDATETest_S19":"level2更新S19"
 }

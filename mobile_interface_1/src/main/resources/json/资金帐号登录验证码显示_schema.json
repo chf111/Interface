@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required": true,
+  "type": "object",
+  "properties": {
+    "errCode": {
+      "id": "errCode",
+      "required": true,
+      "type": "string"
+    },
+    "rand_code": {
+      "id": "rand_code",
+      "required": true,
+      "type": "string"
+    },
+    "tocken": {
+      "id": "tocken",
+      "required": true,
+      "type": "string"
+    }
+  }
+}

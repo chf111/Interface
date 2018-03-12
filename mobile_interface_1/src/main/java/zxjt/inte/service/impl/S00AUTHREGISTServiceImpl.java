@@ -62,9 +62,6 @@ public class S00AUTHREGISTServiceImpl implements S00AUTHREGISTService {
 			System.out.println(response.toString());
 			log.info(response.toString());
 
-			// 接下来的任务是把年前system中录出来的接口脚本先给写出来
-			// 手机号注册过了，再运行就会提示已注册，所以就数据库那两个来回切着用，就可以解决这个问题了
-//			JsonAssertUtil.checkResponse(param, null, ParamConstant.S00_SCHEMA, ParamConstant.SYS, response);
 			JsonAssertUtil.checkResponse(param, null, ParamConstant.S00_SCHEMA, ParamConstant.SYSTEM, response);
 			String sec_code = JsonPath.read(response, "$.sec_code", new Predicate[0]);
 			SYSBean.putSysData("sec_code", sec_code);

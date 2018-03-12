@@ -57,19 +57,11 @@ public class S04FAVORSELECTServiceImpl implements S04FAVORSELECTService {
 			
 			String response = HttpUtil_All.doPostSSL(param.get(ParamConstant.URL), map,
 					ParamConstant.NEED_PUT_REQ_HEADER_INFO);
-			// String response = "";
-			// if (ParamConstant.ZL.equals(param.get(ParamConstant.TYPE))) {
-			// response = HttpUtil_All.doPostSSL(param.get(ParamConstant.URL), map,
-			// ParamConstant.NEED_PUT_REQ_HEADER_INFO);
-			// } else {
-			// response = HttpUtil_All.doPostSSL(param.get(ParamConstant.URL), map);
-			// }
 			System.out.println(response.toString());
 			log.info(response.toString());
 
 			// 校验
 			JsonAssertUtil.checkResponse(param, null, ParamConstant.S04_SCHEMA, ParamConstant.SYSTEM, response);
-//			JsonAssertUtil.checkResponse(param, null, ParamConstant.S04_SCHEMA, ParamConstant.SYS, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

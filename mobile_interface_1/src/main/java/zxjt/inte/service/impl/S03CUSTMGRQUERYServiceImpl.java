@@ -60,7 +60,6 @@ public class S03CUSTMGRQUERYServiceImpl implements S03CUSTMGRQUERYService {
 			log.info(response.toString());
 
 			// 校验
-//			JsonAssertUtil.checkResponse(param, null, ParamConstant.S03_SCHEMA, ParamConstant.SYS, response);
 			JsonAssertUtil.checkResponse(param, null, ParamConstant.S03_SCHEMA, ParamConstant.SYSTEM, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);

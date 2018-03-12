@@ -68,7 +68,6 @@ public class S08HOTSEARCHServiceImpl implements S08HOTSEARCHService {
 			}
 			// 校验
 			JsonAssertUtil.checkResponse(param, null, schemaName, ParamConstant.SYSTEM, response);
-//			JsonAssertUtil.checkResponse(param, null, schemaName, ParamConstant.SYS_2, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

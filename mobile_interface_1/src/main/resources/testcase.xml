@@ -55,18 +55,24 @@
 		<classes>
 			<class name="zxjt.inte.web.S00AUTHREGISTTest" />
 			<class name="zxjt.inte.web.S01AUTHLOGINTest" /> <!--依赖于s00 -->
-			 <class name="zxjt.inte.web.S02LEVEL2AUTHTest" /><!--依赖于s01 -->
-			<class name="zxjt.inte.web.S03CUSTMGRQUERYTest" />
-			<class name="zxjt.inte.web.S04FAVORSELECTTest" /> <!--依赖于s01 -->
-			 <class name="zxjt.inte.web.S05FAVORUPDATETest" /> <!--依赖于s01 -->
-			<class name="zxjt.inte.web.S06FEEDBACKADDTest" />
-			<class name="zxjt.inte.web.S07DEVICECHECKTest" />
-			<class name="zxjt.inte.web.S08HOTSEARCHTest" />
-			<class name="zxjt.inte.web.S09CNXHTest" />
-			<class name="zxjt.inte.web.S10GPLTTest" />
-			<class name="zxjt.inte.web.S11TGZLTest" />
-			<class name="zxjt.inte.web.S12USERINFOSELECTTest" /><!--依赖于s01 -->
-			<class name="zxjt.inte.web.S13RLYTXTest" />
+			<!-- <class name="zxjt.inte.web.S02LEVEL2AUTHTest" />依赖于s01 -->
+<!-- 			<class name="zxjt.inte.web.S03CUSTMGRQUERYTest" /> -->
+			<!--<class name="zxjt.inte.web.S04FAVORSELECTTest" /> 依赖于s01 -->
+			<!-- <class name="zxjt.inte.web.S05FAVORUPDATETest" /> 依赖于s01 -->
+<!-- 			<class name="zxjt.inte.web.S06FEEDBACKADDTest" /> -->
+<!-- 			<class name="zxjt.inte.web.S07DEVICECHECKTest" /> -->
+<!-- 			<class name="zxjt.inte.web.S08HOTSEARCHTest" /> -->
+<!-- 			<class name="zxjt.inte.web.S09CNXHTest" /> -->
+<!-- 			<class name="zxjt.inte.web.S10GPLTTest" /> -->
+<!-- 			<class name="zxjt.inte.web.S11TGZLTest" /> -->
+			<!--<class name="zxjt.inte.web.S12USERINFOSELECTTest" />依赖于s01 -->
+<!-- 			<class name="zxjt.inte.web.S13RLYTXTest" /> -->
+<!-- 			<class name="zxjt.inte.web.S14RDGENTest" /> -->
+		<!--	<class name="zxjt.inte.web.S15RDVERIFYTest" /> 依赖于s14,它的入参是s14的响应结果 -->
+<!-- 					<class name="zxjt.inte.web.S16LMTVERSIONLOGINTest" /> 验证未通过，返回功能路径错误-->
+<!-- 			<class name="zxjt.inte.web.S17GPZDFTest" /> -->
+			<!--<class name="zxjt.inte.web.S18LEVEL2JUDGETest" />依赖于s01 -->
+			<!--<class name="zxjt.inte.web.S19LEVEL2UPDATETest" />依赖于s01 -->
 		</classes>
 	</test>
 </suite>

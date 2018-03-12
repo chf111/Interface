@@ -60,7 +60,6 @@ public class S07DEVICECHECKServiceImpl implements S07DEVICECHECKService {
 
 			// 校验
 			JsonAssertUtil.checkResponse(param, null, ParamConstant.S07_SCHEMA, ParamConstant.SYSTEM, response);
-//			JsonAssertUtil.checkResponse(param, null, ParamConstant.S07_SCHEMA, ParamConstant.SYS, response);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
