@@ -20,7 +20,7 @@
 			<class name="zxjt.inte.web.A01GPMMTest" />
 		</classes>
 	</test>
-	<test enabled="false" name="TestSZBJHG" needlogin="false"
+	<test enabled="false" name="TestSZBJHG" needlogin="true"
 		filebelongto="PTJYLogin">
 		<classes>
 			<class name="zxjt.inte.web.C00SZBJHGLSCJCXTest" />
@@ -29,34 +29,34 @@
 	</test>
 
 	<!-- 沪深港股通 -->
-	<test enabled="false" name="TestHSGGT" needlogin="false"
+	<test enabled="false" name="TestHSGGT" needlogin="true"
 		filebelongto="PTJYLogin">
 		<classes>
-<!-- 			<class name="zxjt.inte.web.B00HSGGTCCCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B01HSGGTJYZTXXCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B02HSGGTKMMSLCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B03HSGGTZJCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B04HSGGTDRWTCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B05HSGGTDRCJCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B06HSGGTLSWTCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B07HSGGTLSCJCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B08HSGGTWTXDTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B09HSGGTWTCDTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B10HSGGTBDZQCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B11HSGGTDZDCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B12HSGGTHLCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B13HSGGTJCCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B14HSGGTJGDCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B15HSGGTJYRLCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B16HSGGTKCDWTCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B17HSGGTKHFZCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B18HSGGTWJSMXCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B19GGTZJCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B20HSGGTZJZCCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B20HSGGTZJZCCXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.B21HSGGTZQZHFJSCXTest" /> -->
-<!--  			<class name="zxjt.inte.web.B22HSGGTTPSBTest" /> 深港通投票未能实现，没有可用帐号，等待可用帐号来了测试 -->
-<!--  			<class name="zxjt.inte.web.B23HSGGTTZXXWJCXTest" /> -->
+			<class name="zxjt.inte.web.B00HSGGTCCCXTest" />
+			<class name="zxjt.inte.web.B01HSGGTJYZTXXCXTest" />
+			<class name="zxjt.inte.web.B02HSGGTKMMSLCXTest" />
+			<class name="zxjt.inte.web.B03HSGGTZJCXTest" />
+			<class name="zxjt.inte.web.B04HSGGTDRWTCXTest" />
+			<class name="zxjt.inte.web.B05HSGGTDRCJCXTest" />
+			<class name="zxjt.inte.web.B06HSGGTLSWTCXTest" />
+			<class name="zxjt.inte.web.B07HSGGTLSCJCXTest" />
+			<class name="zxjt.inte.web.B08HSGGTWTXDTest" />
+			<class name="zxjt.inte.web.B09HSGGTWTCDTest" />
+			<class name="zxjt.inte.web.B10HSGGTBDZQCXTest" />
+			<class name="zxjt.inte.web.B11HSGGTDZDCXTest" />
+			<class name="zxjt.inte.web.B12HSGGTHLCXTest" />
+			<class name="zxjt.inte.web.B13HSGGTJCCXTest" />
+			<class name="zxjt.inte.web.B14HSGGTJGDCXTest" />
+			<class name="zxjt.inte.web.B15HSGGTJYRLCXTest" />
+			<class name="zxjt.inte.web.B16HSGGTKCDWTCXTest" />
+			<class name="zxjt.inte.web.B17HSGGTKHFZCXTest" />
+			<class name="zxjt.inte.web.B18HSGGTWJSMXCXTest" />
+			<class name="zxjt.inte.web.B19GGTZJCXTest" />
+			<class name="zxjt.inte.web.B20HSGGTZJZCCXTest" />
+			<class name="zxjt.inte.web.B20HSGGTZJZCCXTest" />
+			<class name="zxjt.inte.web.B21HSGGTZQZHFJSCXTest" />
+  			<class name="zxjt.inte.web.B22HSGGTTPSBTest" /> <!--深港通投票未能实现，没有可用帐号，等待可用帐号来了测试 -->
+ 			<class name="zxjt.inte.web.B23HSGGTTZXXWJCXTest" />
   			<class name="zxjt.inte.web.B24HSGGTGSXWTest" /> <!--深港通行为未能实现，没有可用帐号，等待可用帐号来了测试-->
 		</classes>
 	</test>
@@ -64,12 +64,12 @@
 	<!--手机行情 -->
 	<test enabled="false" name="TestWW" needlogin="false">
 		<classes>
-<!-- 			<class name="zxjt.inte.web.W00HQZXGHQTest" /> -->
-<!-- 			<class name="zxjt.inte.web.W01DMLTest" /> -->
-<!-- 			<class name="zxjt.inte.web.W02BKPHTest" /> -->
-<!-- 			<class name="zxjt.inte.web.W03GPPHTest" /> -->
-<!-- 			<class name="zxjt.inte.web.W04BKPHIndexTest" /> -->
-<!-- 			<class name="zxjt.inte.web.W05GGZHTest" /> -->
+			<class name="zxjt.inte.web.W00HQZXGHQTest" />
+			<class name="zxjt.inte.web.W01DMLTest" />
+			<class name="zxjt.inte.web.W02BKPHTest" />
+			<class name="zxjt.inte.web.W03GPPHTest" />
+			<class name="zxjt.inte.web.W04BKPHIndexTest" />
+			<class name="zxjt.inte.web.W05GGZHTest" />
 			<class name="zxjt.inte.web.W06YCXTest" />
 		</classes>
 	</test>
@@ -78,24 +78,24 @@
 		<classes>
 			<class name="zxjt.inte.web.S00AUTHREGISTTest" />
 			<class name="zxjt.inte.web.S01AUTHLOGINTest" /> <!--依赖于s00 -->
-			<!-- <class name="zxjt.inte.web.S02LEVEL2AUTHTest" />依赖于s01 -->
-<!-- 			<class name="zxjt.inte.web.S03CUSTMGRQUERYTest" /> -->
-			<!--<class name="zxjt.inte.web.S04FAVORSELECTTest" /> 依赖于s01 -->
-			<!-- <class name="zxjt.inte.web.S05FAVORUPDATETest" /> 依赖于s01 -->
-<!-- 			<class name="zxjt.inte.web.S06FEEDBACKADDTest" /> -->
-<!-- 			<class name="zxjt.inte.web.S07DEVICECHECKTest" /> -->
-<!-- 			<class name="zxjt.inte.web.S08HOTSEARCHTest" /> -->
-<!-- 			<class name="zxjt.inte.web.S09CNXHTest" /> -->
-<!-- 			<class name="zxjt.inte.web.S10GPLTTest" /> -->
-<!-- 			<class name="zxjt.inte.web.S11TGZLTest" /> -->
-			<!--<class name="zxjt.inte.web.S12USERINFOSELECTTest" />依赖于s01 -->
-<!-- 			<class name="zxjt.inte.web.S13RLYTXTest" /> -->
-<!-- 			<class name="zxjt.inte.web.S14RDGENTest" /> -->
-		<!--	<class name="zxjt.inte.web.S15RDVERIFYTest" /> 依赖于s14,它的入参是s14的响应结果 -->
-<!-- 					<class name="zxjt.inte.web.S16LMTVERSIONLOGINTest" /> 验证未通过，返回功能路径错误-->
-<!-- 			<class name="zxjt.inte.web.S17GPZDFTest" /> -->
-			<!--<class name="zxjt.inte.web.S18LEVEL2JUDGETest" />依赖于s01 -->
-			<!--<class name="zxjt.inte.web.S19LEVEL2UPDATETest" />依赖于s01 -->
+			<class name="zxjt.inte.web.S02LEVEL2AUTHTest" /><!--依赖于s01 -->
+			<class name="zxjt.inte.web.S03CUSTMGRQUERYTest" />
+			<class name="zxjt.inte.web.S04FAVORSELECTTest" /> <!--依赖于s01 -->
+			 <class name="zxjt.inte.web.S05FAVORUPDATETest" /><!-- 依赖于s01 -->
+			<class name="zxjt.inte.web.S06FEEDBACKADDTest" />
+			<class name="zxjt.inte.web.S07DEVICECHECKTest" />
+			<class name="zxjt.inte.web.S08HOTSEARCHTest" />
+			<class name="zxjt.inte.web.S09CNXHTest" />
+			<class name="zxjt.inte.web.S10GPLTTest" />
+			<class name="zxjt.inte.web.S11TGZLTest" />
+			<class name="zxjt.inte.web.S12USERINFOSELECTTest" /><!--依赖于s01 -->
+			<class name="zxjt.inte.web.S13RLYTXTest" />
+			<class name="zxjt.inte.web.S14RDGENTest" />
+			<class name="zxjt.inte.web.S15RDVERIFYTest" /> <!--依赖于s14,它的入参是s14的响应结果 -->
+ 					<class name="zxjt.inte.web.S16LMTVERSIONLOGINTest" /> <!--验证未通过，返回功能路径错误-->
+			<class name="zxjt.inte.web.S17GPZDFTest" />
+			<class name="zxjt.inte.web.S18LEVEL2JUDGETest" /><!--依赖于s01 -->
+			<class name="zxjt.inte.web.S19LEVEL2UPDATETest" /><!--依赖于s01 -->
 		</classes>
 	</test>
 </suite>
