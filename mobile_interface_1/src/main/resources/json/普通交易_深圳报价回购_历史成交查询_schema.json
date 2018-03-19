@@ -1,0 +1,137 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required": true,
+  "type": "object",
+  "properties": {
+    "cljg": {
+      "id": "cljg",
+      "required": true,
+      "type": "array",
+      "items": {
+        "id": "0",
+        "required": true,
+        "type": "object",
+        "properties": {
+          "code": {
+            "id": "code",
+            "required": true,
+            "type": "string"
+          },
+          "message": {
+            "id": "message",
+            "required": true,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "cxlb": {
+      "id": "cxlb",
+      "required": true,
+      "type": "array",
+      "items": {
+        "id": "0",
+        "required": true,
+        "type": "object",
+        "properties": {
+          "cjje": {
+            "id": "cjje",
+            "required": true,
+            "type": "string"
+          },
+          "cjjg": {
+            "id": "cjjg",
+            "required": true,
+            "type": "string"
+          },
+          "cjrq": {
+            "id": "cjrq",
+            "required": true,
+            "type": "string"
+          },
+          "cjsj": {
+            "id": "cjsj",
+            "required": true,
+            "type": "string"
+          },
+          "cjsl": {
+            "id": "cjsl",
+            "required": true,
+            "type": "string"
+          },
+          "cpbm": {
+            "id": "cpbm",
+            "required": true,
+            "type": "string"
+          },
+          "cpmc": {
+            "id": "cpmc",
+            "required": true,
+            "type": "string"
+          },
+          "dwc": {
+            "id": "dwc",
+            "required": true,
+            "type": "string"
+          },
+          "gddm": {
+            "id": "gddm",
+            "required": true,
+            "type": "string"
+          },
+          "jysdm": {
+            "id": "jysdm",
+            "required": true,
+            "type": "string"
+          },
+          "khdm": {
+            "id": "khdm",
+            "required": true,
+            "type": "string"
+          },
+          "mmlb": {
+            "id": "mmlb",
+            "required": true,
+            "type": "string"
+          },
+          "mmlbsm": {
+            "id": "mmlbsm",
+            "required": true,
+            "type": "string"
+          },
+          "wtjg": {
+            "id": "wtjg",
+            "required": true,
+            "type": "string"
+          },
+          "wtrq": {
+            "id": "wtrq",
+            "required": true,
+            "type": "string"
+          },
+          "wtsl": {
+            "id": "wtsl",
+            "required": true,
+            "type": "string"
+          },
+          "zjzh": {
+            "id": "zjzh",
+            "required": true,
+            "type": "string"
+          },
+          "zqdm": {
+            "id": "zqdm",
+            "required": true,
+            "type": "string"
+          },
+          "zqmc": {
+            "id": "zqmc",
+            "required": true,
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

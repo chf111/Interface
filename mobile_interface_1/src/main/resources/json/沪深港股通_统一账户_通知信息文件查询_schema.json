@@ -1,0 +1,177 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required": true,
+  "type": "object",
+  "properties": {
+    "cljg": {
+      "id": "cljg",
+      "required": true,
+      "type": "array",
+      "items": {
+        "id": "0",
+        "required": true,
+        "type": "object",
+        "properties": {
+          "code": {
+            "id": "code",
+            "required": true,
+            "type": "string"
+          },
+          "message": {
+            "id": "message",
+            "required": true,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "cxlb": {
+      "id": "cxlb",
+      "required": true,
+      "type": "array",
+      "items": {
+        "id": "0",
+        "type": "object",
+        "required": true,
+        "properties": {
+          "lsh": {
+            "id": "lsh",
+            "type": "string",
+            "required": true
+          },
+          "jysdm": {
+            "id": "jysdm",
+            "type": "string",
+            "required": true
+          },
+          "hl": {
+            "id": "hl",
+            "type": "string",
+            "required": true
+          },
+          "tzlb": {
+            "id": "tzlb",
+            "type": "string",
+            "required": true
+          },
+          "ltlb": {
+            "id": "ltlb",
+            "type": "string",
+            "required": true
+          },
+          "tzlbsm": {
+            "id": "tzlbsm",
+            "type": "string",
+            "required": true
+          },
+          "gpnf": {
+            "id": "gpnf",
+            "type": "string",
+            "required": true
+          },
+          "rq2": {
+            "id": "rq2",
+            "type": "string",
+            "required": true
+          },
+          "rq1": {
+            "id": "rq1",
+            "type": "string",
+            "required": true
+          },
+          "rq3": {
+            "id": "rq3",
+            "type": "string",
+            "required": true
+          },
+          "qylbsm": {
+            "id": "qylbsm",
+            "type": "string",
+            "required": true
+          },
+          "bz": {
+            "id": "bz",
+            "type": "string",
+            "required": true
+          },
+          "fjsm2": {
+            "id": "fjsm2",
+            "type": "string",
+            "required": true
+          },
+          "fjsm1": {
+            "id": "fjsm1",
+            "type": "string",
+            "required": true
+          },
+          "hbmc": {
+            "id": "hbmc",
+            "type": "string",
+            "required": true
+          },
+          "fzdm1": {
+            "id": "fzdm1",
+            "type": "string",
+            "required": true
+          },
+          "fzdm2": {
+            "id": "fzdm2",
+            "type": "string",
+            "required": true
+          },
+          "qylb": {
+            "id": "qylb",
+            "type": "string",
+            "required": true
+          },
+          "qycs": {
+            "id": "qycs",
+            "type": "string",
+            "required": true
+          },
+          "ztsm": {
+            "id": "ztsm",
+            "type": "string",
+            "required": true
+          },
+          "fjsm": {
+            "id": "fjsm",
+            "type": "string",
+            "required": true
+          },
+          "hbdm": {
+            "id": "hbdm",
+            "type": "string",
+            "required": true
+          },
+          "tzrq": {
+            "id": "tzrq",
+            "type": "string",
+            "required": true
+          },
+          "ltlbsm": {
+            "id": "ltlbsm",
+            "type": "string",
+            "required": true
+          },
+          "zqdm": {
+            "id": "zqdm",
+            "type": "string",
+            "required": true
+          },
+          "jyrq": {
+            "id": "jyrq",
+            "type": "string",
+            "required": true
+          },
+          "jg": {
+            "id": "jg",
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    }
+  }
+}

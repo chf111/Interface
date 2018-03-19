@@ -1,6 +1,7 @@
 {
   "A01GPMMTest_A01": "股票买卖接口A01",
   "A00LoginTest_A00":"普通交易登录接口A00",
+  
   "W00HQZXGHQTest_W00":"自选股行情信息查询W00",
   "W01DMLTest_W01":"代码链查询W01",
   "W02BKPHTest_W02":"板块排行W02",
@@ -8,6 +9,7 @@
   "W04BKPHIndexTest_W04":"板块排行索引W04",
   "W05GGZHTest_W05":"个股综合W05",
   "W06YCXTest_W06":"代码云查询W06",
+  
   "B00HSGGTCCCXTest_B00":"沪深港股通持仓查询B00",
   "B01HSGGTJYZTXXCXTest_B01":"沪深港股通交易状态信息查询B01",
   "B02HSGGTKMMSLCXTest_B02":"沪深港股通可买卖数量查询B02",
@@ -18,6 +20,25 @@
   "B07HSGGTLSCJCXTest_B07":"沪深港股通历史成交查询B07",
   "B08HSGGTWTXDTest_B08":"沪深港股通委托下单B08",
   "B09HSGGTWTCDTest_B09":"沪深港股通委托撤单B09",
+  "B10HSGGTBDZQCXTest_B10":"沪深港股通标的证券查询B10",
+  "B11HSGGTDZDCXTest_B11":"沪深港股通对账单查询B11",
+  "B12HSGGTHLCXTest_B12":"沪深港股通汇率查询B12",
+  "B13HSGGTJCCXTest_B13":"沪深港股通价差查询B13",
+  "B14HSGGTJGDCXTest_B14":"沪深港股通交割单查询B14",
+  "B15HSGGTJYRLCXTest_B15":"沪深港股通交易日历查询B15",
+  "B16HSGGTKCDWTCXTest_B16":"沪深港股通可撤单委托查询B16",
+  "B17HSGGTKHFZCXTest_B17":"沪深港股通客户负债查询B17",
+  "B18HSGGTWJSMXCXTest_B18":"沪深港股通未交收明细查询B18",
+  "B19GGTZJCXTest_B19":"港股通资金查询B19",
+  "B20HSGGTZJZCCXTest_B20":"沪深港股通资金资产查询B20",
+  "B21HSGGTZQZHFJSCXTest_B21":"沪深港股通证券组合费交收查询B21",
+  "B22HSGGTTPSBTest_B22":"沪深港股通投票申报B22",
+  "B23HSGGTTZXXWJCXTest_B23":"沪深港股通通知信息文件查询B23",
+  "B24HSGGTGSXWTest_B24":"沪深港股通行为申报B24",
+  
+  "C00SZBJHGLSCJCXTest_C00":"深市报价回购历史成交查询C00",
+  "C01SZBJHGLSWTCXTest_C01":"深市报价回购历史委托查询C01",
+  
   "S01AUTHLOGINTest_S01":"手机号码登录S01",
   "S00AUTHREGISTTest_S00":"手机号码注册S00",
   "S02LEVEL2AUTHTest_S02":"level2鉴权S02",

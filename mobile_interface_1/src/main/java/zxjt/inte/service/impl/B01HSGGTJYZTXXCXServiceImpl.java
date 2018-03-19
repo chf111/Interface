@@ -65,8 +65,10 @@ public class B01HSGGTJYZTXXCXServiceImpl implements B01HSGGTJYZTXXCXService {
 
 		// 拼接
 		Map<String, String> valMap = new HashMap<>();
-		valMap.put(ParamConstant.CXLB_GXRQ,
-				ParamConstant.REGEXBEGIN + CommonToolsUtil.getToday("yyyyMMdd") + ParamConstant.REGEXEND);
+		if (ParamConstant.ZL.equalsIgnoreCase(param.get(ParamConstant.TYPE))) {
+			valMap.put(ParamConstant.CXLB_GXRQ,
+					ParamConstant.REGEXBEGIN + CommonToolsUtil.getToday("yyyyMMdd") + ParamConstant.REGEXEND);
+		}
 
 		// 校验
 		JsonAssertUtil.checkResponse(param, valMap, ParamConstant.B01_SCHEMA, ParamConstant.PTYW, response);

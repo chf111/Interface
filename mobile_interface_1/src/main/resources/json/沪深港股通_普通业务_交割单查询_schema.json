@@ -1,0 +1,192 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "#",
+  "required": true,
+  "type": "object",
+  "properties": {
+    "cljg": {
+      "id": "cljg",
+      "required": true,
+      "type": "array",
+      "items": {
+        "id": "0",
+        "required": true,
+        "type": "object",
+        "properties": {
+          "code": {
+            "id": "code",
+            "required": true,
+            "type": "string"
+          },
+          "message": {
+            "id": "message",
+            "required": true,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "cxlb": {
+      "id": "cxlb",
+      "required": true,
+      "type": "array",
+      "items": {
+        "id": "0",
+        "type": "object",
+        "required": true,
+        "properties": {
+          "cjbh": {
+            "id": "cjbh",
+            "type": "string",
+            "required": true
+          },
+          "jysdm": {
+            "id": "jysdm",
+            "type": "string",
+            "required": true
+          },
+          "qtfy": {
+            "id": "qtfy",
+            "type": "string",
+            "required": true
+          },
+          "yhs": {
+            "id": "yhs",
+            "type": "string",
+            "required": true
+          },
+          "qitfy": {
+            "id": "qitfy",
+            "type": "string",
+            "required": true
+          },
+          "jyzf": {
+            "id": "jyzf",
+            "type": "string",
+            "required": true
+          },
+          "cjjg": {
+            "id": "cjjg",
+            "type": "string",
+            "required": true
+          },
+          "cjje": {
+            "id": "cjje",
+            "type": "string",
+            "required": true
+          },
+          "zjbcye": {
+            "id": "zjbcye",
+            "type": "string",
+            "required": true
+          },
+          "cjsj": {
+            "id": "cjsj",
+            "type": "string",
+            "required": true
+          },
+          "gddm": {
+            "id": "gddm",
+            "type": "string",
+            "required": true
+          },
+          "bzsxf": {
+            "id": "bzsxf",
+            "type": "string",
+            "required": true
+          },
+          "ywdm": {
+            "id": "ywdm",
+            "type": "string",
+            "required": true
+          },
+          "hbmc": {
+            "id": "hbmc",
+            "type": "string",
+            "required": true
+          },
+          "sxf": {
+            "id": "sxf",
+            "type": "string",
+            "required": true
+          },
+          "gfbcye": {
+            "id": "gfbcye",
+            "type": "string",
+            "required": true
+          },
+          "gfjsf": {
+            "id": "gfjsf",
+            "type": "string",
+            "required": true
+          },
+          "qsje": {
+            "id": "qsje",
+            "type": "string",
+            "required": true
+          },
+          "cjsl": {
+            "id": "cjsl",
+            "type": "string",
+            "required": true
+          },
+          "yjghf": {
+            "id": "yjghf",
+            "type": "string",
+            "required": true
+          },
+          "dwc": {
+            "id": "dwc",
+            "type": "string",
+            "required": true
+          },
+          "hbdm": {
+            "id": "hbdm",
+            "type": "string",
+            "required": true
+          },
+          "jysjc": {
+            "id": "jysjc",
+            "type": "string",
+            "required": true
+          },
+          "zqmc": {
+            "id": "zqmc",
+            "type": "string",
+            "required": true
+          },
+          "jyxtsyf": {
+            "id": "jyxtsyf",
+            "type": "string",
+            "required": true
+          },
+          "jyf": {
+            "id": "jyf",
+            "type": "string",
+            "required": true
+          },
+          "ywdmsm": {
+            "id": "ywdmsm",
+            "type": "string",
+            "required": true
+          },
+          "jsrq": {
+            "id": "jsrq",
+            "type": "string",
+            "required": true
+          },
+          "zqdm": {
+            "id": "zqdm",
+            "type": "string",
+            "required": true
+          },
+          "jshl": {
+            "id": "jshl",
+            "type": "string",
+            "required": true
+          }
+        }
+      }
+    }
+  }
+}

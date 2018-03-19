@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -404,6 +405,7 @@ public class JsonAssertUtil {
 
 	/**
 	 * 将name.json中的内容转换成map
+	 * 
 	 * @param filepath
 	 * @return
 	 */
@@ -533,6 +535,46 @@ public class JsonAssertUtil {
 
 				if (conList.after(zzrq) || conList.before(qsrq)) {
 					throw new RuntimeException(ParamConstant.ERR09 + con + ParamConstant.ERR10);
+				}
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * 校验两个日期间的差值是否是指定数字
+	 * 
+	 * @param response
+	 *            响应内容
+	 * @param date
+	 *            要检查的日期字段名称
+	 * @param param
+	 * @throws ParseException
+	 */
+	public static void checkDvalueOfDates(String response, String dateA, String dataB, int aMinusB) {
+
+		List<String> listA = JsonPath.read(response, "$.cxlb[*]." + dateA, new Predicate[0]);
+		List<String> listB = JsonPath.read(response, "$.cxlb[*]." + dataB, new Predicate[0]);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		Calendar cal = Calendar.getInstance();
+		try {
+			if (listA.size() != listB.size()) {
+				throw new RuntimeException("返回的响应中，获取到的" + dateA + "和" + dataB + "的总数目不一致，应该是相等的个数，请检查后再测试");
+			}
+			for (int i = 0; i < listA.size(); i++) {
+				String conA = listA.get(i);
+				cal.setTime(sdf.parse(conA));
+				long timeA = cal.getTimeInMillis();
+				String conB = listB.get(i);
+				cal.setTime(sdf.parse(conB));
+				long timeB = cal.getTimeInMillis();
+				int between_days = (int) ((timeA - timeB) / (1000 * 3600 * 24));
+				if (between_days != aMinusB) {
+					throw new RuntimeException(
+							"返回的响应中，获取到的“" + dateA + "”值为" + conA + "和“" + dataB + "”值为" + conB + "差值不为" + aMinusB);
 				}
 			}
 		} catch (ParseException e) {

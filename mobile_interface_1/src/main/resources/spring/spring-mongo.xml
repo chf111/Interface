@@ -12,6 +12,7 @@
     
     <context:annotation-config/>
     <context:component-scan base-package="zxjt.inte.*"/>
+<!--     <context:component-scan base-package="zxjt.*"/> -->
     
 	<context:property-placeholder   location="classpath:mongodb.properties" />
 
@@ -35,7 +36,9 @@
 <mongo:gridFsTemplate id="gridFsTemplcate" db-factory-ref="mongoDbFactory" converter-ref="converter" />
 	
 	<mongo:mapping-converter id="converter" db-factory-ref="mongoDbFactory" base-package="zxjt.inte.entity"/> 
+<!-- 	<mongo:mapping-converter id="converter" db-factory-ref="mongoDbFactory" base-package="zxjt.*.entity"/>  -->
 	
 	<mongo:repositories base-package="zxjt.inte.dao"/> 
+<!-- 	<mongo:repositories base-package="zxjt.*.dao"/>  -->
 	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
 </beans>

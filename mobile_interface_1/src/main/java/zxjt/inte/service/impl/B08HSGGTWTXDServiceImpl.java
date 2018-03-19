@@ -69,22 +69,27 @@ public class B08HSGGTWTXDServiceImpl implements B08HSGGTWTXDService {
 	 * @DependenceParam 依赖接口的入参
 	 */
 	public void test(Map<String, String> param, Map<String, String> tempKmmsl, B02HSGGTKMMSLCXService kmmslcxService) {
+		Map<String, String> map = null;
+		
+		//特殊场合下，不需要调用kmmsl接口
+		if (!param.get("testPoint").contains("深港通卖出，传入沪市场代码")) {
+			// 获取可买卖数量查询接口响应值
+			String kmmslResponse = getKmmslResponse(param, tempKmmsl, kmmslcxService);
 
-		// 获取可买卖数量查询接口响应值
-		String kmmslResponse = getKmmslResponse(param, tempKmmsl, kmmslcxService);
+			// 获取委托下单所需要的map
+			map = CommonToolsUtil.getRParam(getWtxdParamMap(kmmslResponse, param));
 
-		// 获取委托下单所需要的map
-		Map<String, String> map = CommonToolsUtil.getRParam(getWtxdParamMap(kmmslResponse, param));
+			// 判断当前时间是否属于不可下单时间,如果属于，替换msg
+			checkTime(param);
+		} else {
+			map = CommonToolsUtil.getRParam(param);
+		}
 
 		// 发请求
 		System.out.println(param.toString());
 		System.out.println(map.toString());
 		log.info(param.toString());
 		log.info(map.toString());
-
-		// 判断当前时间是否属于不可下单时间,如果属于，替换msg
-		checkTime(param);
-
 		String response = HttpUtil_All.doPostSSL(param.get(ParamConstant.URL), map);
 		System.out.println(response.toString());
 		log.info(response.toString());

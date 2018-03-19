@@ -37,8 +37,9 @@ public class A00LoginServiceImpl implements A00LoginService {
 		List<A00Login> lis = loginDao.findByFunctionidAndIsExcuteIgnoreCase(ParamConstant.PTJYLOGIN_ID, "true");
 
 		// 入参拼接
-		List<Map<String, String>> lisTemp = CommonToolsUtil.getTestData(lis, addrDao, accoDao,ParamConstant.PTJYLOGIN_ID);
-		
+		List<Map<String, String>> lisTemp = CommonToolsUtil.getTestData(lis, addrDao, accoDao,
+				ParamConstant.PTJYLOGIN_ID);
+
 		Object[][] obj = CommonToolsUtil.getTestObjArray(lisTemp);
 		return obj;
 	}
@@ -66,8 +67,23 @@ public class A00LoginServiceImpl implements A00LoginService {
 
 		// 拼接
 		Map<String, String> valMap = new HashMap<>();
-		valMap.put(ParamConstant.CLJG_MESSAGE
-				, JsonAssertUtil.getMsgRex(param.get(ParamConstant.EXPECTMSG)));
+		if (ParamConstant.ZL.equalsIgnoreCase(param.get(ParamConstant.TYPE))) {
+
+			valMap.put(ParamConstant.CLJG_MESSAGE, JsonAssertUtil.getMsgRex(param.get(ParamConstant.EXPECTMSG)));
+			valMap.put("dlxx,[,zjzh",ParamConstant.REGEXBEGIN +param.get("khbz")+ ParamConstant.REGEXEND);
+			valMap.put("dlxx,[,yybdm",ParamConstant.REGEXBEGIN +param.get("yybdm")+ ParamConstant.REGEXEND);
+			valMap.put("dlxx,[,xtrq",ParamConstant.REGEXBEGIN + CommonToolsUtil.getToday("yyyyMMdd") + ParamConstant.REGEXEND);
+			valMap.put("dlxx,[,wtrq",ParamConstant.REGEXBEGIN + CommonToolsUtil.getToday("yyyyMMdd") + ParamConstant.REGEXEND);
+		} else {
+			String codeAndMsg = param.get(ParamConstant.EXPECTMSG);
+			String[] strArr = codeAndMsg.split(",");
+			valMap.put(ParamConstant.CLJG_MESSAGE, JsonAssertUtil.getMsgRex(strArr[0]));
+			
+			// 如果能分解，证明code值是变化的，数据库中以逗号分隔开，格式为“msg,code”
+			if (strArr.length == 2) {
+				valMap.put(ParamConstant.CLJG_CODE, JsonAssertUtil.getMsgRex(strArr[1]));
+			}
+		}
 
 		// 校验
 		JsonAssertUtil.checkResponse(param, valMap, ParamConstant.A00_SCHEMA, ParamConstant.PTYW, response);

@@ -47,7 +47,9 @@ public class CommonToolsUtil {
 
 	/**
 	 * 获取帐号相关信息，并以map存储返回
-	 * @param accoEntity 帐号entity
+	 * 
+	 * @param accoEntity
+	 *            帐号entity
 	 * @return
 	 */
 	private static Map<String, String> getAccountMap(CommonAccount accoEntity) {
@@ -76,6 +78,7 @@ public class CommonToolsUtil {
 
 	/**
 	 * entity转成map
+	 * 
 	 * @param obj
 	 * @return
 	 */
@@ -139,15 +142,17 @@ public class CommonToolsUtil {
 
 					System.out.println(f.getName() + ":" + f.get(entity));
 
-					// 处理股东代码，读取config文件的值进行入参拼接
-					if (f.getName().equalsIgnoreCase(ParamConstant.GDDM)) {
+					// 处理股东代码，读取config文件的值进行入参拼接,股东代码无值的情况下，数据库的value为空即可，有值则要按照指定规则去填充value
+					if (f.getName().equalsIgnoreCase(ParamConstant.GDDM) && !"".equals(String.valueOf(f.get(entity)))) {
 						String methodName = "get" + toUpperCase4Index(String.valueOf(f.get(entity)));
 						Method mGddm = accoEntity.getClass().getDeclaredMethod(methodName);
 						String strGddm = (String) mGddm.invoke(accoEntity);
 						testDataMap.put(f.getName(), strGddm);
 						continue;
 					}
-					testDataMap.put(f.getName(), String.valueOf(f.get(entity)));
+					if (!"null".equals(String.valueOf(f.get(entity)))) {//null则代表数据库中不存在这个字段
+						testDataMap.put(f.getName(), String.valueOf(f.get(entity)));
+					}
 
 				}
 
@@ -165,6 +170,7 @@ public class CommonToolsUtil {
 
 	/**
 	 * 返回被依赖接口入参的map
+	 * 
 	 * @param testEntity
 	 * @param addrDao
 	 * @param accoDao
@@ -195,7 +201,8 @@ public class CommonToolsUtil {
 			for (Field f : fEntity) {
 				f.setAccessible(true);
 
-				System.out.println(f.getName() + ":" + f.get(entity));;
+				System.out.println(f.getName() + ":" + f.get(entity));
+				;
 				testDataMap.put(f.getName(), String.valueOf(f.get(entity)));
 
 			}
@@ -219,7 +226,8 @@ public class CommonToolsUtil {
 		return obj;
 	}
 
-	public static Object[][] getDepenTestObjArray(String flg, List<Map<String, String>> lisTemp, Map<String, String>... mapDepen) {
+	public static Object[][] getDepenTestObjArray(String flg, List<Map<String, String>> lisTemp,
+			Map<String, String>... mapDepen) {
 		Object[][] obj = new Object[lisTemp.size()][2];
 		switch (flg) {
 		case ParamConstant.GPMM:
@@ -296,7 +304,7 @@ public class CommonToolsUtil {
 		}
 		return obj;
 	}
-	
+
 	/**
 	 * 不需要帐号密码,url是https的
 	 * 
@@ -449,7 +457,10 @@ public class CommonToolsUtil {
 	public static void getcxrqInfo(Map<String, String> param) {
 		Calendar cal = Calendar.getInstance();
 		Date dateNow = cal.getTime();
-		if ((param.get(ParamConstant.QSRQ).contains(ParamConstant.ONEMONTH))
+		if ((param.get(ParamConstant.QSRQ).contains(ParamConstant.TODAY))
+				|| (param.get(ParamConstant.ZZRQ).contains(ParamConstant.TODAY))) {
+
+		} else if ((param.get(ParamConstant.QSRQ).contains(ParamConstant.ONEMONTH))
 				|| (param.get(ParamConstant.ZZRQ).contains(ParamConstant.ONEMONTH))) {
 			cal.add(Calendar.DAY_OF_YEAR, -1);
 			dateNow = cal.getTime();
@@ -467,7 +478,6 @@ public class CommonToolsUtil {
 		String dateZzrq = df.format(dateNow);
 		param.put(ParamConstant.QSRQ, dateKsrq);
 		param.put(ParamConstant.ZZRQ, dateZzrq);
-
 	}
 
 	/**

@@ -80,6 +80,7 @@ public class B02HSGGTKMMSLCXServiceImpl implements B02HSGGTKMMSLCXService {
 
 		// 拼接
 		Map<String, String> valMap = new HashMap<>();
+
 		valMap.put(ParamConstant.KMMXX_JYSDM,
 				ParamConstant.REGEXBEGIN + param.get(ParamConstant.JYSDM) + ParamConstant.REGEXEND);
 		valMap.put(ParamConstant.KMMXX_ZQDM,
@@ -89,6 +90,7 @@ public class B02HSGGTKMMSLCXServiceImpl implements B02HSGGTKMMSLCXService {
 		} else {
 			valMap.put(ParamConstant.KMMXX_KMSL, ParamConstant.KMSL_H);
 		}
+
 		// 校验
 		JsonAssertUtil.checkResponse(param, valMap, ParamConstant.B02_SCHEMA, ParamConstant.PTYW, response);
 		return response;

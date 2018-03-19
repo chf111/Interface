@@ -34,6 +34,7 @@ public interface ParamConstant {
 	public static final String A01_SCHEMA = "普通交易_普通业务_委托下单";
 	public static final String A02_SCHEMA = "普通交易_普通业务_可买卖数量查询";
 	public static final String A03_SCHEMA = "普通交易_普通业务_市价可买卖数量查询";
+	
 	public static final String W06_SCHEMA = "代码云查询";
 	public static final String W00_SCHEMA = "自选股行情查询";
 	public static final String W01_SCHEMA = "代码链查询";
@@ -41,6 +42,7 @@ public interface ParamConstant {
 	public static final String W03_SCHEMA = "股票排行";
 	public static final String W04_SCHEMA = "板块排行索引";
 	public static final String W05_SCHEMA = "个股综合";
+	
 	public static final String B00_SCHEMA = "沪深港股通_普通业务_持仓查询";
 	public static final String B01_SCHEMA = "沪深港股通_普通业务_交易状态信息查询";
 	public static final String B02_SCHEMA = "沪深港股通_普通业务_可买卖数量查询";
@@ -51,6 +53,24 @@ public interface ParamConstant {
 	public static final String B07_SCHEMA = "沪深港股通_普通业务_历史成交查询";
 	public static final String B08_SCHEMA = "沪深港股通_普通业务_委托下单";
 	public static final String B09_SCHEMA = "沪深港股通_普通业务_委托撤单";
+	public static final String B10_SCHEMA = "沪深港股通_普通业务_标的证券查询";
+	public static final String B11_SCHEMA = "沪深港股通_普通业务_对账单查询";
+	public static final String B12_SCHEMA = "沪深港股通_普通业务_汇率查询";
+	public static final String B13_SCHEMA = "沪深港股通_普通业务_价差查询";
+	public static final String B14_SCHEMA = "沪深港股通_普通业务_交割单查询";
+	public static final String B15_SCHEMA = "沪深港股通_普通业务_交易日历查询";
+	public static final String B16_SCHEMA = "沪深港股通_普通业务_可撤单委托查询";
+	public static final String B17_SCHEMA = "沪深港股通_普通业务_客户负债查询";
+	public static final String B18_SCHEMA = "沪深港股通_普通业务_未交收明细查询";
+	public static final String B19_SCHEMA = "港股通_普通业务_资金查询";
+	public static final String B20_SCHEMA = "沪深港股通_普通业务_资金资产查询";
+	public static final String B21_SCHEMA = "沪深港股通_普通业务_证券组合费交收查询";
+	public static final String B22_SCHEMA = "沪深港股通_统一账户_投票申报";
+	public static final String B23_SCHEMA = "沪深港股通_统一账户_通知信息文件查询";
+	public static final String B24_SCHEMA = "沪深港股通_统一账户_行为申报";
+	
+	public static final String C00_SCHEMA = "普通交易_深圳报价回购_历史成交查询";
+	public static final String C01_SCHEMA = "普通交易_深圳报价回购_历史委托查询";
 	
 	public static final String S01_SCHEMA = "手机号码登录";
 	public static final String S00_SCHEMA = "手机号码注册";
@@ -93,6 +113,24 @@ public interface ParamConstant {
 	public static final int HSGGT_LSCJCX_ID = 13;
 	public static final int HSGGT_WTXD_ID = 14;
 	public static final int HSGGT_WTCD_ID = 15;
+	public static final int HSGGT_BDZQCX_ID = 42;
+	public static final int HSGGT_DZDCX_ID = 43;
+	public static final int HSGGT_HLCX_ID = 44;
+	public static final int HSGGT_JCCX_ID = 45;
+	public static final int HSGGT_JGDCX_ID = 46;
+	public static final int HSGGT_JYRLCX_ID = 47;
+	public static final int HSGGT_KCDWTCX_ID = 48;
+	public static final int HSGGT_KHFZCX_ID = 49;
+	public static final int HSGGT_WJSMXCX_ID = 50;
+	public static final int GGT_ZJCX_ID = 51;
+	public static final int HSGGT_ZJZCCX_ID = 52;
+	public static final int HSGGT_ZQZHFJSCX_ID = 53;
+	public static final int HSGGT_TPSB_ID = 54;
+	public static final int HSGGT_TZXXWJCX_ID = 55;
+	public static final int HSGGT_GSXW_ID = 56;
+	
+	public static final int SZBJHG_LSCJCX_ID = 57;
+	public static final int SZBJHG_LSWTCX_ID = 58;
 	
 	public static final int HQZXGHQ_ID = 3;
 	public static final int DML_ID = 16;
@@ -104,13 +142,7 @@ public interface ParamConstant {
 	
 	
 	public static final int LEVEL2_AUTH = 22;
-	public static final int AUTH_LOGIN = 23;///api/auth/login/100000登录必须先写 
- ///api/system/favor/select/100000
-	///api/system/user/info/select/
-	///api/system/user/info/select/
-	///api/system/level2/auth/100000
-	// 上面这几个接口都是要用到登录是响应头中的cookie，放入请求中去发送的
-	
+	public static final int AUTH_LOGIN = 23;
 	public static final int AUTH_REGIST = 24;
 	public static final int CUSTMGR_QUERY = 25;
 	public static final int FAVOR_SELECT = 26;
@@ -138,6 +170,7 @@ public interface ParamConstant {
 	public static final String MEHTOD = "method";
 	public static final String LOGGER = "zxjtInterface";
 	public static final String URL = "url";
+	public static final String TODAY = "当日";
 	public static final String ONEMONTH = "一个月内";
 	public static final String THREEMONTH = "三个月内";
 	public static final String SERVICE = "service";
@@ -329,6 +362,9 @@ public interface ParamConstant {
 	public static final String ZZRQ = "zzrq";
 	public static final String WTRQ = "wtrq";
 	public static final String CJRQ = "cjrq";
+	public static final String JSRQ = "jsrq";
+	public static final String JYRQ = "jyrq";
+	public static final String WLRQ = "wlrq";
 	public static final String GDDM = "gddm";
 	public static final String WTJG = "wtjg";
 	public static final String MMLB = "mmlb";
@@ -349,6 +385,7 @@ public interface ParamConstant {
 	public static final String CXLB_WTRQ = "cxlb,[,wtrq";
 	public static final String KMMXX_GFKYS = "kmmxx,[,gfkys";
 	public static final String CLJG_MESSAGE = "cljg,[,message";
+	public static final String CLJG_CODE = "cljg,[,code";
 	
 	public static final String KMSL_S = "^$|^[0-9]+$";
 	public static final String KMSL_H = "^[0-9]+$";

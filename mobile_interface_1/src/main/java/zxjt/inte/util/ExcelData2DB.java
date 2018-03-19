@@ -226,6 +226,9 @@ public class ExcelData2DB {
 
 	public static void main(String[] args) {
 
+		String response = "{\"cljg\":[{\"code\":\"MP1B000000\",\"message\":\"沪港通证券组合费交收明细查询成功!\"}],\"cxlb\":[{\"gbysfje\":\"1.18\",\"hbdm\":\"0\",\"hbmc\":\"人民币\",\"jshl\":\"0.81726\",\"jsrq\":\"20180301\",\"jysdm\":\"6\",\"jysjc\":\"沪港通\",\"lastmktvalue\":\"1.11\",\"qsrq\":\"20180228\",\"rmbysfje\":\"1.00\",\"zjzh\":\"80316041\"},{\"gbysfje\":\"1.18\",\"hbdm\":\"0\",\"hbmc\":\"人民币\",\"jshl\":\"0.81726\",\"jsrq\":\"20180401\",\"jysdm\":\"9\",\"jysjc\":\"深港通\",\"lastmktvalue\":\"1.11\",\"qsrq\":\"20180331\",\"rmbysfje\":\"1.00\",\"zjzh\":\"80316041\"}]}";
+		JsonAssertUtil.checkDvalueOfDates( response, "jsrq", "qsrq", 1);
+		/**readFile(new File("C:\\Users\\Administrator\\Desktop\\users.xlsx"), true);*/
 		// try {
 		// //TODO:一次校验显示所有错误
 		// Pattern p1 = Pattern.compile(".*\\S+.*");
@@ -245,7 +248,7 @@ public class ExcelData2DB {
 		// Logger log = Logger.getLogger("zxjtInterface");
 		// log.info("asdfsadfsadf");
 		// log.debug("IIIIIIIIIIIIIIIIII");
-		readFile(new File("C:\\Users\\Administrator\\Desktop\\users.xlsx"), true);
+		
 
 		// Map<String,String> map = new HashMap<String,String>();
 		// map.put("pszCodes", "000001,399001,399006");

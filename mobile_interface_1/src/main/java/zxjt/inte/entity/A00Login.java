@@ -13,25 +13,31 @@ public class A00Login {
 	private int functionid;
 	private String row;
 	private String rzfs;
+	private String rzxx;
 	private String rznr;
-	private String wldz;
-	private String fjrsjxh;
+	private String access_token;
+	private String khbz;
+	private String jymm;
+	private String lhxx;
 	private String isExcute;
 	private String type;
 	private String expectMsg;
 	private String testPoint;
 
 	@PersistenceConstructor
-	public A00Login(ObjectId id, int functionid,String row,String rzfs, String rznr, String wldz, String fjrsjxh, String isExcute,
-			String type, String expectMsg, String testPoint) {
+	public A00Login(ObjectId id, int functionid, String row, String rzfs, String rzxx, String rznr, String access_token,
+			String khbz, String jymm, String lhxx, String isExcute, String type, String expectMsg, String testPoint) {
 		super();
 		this.id = id;
 		this.functionid = functionid;
 		this.row = row;
 		this.rzfs = rzfs;
+		this.rzxx = rzxx;
 		this.rznr = rznr;
-		this.wldz = wldz;
-		this.fjrsjxh = fjrsjxh;
+		this.access_token = access_token;
+		this.khbz = khbz;
+		this.jymm = jymm;
+		this.lhxx = lhxx;
 		this.isExcute = isExcute;
 		this.type = type;
 		this.expectMsg = expectMsg;
@@ -45,10 +51,11 @@ public class A00Login {
 	public void setId(ObjectId id) {
 		this.id = id;
 	}
+
 	public int getFunctionid() {
 		return functionid;
 	}
-	
+
 	public void setFunctionid(int functionid) {
 		this.functionid = functionid;
 	}
@@ -69,6 +76,14 @@ public class A00Login {
 		this.rzfs = rzfs;
 	}
 
+	public String getRzxx() {
+		return rzxx;
+	}
+
+	public void setRzxx(String rzxx) {
+		this.rzxx = rzxx;
+	}
+
 	public String getRznr() {
 		return rznr;
 	}
@@ -77,20 +92,36 @@ public class A00Login {
 		this.rznr = rznr;
 	}
 
-	public String getWldz() {
-		return wldz;
+	public String getAccess_token() {
+		return access_token;
 	}
 
-	public void setWldz(String wldz) {
-		this.wldz = wldz;
+	public void setAccess_token(String access_token) {
+		this.access_token = access_token;
 	}
 
-	public String getFjrsjxh() {
-		return fjrsjxh;
+	public String getKhbz() {
+		return khbz;
 	}
 
-	public void setFjrsjxh(String fjrsjxh) {
-		this.fjrsjxh = fjrsjxh;
+	public void setKhbz(String khbz) {
+		this.khbz = khbz;
+	}
+
+	public String getJymm() {
+		return jymm;
+	}
+
+	public void setJymm(String jymm) {
+		this.jymm = jymm;
+	}
+
+	public String getLhxx() {
+		return lhxx;
+	}
+
+	public void setLhxx(String lhxx) {
+		this.lhxx = lhxx;
 	}
 
 	public String getIsExcute() {
