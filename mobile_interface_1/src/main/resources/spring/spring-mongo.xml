@@ -8,37 +8,35 @@
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
-    
-    
-    <context:annotation-config/>
-    <context:component-scan base-package="zxjt.inte.*"/>
-<!--     <context:component-scan base-package="zxjt.*"/> -->
-    
-	<context:property-placeholder   location="classpath:mongodb.properties" />
+
+
+	<context:annotation-config />
+	<context:component-scan base-package="zxjt.intfc.*" />
+
+	<context:property-placeholder location="classpath:mongodb.properties" />
 
 	<mongo:mongo-client id="mongoClient" host="${mongo.host}"
-		port="${mongo.port}" credentials="${mongo.user}:${mongo.pwd}@${mongo.database}" >
- <mongo:client-options  
-                connections-per-host="${mongo.connectionsPerHost}"  
-                threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"  
-                connect-timeout="${mongo.connectTimeout}"  
-                max-wait-time="${mongo.maxWaitTime}"  
-                 
-                socket-keep-alive="${mongo.socketKeepAlive}"  
-                socket-timeout="${mongo.socketTimeout}"  
-             />  
+		port="${mongo.port}" credentials="${mongo.user}:${mongo.pwd}@${mongo.database}">
+		<mongo:client-options connections-per-host="${mongo.connectionsPerHost}"
+			threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
+			connect-timeout="${mongo.connectTimeout}" max-wait-time="${mongo.maxWaitTime}"
+
+			socket-keep-alive="${mongo.socketKeepAlive}" socket-timeout="${mongo.socketTimeout}" />
 	</mongo:mongo-client>
 
-    <mongo:db-factory id="mongoDbFactory" dbname="zxjt" mongo-ref="mongoClient"/>
-    
-    	<!-- Mongodb的模板 -->
-	<mongo:template id="mongoTemplate" db-factory-ref="mongoDbFactory" write-concern="NORMAL"/>
-<mongo:gridFsTemplate id="gridFsTemplcate" db-factory-ref="mongoDbFactory" converter-ref="converter" />
-	
-	<mongo:mapping-converter id="converter" db-factory-ref="mongoDbFactory" base-package="zxjt.inte.entity"/> 
-<!-- 	<mongo:mapping-converter id="converter" db-factory-ref="mongoDbFactory" base-package="zxjt.*.entity"/>  -->
-	
-	<mongo:repositories base-package="zxjt.inte.dao"/> 
-<!-- 	<mongo:repositories base-package="zxjt.*.dao"/>  -->
-	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
+	<mongo:db-factory id="mongoDbFactory" dbname="zxjt"
+		mongo-ref="mongoClient" />
+
+	<!-- Mongodb的模板 -->
+	<mongo:template id="mongoTemplate" db-factory-ref="mongoDbFactory"
+		write-concern="NORMAL" />
+	<mongo:gridFsTemplate id="gridFsTemplcate"
+		db-factory-ref="mongoDbFactory" converter-ref="converter" />
+
+	<mongo:mapping-converter id="converter"
+		db-factory-ref="mongoDbFactory" base-package="zxjt.intfc.entity" />
+
+	<mongo:repositories base-package="zxjt.intfc.dao" />
+	<bean
+		class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
 </beans>
