@@ -18,6 +18,9 @@ public class A00LoginTest extends BaseController {
 	// *自己的Service名称
 	@Resource
 	private A00LoginService loginService;
+	
+//	@Resource
+//	private TestReportService tr;	
 
 	@BeforeClass
 	public void setup() {

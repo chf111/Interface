@@ -1,51 +1,30 @@
 package zxjt.intfc.common.util;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.bson.Document;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
-
-import zxjt.intfc.common.protobuf.Protobuf;
-import zxjt.intfc.common.protobuf.ProtobufHttp;
-import zxjt.intfc.common.protobuf.ProtobufRep;
-import zxjt.intfc.common.protobuf.ProtobufReq;
 
 public class ExcelData2DB {
 
@@ -227,7 +206,28 @@ public class ExcelData2DB {
 	}
 //	private final static Logger logger = LoggerFactory.getLogger(ExcelData2DB.class);
 	public static void main(String[] args) {
-		 LogUtils.logInfo("INFO22222222222 ~");  
+		Date s = CommonToolsUtil.changeStringToDate("20171109 12:01:34:1","yyyyMMdd HH:mm:ss:S");
+		System.out.println(s);
+//		W00HQZXGHQServiceImpl qwe = new W00HQZXGHQServiceImpl();
+//		Map<String,String> map = new HashMap<>();
+//		map.put("expectMsg","正则校验通过");
+//		map.put("bDirect","true");
+//		map.put("fieldsBitMap","13690212358");
+//		map.put("pszCodes","000001,399001,399006");
+//		map.put("bSort","0");
+//		map.put("type","zl");
+//		map.put("wCount","3");
+//		map.put("testPoint","获取自选股行情数据");
+//		map.put("marketList","2,1,1");
+//		map.put("url","http://111.13.63.2:9800/api/quote/pb_selected");
+//		map.put("wFrom","0");
+//		map.put("isExcute","true");
+//		map.put("functionid","3");
+//		map.put("row","1");
+//		map.put("wType","0");
+//		qwe.test(map);
+
+//		 LogUtils.logInfo("INFO22222222222 ~");  
 //logger.info("logback 成功了");
 //logger.error("logback 成功了");logger.debug("logback 成功了");
 		

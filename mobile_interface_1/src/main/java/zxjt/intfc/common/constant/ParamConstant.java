@@ -174,8 +174,13 @@ public interface ParamConstant {
 	public static final String ONEMONTH = "一个月内";
 	public static final String THREEMONTH = "三个月内";
 	public static final String SERVICE = "service";
+	public static final String REPORT_SERVICE = "report_service";
 	public static final String NEED_PUT_REQ_HEADER_INFO = "setReqHeader";
 	public static final String NEED_GET_REP_HEADER_INFO = "getRepHeader";
+	public static final String REPORT_DATE = "reportDate";
+	
+	
+	
 	
 	
 

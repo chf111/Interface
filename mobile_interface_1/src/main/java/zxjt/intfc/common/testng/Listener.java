@@ -5,8 +5,6 @@ import java.io.StringWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.sql.Connection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,87 +14,110 @@ import org.testng.ITestResult;
 import org.testng.annotations.Test;
 import org.testng.internal.IResultListener2;
 
-import zxjt.intfc.common.report.DBConnection;
-import zxjt.intfc.common.report.StepBean;
-import zxjt.intfc.common.report.StepDao;
-import zxjt.intfc.common.report.TestBean;
-import zxjt.intfc.common.report.TestDao;
+import zxjt.intfc.common.bean.BeforeClassUse;
+import zxjt.intfc.common.bean.SYSBean;
+import zxjt.intfc.common.constant.ParamConstant;
+import zxjt.intfc.common.util.CommonToolsUtil;
 import zxjt.intfc.common.util.JsonAssertUtil;
 import zxjt.intfc.common.util.StringUtil;
+import zxjt.intfc.entity.common.StepReport;
+import zxjt.intfc.entity.common.TestReport;
+import zxjt.intfc.service.common.ReportService;
 
 public class Listener implements IResultListener2 {
 
-	
-	
 	private String namePath = "name.json";
 	Map<String, String> nameMap = new HashMap<>();
-	// ----------------------------------------------------
-	private TestDao mTestDao;
-	private StepDao mStepDao;
-	private TestBean mTest;
-	private StepBean mStep;
-	// ----------------------------------------------------
 	private String currentName;
+	private ReportService reps;
+	private TestReport tr;
+	private StepReport sr;
+
+	{
+		SYSBean.putSysData(ParamConstant.REPORT_DATE, CommonToolsUtil.getToday("yyyyMMdd HH:mm:ss:S"));
+
+	}
+
+	private void setReportRep() {
+
+		reps = (ReportService) BeforeClassUse.getReportInfo();
+	}
 
 	@Override
 	public void onStart(ITestContext context) {
+//		System.out.println("onStart*********");
 		nameMap = JsonAssertUtil.parseJson2(namePath);
-		initDao();
 
 	}
 
 	@Override
 	public void onFinish(ITestContext context) {
-
+//		System.out.println("onFinish*********");
 	}
 
 	@Override
 	public void onTestStart(ITestResult result) {
-		createOrUseExistTest(result);
+//		System.out.println("onTestStart");
+		if (!isReportTest(result)) {
+			createOrUseExistTest(result);
+		}
 	}
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
-		String paramStr, resultStr = null;
-		paramStr = getParamsDescription(result);
+//		System.out.println("onTestSuccess");
 
-		// 写入数据库
-		addStepAndUpdateTest(result, paramStr, resultStr, null, null);
+		if (!isReportTest(result)) {
+			String paramStr, resultStr = null;
+			paramStr = getParamsDescription(result);
+
+			// 写入数据库
+			addStepAndUpdateTest(result, paramStr, resultStr, null, null);
+		} else {
+			setReportRep();
+		}
 
 	}
 
 	@Override
 	public void onTestFailure(ITestResult result) {
-		String paramStr, resultStr;
+		if (!isReportTest(result)) {
+			String paramStr, resultStr;
 
-		paramStr = getParamsDescription(result);
+			paramStr = getParamsDescription(result);
 
-		// 生成错误信息
-		Throwable th = result.getThrowable();
-		resultStr = getThrowableDescription(th);
-		String stackTrace = getStackTrace(th);
+			// 生成错误信息
+			Throwable th = result.getThrowable();
+			resultStr = getThrowableDescription(th);
+			String stackTrace = getStackTrace(th);
 
-		// 写入数据库
-		addStepAndUpdateTest(result, paramStr, resultStr, stackTrace, null);
+			// 写入数据库
+			addStepAndUpdateTest(result, paramStr, resultStr, stackTrace, null);
+		} else {
+			throw new RuntimeException("操作report数据库失败（Failure），请查证后再试");
+		}
 
 	}
 
 	@Override
 	public void onTestSkipped(ITestResult result) {
-		Throwable th = result.getThrowable();
-		String resultStr = null, stackTrace = null;
-		if (th != null) {
-			// 因DataProvider异常而被跳过时不执行onTestStart
-			// 所以需要在此调用createOrUseExistTest方法
-			createOrUseExistTest(result);
+		if (!isReportTest(result)) {
+			Throwable th = result.getThrowable();
+			String resultStr = null, stackTrace = null;
+			if (th != null) {
+				// 因DataProvider异常而被跳过时不执行onTestStart
+				// 所以需要在此调用createOrUseExistTest方法
+				createOrUseExistTest(result);
 
-			// 生成错误信息
-			resultStr = getThrowableDescription(th);
-			stackTrace = getStackTrace(th);
+				// 生成错误信息
+				resultStr = getThrowableDescription(th);
+				stackTrace = getStackTrace(th);
+			}
+			String paramStr = getParamsDescription(result);
+			addStepAndUpdateTest(result, paramStr, resultStr, stackTrace, null);
+		} else {
+			throw new RuntimeException("操作report数据库失败（Skipped），请查证后再试");
 		}
-		String paramStr = getParamsDescription(result);
-		addStepAndUpdateTest(result, paramStr, resultStr, stackTrace, null);
-		
 	}
 
 	@Override
@@ -106,14 +127,12 @@ public class Listener implements IResultListener2 {
 
 	@Override
 	public void beforeConfiguration(ITestResult result) {
-		createOrUseExistTest(result);
+//		System.out.println("beforeConfiguration");
 	}
 
 	@Override
 	public void onConfigurationSuccess(ITestResult result) {
-		addStepAndUpdateTest(result, currentName, null, null, null);
-		// 控制台打印结果
-		// printResult(result);
+//		System.out.println("onConfigurationSuccess");
 	}
 
 	@Override
@@ -123,21 +142,16 @@ public class Listener implements IResultListener2 {
 
 	@Override
 	public void onConfigurationSkip(ITestResult result) {
-		addStepAndUpdateTest(result, currentName, null, null, null);
-		// 控制台打印结果
-		// printResult(result);
 	}
 
-	/*
-	 * 初始化DAO
-	 */
-	private void initDao() {
-		try {
-			Connection vConn = DBConnection.getConnection(true);
-			mTestDao = new TestDao(vConn);
-			mStepDao = new StepDao(vConn);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+	private Boolean isReportTest(ITestResult result) {
+		DisableReportListener isReport = result.getMethod().getConstructorOrMethod().getDeclaringClass()
+				.getDeclaredAnnotation(DisableReportListener.class);
+		if (isReport != null) {
+			return true;
+		} else {
+			return false;
+
 		}
 	}
 
@@ -146,50 +160,47 @@ public class Listener implements IResultListener2 {
 		String vClassName = method.getDeclaringClass().getSimpleName();
 		String vMethodName = method.getName();
 		String name = vClassName + "_" + vMethodName;
-		if (Test.class==getMethodType(method)){
+		if (Test.class == getMethodType(method)) {
 			if (!name.equals(currentName)) {
 				// 创建新的Test
-
-				mTest = new TestBean();
-				mTest.setName(nameMap.get(name));
-				mTest.setStartTime(new Date());
-				mTestDao.add(mTest);
-				// System.out.println("currentName="+currentName);
+				tr = new TestReport();
+				String tName = nameMap.get(name);
+				tr.setName(tName);
+				tr.setStarttime(CommonToolsUtil.getToday("yyyyMMdd HH:mm:ss:S"));
+				tr.setFlg("test");
+				tr.setReporttime(SYSBean.getSysData(ParamConstant.REPORT_DATE));
+				TestReport trn = reps.saveTestInfo(tr);
+				tr.setId(trn.getId());
 				currentName = name;
-				// picNum = 0;
-				// System.out.println("currentName="+currentName);
 			}
 			createStepInstance();
 		}
 	}
 
-	private Class<? extends Annotation> getMethodType(Method method){
-			 Class<? extends Annotation> methodType=null;
-			//Method method = result.getMethod().getConstructorOrMethod().getMethod();
-			Annotation[] annotations = method.getAnnotations();  
-	        for (Annotation annotation : annotations) {  
-	            // 获取注解的具体类型  
-	            Class<? extends Annotation> annotationType = annotation.annotationType();
-	            
-	          if(  Test.class==annotationType){
-	        	 // System.out.println("annotationType.getName()"+annotationType.getName());
-	        	  return annotationType;
-	          }
-	        }
-			return methodType;
-			
+	private Class<? extends Annotation> getMethodType(Method method) {
+		Class<? extends Annotation> methodType = null;
+		// Method method = result.getMethod().getConstructorOrMethod().getMethod();
+		Annotation[] annotations = method.getAnnotations();
+		for (Annotation annotation : annotations) {
+			// 获取注解的具体类型
+			Class<? extends Annotation> annotationType = annotation.annotationType();
+
+			if (Test.class == annotationType) {
+				// System.out.println("annotationType.getName()"+annotationType.getName());
+				return annotationType;
+			}
 		}
+		return methodType;
 
-
+	}
 
 	/*
 	 * 创建Step实例
 	 */
 	private void createStepInstance() {
-		mStep = new StepBean();
-		mStep.setTestId(mTest.getId());
-		mStep.setTimeStamp(new Date());
-		// System.out.println("mTest.getId()="+mTest.getId());
+		sr = new StepReport();
+		sr.setTestId(tr.getId());
+		sr.setTimeStamp(CommonToolsUtil.getToday("yyyyMMdd HH:mm:ss:S"));
 	}
 
 	/*
@@ -199,17 +210,20 @@ public class Listener implements IResultListener2 {
 			String screen) {
 		Method method = result.getMethod().getConstructorOrMethod().getMethod();
 
-		if (Test.class==getMethodType(method)){
-			mTest.setEndTime(new Date());
-			mTestDao.update(mTest);
-			mStep.setStatus(result.getStatus());
-			mStep.setParam(paramStr);
-			mStep.setResult(resultStr);
-			mStep.setStackTrace(stack);
-			mStep.setScreenshot(screen);
-			mStepDao.add(mStep);
-			// System.out.println(mStep);
+		if (Test.class == getMethodType(method)) {
+			tr.setEndtime(CommonToolsUtil.getToday("yyyyMMdd HH:mm:ss:S"));
+			reps.saveTestInfo(tr);
+			sr.setStatus(String.valueOf(result.getStatus()));
+			sr.setParam(paramStr);
+			sr.setResult(resultStr);
+			sr.setStackTrace(stack);
+			sr.setScreenshot(screen);
+			sr.setFlg("step");
+			sr.setReporttime(SYSBean.getSysData(ParamConstant.REPORT_DATE));
+			StepReport srn = reps.saveStepInfo(sr);
+			sr.setId(srn.getId());
 			printResult(result);
+			System.out.println("test over**************************");
 		}
 
 	}
@@ -224,7 +238,8 @@ public class Listener implements IResultListener2 {
 			resultStr = "PASS";
 			break;
 		case ITestResult.FAILURE:
-			//System.err.println(currentName + ", FAIL\n" + getThrowableDescription(result.getThrowable()));
+			// System.err.println(currentName + ", FAIL\n" +
+			// getThrowableDescription(result.getThrowable()));
 			System.err.println(nameMap.get(currentName) + ", FAIL\n");
 			return;
 		case ITestResult.SKIP:

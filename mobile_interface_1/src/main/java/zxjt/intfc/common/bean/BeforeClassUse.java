@@ -19,4 +19,16 @@ public class BeforeClassUse {
 		Object aServiceG = mapG.get(ParamConstant.SERVICE);
 		return aServiceG;
 	}
+	public static void setReportInfo(Object aService) {
+		Map<String, Object> mapS = new HashMap<String, Object>();
+		mapS.put(ParamConstant.REPORT_SERVICE, aService);
+		DPContainer.setReportData(mapS);
+	}
+	
+	public static Object getReportInfo() {
+		
+		Map<String, Object> mapG = DPContainer.getReportData();
+		Object aServiceG = mapG.get(ParamConstant.REPORT_SERVICE);
+		return aServiceG;
+	}
 }

@@ -1,9 +1,10 @@
 package zxjt.intfc.common.testng;
 
 import java.io.File;
-import java.sql.Connection;
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.LogFactory;
 import org.testng.ITestResult;
 
@@ -14,50 +15,68 @@ import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.ChartLocation;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 
-import zxjt.intfc.common.report.DBConnection;
-import zxjt.intfc.common.report.StepBean;
-import zxjt.intfc.common.report.StepDao;
-import zxjt.intfc.common.report.TestBean;
-import zxjt.intfc.common.report.TestDao;
+import zxjt.intfc.common.bean.BeforeClassUse;
+import zxjt.intfc.common.bean.SYSBean;
+import zxjt.intfc.common.constant.ParamConstant;
+import zxjt.intfc.common.util.CommonToolsUtil;
 import zxjt.intfc.common.util.FolderTypes;
 import zxjt.intfc.common.util.GetFolderPath;
-
+import zxjt.intfc.entity.common.StepReport;
+import zxjt.intfc.entity.common.TestReport;
+import zxjt.intfc.service.common.ReportService;
 
 public abstract class HTMLReporter {
 	private static final String TITLE_RESULT = "执行结果";
 	private static final String TITLE_CONFIRM = "参数信息";
 	private static final String TITLE_EX = "异常信息";
 	private static int exNum;
+	{
+
+	}
 
 	public static void generate() {
 		LogFactory.getLog(HTMLReporter.class).info("generate html report");
 
-		ExtentReports extent = initExtent();
-		Connection conn = null;
-		try {
-			conn = DBConnection.getConnection(false);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+		String desCssFilePath = GetFolderPath.getFolderPath(FolderTypes.REPORT) + "extent.css";
+		String desJsFilePath = GetFolderPath.getFolderPath(FolderTypes.REPORT) + "extent.js";
+		File desCssFile = new File(desCssFilePath);
+		File desJsFile = new File(desJsFilePath);
+		if (!desCssFile.exists()) {
+			try {
+				FileUtils.copyInputStreamToFile(HTMLReporter.class.getResourceAsStream("/report-style/extent.css"),
+						desCssFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
-		TestDao testDao = new TestDao(conn);
-		StepDao stepDao = new StepDao(conn);
+		if (!desJsFile.exists()) {
+			try {
+				FileUtils.copyInputStreamToFile(HTMLReporter.class.getResourceAsStream("/report-style/extent.js"),
+						desJsFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		ExtentReports extent = initExtent();
 
 		ExtentTest exTest;
 		Test model;
 		String html;
-		List<StepBean> steps;
-		StepBean step;
 
-		for (TestBean test : testDao.getAll()) {
+		String reportTime = SYSBean.getSysData(ParamConstant.REPORT_DATE);
+		ReportService reps = (ReportService) BeforeClassUse.getReportInfo();
+		List<TestReport> lstp = reps.getTestInfoByReporttimeAndFlg(reportTime, "test");
+
+		for (TestReport test : lstp) {
 			exTest = extent.createTest(test.getName());
 			model = exTest.getModel();
-			model.setStartTime(test.getStartTime());
-			steps = stepDao.getAll(test.getId());
-			for (int i = 0; i < steps.size(); ++i) {
-				html = getStepDescription(steps.get(i));
-				
-				step = steps.get(i);
-				switch (step.getStatus()) {
+			model.setStartTime(CommonToolsUtil.changeStringToDate(test.getStarttime(), "yyyyMMdd HH:mm:ss:S"));
+
+			List<StepReport> lisr = reps.getStepInfoByReporttimeAndFlg(test.getId(), reportTime, "step");
+			for (int i = 0; i < lisr.size(); ++i) {
+				StepReport sr1 = lisr.get(i);
+				html = getStepDescription(sr1);
+				switch (Integer.valueOf(sr1.getStatus())) {
 				case ITestResult.SUCCESS:
 					exTest.pass(html);
 					break;
@@ -68,20 +87,18 @@ public abstract class HTMLReporter {
 					exTest.skip(html);
 					break;
 				default:
-					System.err.println("未知状态，结果未写入报告: " + step.getStatus());
+					System.err.println("未知状态，结果未写入报告: " + sr1.getStatus());
 					break;
 				}
-				model.getLogContext().get(i).setTimestamp(step.getTimeStamp());
+				model.getLogContext().get(i)
+						.setTimestamp(CommonToolsUtil.changeStringToDate(sr1.getTimeStamp(), "yyyyMMdd HH:mm:ss:S"));
 			}
-			model.setEndTime(test.getEndTime());
+			model.setEndTime(CommonToolsUtil.changeStringToDate(test.getEndtime(), "yyyyMMdd HH:mm:ss:S"));
 		}
-		DBConnection.close();
 		extent.flush();
 	}
 
 	private static ExtentReports initExtent() {
-		//String folder = LightContext.getFolderPath(FolderTypes.REPORT);
-		//String folder =System.getProperty("user.dir")+"/report";
 		String folder = GetFolderPath.getFolderPath(FolderTypes.REPORT);
 		File file = new File(folder);
 		if (!file.exists()) {
@@ -100,8 +117,6 @@ public abstract class HTMLReporter {
 		ExtentReports extent = new ExtentReports();
 		extent.setReportUsesManualConfiguration(true);
 		extent.attachReporter(htmlReporter);
-
-		//extent.setSystemInfo("Platform", LightContext.getPlatform().name());
 		extent.setSystemInfo("OS", System.getProperty("os.name"));
 		extent.setSystemInfo("Arch", System.getProperty("os.arch"));
 		extent.setSystemInfo("JDK", System.getProperty("java.version"));
@@ -109,10 +124,10 @@ public abstract class HTMLReporter {
 		return extent;
 	}
 
-	private static String getStepDescription(StepBean step) {
+	private static String getStepDescription(StepReport step) {
 		StringBuilder paramBuilder = wrapWithHTML(step.getParam(), HTMLReporter.TITLE_CONFIRM);
 		StringBuilder resultBuilder;
-		if (step.getStatus() == ITestResult.SUCCESS) {
+		if (Integer.valueOf(step.getStatus()) == ITestResult.SUCCESS) {
 			resultBuilder = wrapWithHTML(step.getResult(), HTMLReporter.TITLE_RESULT);
 		} else {
 			resultBuilder = wrapFailInfoWithHTML(TITLE_EX, step);
@@ -129,7 +144,7 @@ public abstract class HTMLReporter {
 		return sb;
 	}
 
-	private static StringBuilder wrapFailInfoWithHTML(String title, StepBean step) {
+	private static StringBuilder wrapFailInfoWithHTML(String title, StepReport step) {
 		String tr = step.getResult();
 		if (tr == null)
 			return null;
@@ -169,5 +184,4 @@ public abstract class HTMLReporter {
 		ret.append("</tr></table>");
 		return ret.toString();
 	}
-
 }

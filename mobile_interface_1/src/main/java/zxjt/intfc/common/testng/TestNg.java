@@ -91,20 +91,34 @@ public class TestNg extends TestNG {
 			int RRindex = -1;
 
 			// 循环遍历所有元素
-			for (int i = 0; i < stuEleList.size(); i++) {
-				Element stuEle = stuEleList.get(i);
-				if ("all".equalsIgnoreCase(strParam.get(0))) {
+			// for (int i = 0; i < stuEleList.size(); i++) {
+
+			// 如果是全部测试，全部设为true
+			if ("all".equalsIgnoreCase(strParam.get(0))) {
+				for (int i = 0; i < stuEleList.size(); i++) {
+					Element stuEle = stuEleList.get(i);
 					stuEle.setAttributeValue("enabled", "true");
-				} else {
+				}
+				// 如果不是，遍历xml，根据条件设置每一个test
+			} else {
+				for (int i = 0; i < stuEleList.size(); i++) {
+					Element stuEle = stuEleList.get(i);
+					
 					// 获取元素
 					String number = stuEle.attributeValue("name");
+
+					// 是报告，跳过
+					if ("ReportController".equals(number)) {
+						continue;
+					}
+
 					if ("PTJYLogin".equals(number)) {
 						PTJYindex = i;
-						
+
 					}
 					if ("RRLogin".equals(number)) {
 						RRindex = i;
-						
+
 					}
 					if (strParam.contains(number)) {
 
@@ -118,7 +132,7 @@ public class TestNg extends TestNG {
 							} else if (!RRLogin && "RRLogin".equals(loginBelong)) {
 								stuEleList.get(RRindex).setAttributeValue("enabled", "true");
 								RRLogin = true;
-							} else if(!"RRLogin".equals(loginBelong) && !"PTJYLogin".equals(loginBelong)){
+							} else if (!"RRLogin".equals(loginBelong) && !"PTJYLogin".equals(loginBelong)) {
 								throw new RuntimeException(
 										"测试接口所关联的登录接口名称属性只能是“PTJYLogin”或“RRLogin”，您的定义范围已超出规定，请确认后再执行！");
 							}
@@ -130,6 +144,7 @@ public class TestNg extends TestNG {
 					}
 				}
 			}
+			// }
 
 			ins = new ByteArrayInputStream(document.asXML().getBytes("utf-8"));
 
@@ -139,7 +154,9 @@ public class TestNg extends TestNG {
 				// If test names were specified, only run these test names
 				m_suites.add(suite);
 			}
-		} catch (Exception e) {
+		} catch (
+
+		Exception e) {
 
 			e.printStackTrace();
 			throw new RuntimeException(e);

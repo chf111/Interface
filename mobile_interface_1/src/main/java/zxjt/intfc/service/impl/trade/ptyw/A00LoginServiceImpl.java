@@ -51,7 +51,7 @@ public class A00LoginServiceImpl implements A00LoginService {
 	 */
 	public void test(Map<String, String> param) {
 
-		Map<String, String> map = CommonToolsUtil.getRParam(param);
+ 		Map<String, String> map = CommonToolsUtil.getRParam(param);
 
 		// 发请求
 		LogUtils.logInfo(param.toString());

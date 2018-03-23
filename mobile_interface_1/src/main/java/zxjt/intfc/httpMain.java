@@ -3,7 +3,6 @@ package zxjt.intfc;
 import java.util.Arrays;
 import java.util.List;
 
-import zxjt.intfc.common.report.DBConnection;
 import zxjt.intfc.common.testng.HTMLReporter;
 import zxjt.intfc.common.testng.TestNg;
 
@@ -23,6 +22,5 @@ public class httpMain {
 		testNew.setParam(list);
 		testNew.run();
 		HTMLReporter.generate();
-		DBConnection.close();
 	}
 }

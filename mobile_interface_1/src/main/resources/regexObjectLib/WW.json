@@ -34,7 +34,7 @@
 			"nLimDown": "^[0-9]+$",
 			"blockID": "^0$",
 			"blockName": "^其他行业$",
-			"is_ggt_object": "true|false"
+			"is_ggt_obj"src/main/java/zxjt/intfc/common/bean/ValidateExceptionBean.java"ect": "true|false"
 		}
 	],
 	"代码链查询": [

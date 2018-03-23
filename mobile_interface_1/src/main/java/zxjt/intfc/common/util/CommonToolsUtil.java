@@ -3,6 +3,7 @@ package zxjt.intfc.common.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -76,9 +77,10 @@ public class CommonToolsUtil {
 		}
 		return map;
 	}
+
 	private static Map<String, String> getAccountMap2(zxjt.intfc.entity.common.CommonAccount accoEntity) {
 		Map<String, String> map = new HashMap<String, String>();
-		
+
 		Field[] fEntity = accoEntity.getClass().getDeclaredFields();
 		for (Field f : fEntity) {
 			f.setAccessible(true);
@@ -88,11 +90,11 @@ public class CommonToolsUtil {
 				}
 				map.put(f.getName(), String.valueOf(f.get(accoEntity)));
 			} catch (IllegalArgumentException e) {
-				
+
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			} catch (IllegalAccessException e) {
-				
+
 				e.printStackTrace();
 				throw new RuntimeException(e);
 			}
@@ -174,7 +176,7 @@ public class CommonToolsUtil {
 						testDataMap.put(f.getName(), strGddm);
 						continue;
 					}
-					if (!"null".equals(String.valueOf(f.get(entity)))) {//null则代表数据库中不存在这个字段
+					if (!"null".equals(String.valueOf(f.get(entity)))) {// null则代表数据库中不存在这个字段
 						testDataMap.put(f.getName(), String.valueOf(f.get(entity)));
 					}
 
@@ -191,6 +193,7 @@ public class CommonToolsUtil {
 		}
 		return lisTemp;
 	}
+
 	/**
 	 * 返回测试数据
 	 * 
@@ -200,36 +203,37 @@ public class CommonToolsUtil {
 	 * @param functionid
 	 * @return
 	 */
-	public static List<Map<String, String>> getTestData2(Object lisTestEntity, zxjt.intfc.dao.common.AddressRepository addrDao,
-			zxjt.intfc.dao.common.AccountRepository accoDao, int functionid) {
-		
+	public static List<Map<String, String>> getTestData2(Object lisTestEntity,
+			zxjt.intfc.dao.common.AddressRepository addrDao, zxjt.intfc.dao.common.AccountRepository accoDao,
+			int functionid) {
+
 		// 公共参数操作
 		Map<String, String> commonData = GetConfigProperties.getConfigProToCommon();
-		
+
 		// url获取
 		zxjt.intfc.entity.common.CommonAddress addrEntity = addrDao.findByFunctionid(functionid);
-		
+
 		// 账户信息获取
 		zxjt.intfc.entity.common.CommonAccount accoEntity = accoDao.findByKhbz(commonData.get(ParamConstant.KHBZ));
 		Map<String, String> accountMap = getAccountMap2(accoEntity);
-		
+
 		List<Map<String, String>> lisTemp = new ArrayList<>();
-		
+
 		try {
 			// 测试数据操作
-			
+
 			List<Object> lisEntity = (List<Object>) lisTestEntity;
-			
+
 			for (Object entity : lisEntity) {
 				Map<String, String> testDataMap = new HashMap<String, String>();
 				testDataMap.putAll(accountMap);
 				Field[] fEntity = entity.getClass().getDeclaredFields();
-				
+
 				for (Field f : fEntity) {
 					f.setAccessible(true);
-					
+
 					System.out.println(f.getName() + ":" + f.get(entity));
-					
+
 					// 处理股东代码，读取config文件的值进行入参拼接,股东代码无值的情况下，数据库的value为空即可，有值则要按照指定规则去填充value
 					if (f.getName().equalsIgnoreCase(ParamConstant.GDDM) && !"".equals(String.valueOf(f.get(entity)))) {
 						String methodName = "get" + toUpperCase4Index(String.valueOf(f.get(entity)));
@@ -238,16 +242,16 @@ public class CommonToolsUtil {
 						testDataMap.put(f.getName(), strGddm);
 						continue;
 					}
-					if (!"null".equals(String.valueOf(f.get(entity)))) {//null则代表数据库中不存在这个字段
+					if (!"null".equals(String.valueOf(f.get(entity)))) {// null则代表数据库中不存在这个字段
 						testDataMap.put(f.getName(), String.valueOf(f.get(entity)));
 					}
-					
+
 				}
-				
+
 				String url = commonData.get(ParamConstant.SAFEURL) + addrEntity.getUrl();
 				testDataMap.put(ParamConstant.URL, url);
 				lisTemp.add(testDataMap);
-				
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -533,6 +537,14 @@ public class CommonToolsUtil {
 		SimpleDateFormat sd = new SimpleDateFormat(format);
 		String today = sd.format(date);
 		return today;
+	}
+
+	public static Date changeStringToDate(String strDate, String format) {
+
+		SimpleDateFormat formatter = new SimpleDateFormat(format);
+		ParsePosition pos = new ParsePosition(0);
+		Date date = formatter.parse(strDate, pos);
+		return date;
 	}
 
 	/**

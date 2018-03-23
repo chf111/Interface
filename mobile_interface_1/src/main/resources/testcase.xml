@@ -4,6 +4,12 @@
 		<listener class-name="zxjt.intfc.common.testng.Listener" />
 
 	</listeners>
+<!-- 	报告专用，勿动 -->
+	<test enabled="true" name="ReportController">
+		<classes>
+			<class name="zxjt.intfc.test.common.TestReportController" />
+		</classes>
+	</test>
 	<!--注意事项1：普通交易登录和融资融券登录的可以不填needlogin和 filebelongto -->
 	<!--注意事项2：普通交易登录name="PTJYLogin" 融资融券name="RRLogin"，不可更改 -->
 	<!-- 登录 -->
@@ -65,12 +71,12 @@
 	<test enabled="false" name="TestWW" needlogin="false">
 		<classes>
 			<class name="zxjt.intfc.test.quote.W00HQZXGHQTest" />
-			<class name="zxjt.intfc.test.quote.W01DMLTest" />
-			<class name="zxjt.intfc.test.quote.W02BKPHTest" />
-			<class name="zxjt.intfc.test.quote.W03GPPHTest" />
-			<class name="zxjt.intfc.test.quote.W04BKPHIndexTest" />
-			<class name="zxjt.intfc.test.quote.W05GGZHTest" />
-			<class name="zxjt.intfc.test.quote.W06YCXTest" />
+<!-- 			<class name="zxjt.intfc.test.quote.W01DMLTest" /> -->
+<!-- 			<class name="zxjt.intfc.test.quote.W02BKPHTest" /> -->
+<!-- 			<class name="zxjt.intfc.test.quote.W03GPPHTest" /> -->
+<!-- 			<class name="zxjt.intfc.test.quote.W04BKPHIndexTest" /> -->
+<!-- 			<class name="zxjt.intfc.test.quote.W05GGZHTest" /> -->
+<!-- 			<class name="zxjt.intfc.test.quote.W06YCXTest" /> -->
 		</classes>
 	</test>
 

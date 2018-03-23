@@ -1,6 +1,7 @@
 {
   "A01GPMMTest_A01": "股票买卖接口A01",
   "A00LoginTest_A00":"普通交易登录接口A00",
+  "TestReportController_reportInit":"报告初始化",
   
   "W00HQZXGHQTest_W00":"自选股行情信息查询W00",
   "W01DMLTest_W01":"代码链查询W01",
