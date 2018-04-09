@@ -35,35 +35,35 @@
 	</test>
 
 	<!-- 沪深港股通 -->
-	<test enabled="false" name="TestHSGGT" needlogin="false"
+	<test enabled="false" name="TestHSGGT" needlogin="true"
 		filebelongto="PTJYLogin">
 		<classes>
 			<class name="zxjt.intfc.test.trade.ggt.B00HSGGTCCCXTest" />
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B01HSGGTJYZTXXCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B02HSGGTKMMSLCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B03HSGGTZJCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B04HSGGTDRWTCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B05HSGGTDRCJCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B06HSGGTLSWTCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B07HSGGTLSCJCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B08HSGGTWTXDTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B09HSGGTWTCDTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B10HSGGTBDZQCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B11HSGGTDZDCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B12HSGGTHLCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B13HSGGTJCCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B14HSGGTJGDCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B15HSGGTJYRLCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B16HSGGTKCDWTCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B17HSGGTKHFZCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B18HSGGTWJSMXCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B19GGTZJCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B20HSGGTZJZCCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B20HSGGTZJZCCXTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.trade.ggt.B21HSGGTZQZHFJSCXTest" /> -->
-<!--   			<class name="zxjt.intfc.test.trade.ggt.B22HSGGTTPSBTest" /> 深港通投票未能实现，没有可用帐号，等待可用帐号来了测试 -->
-<!--  			<class name="zxjt.intfc.test.trade.ggt.B23HSGGTTZXXWJCXTest" /> -->
-<!--   			<class name="zxjt.intfc.test.trade.ggt.B24HSGGTGSXWTest" /> 深港通行为未能实现，没有可用帐号，等待可用帐号来了测试 -->
+			<class name="zxjt.intfc.test.trade.ggt.B01HSGGTJYZTXXCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B02HSGGTKMMSLCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B03HSGGTZJCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B04HSGGTDRWTCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B05HSGGTDRCJCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B06HSGGTLSWTCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B07HSGGTLSCJCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B08HSGGTWTXDTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B09HSGGTWTCDTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B10HSGGTBDZQCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B11HSGGTDZDCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B12HSGGTHLCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B13HSGGTJCCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B14HSGGTJGDCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B15HSGGTJYRLCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B16HSGGTKCDWTCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B17HSGGTKHFZCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B18HSGGTWJSMXCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B19GGTZJCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B20HSGGTZJZCCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B20HSGGTZJZCCXTest" />
+			<class name="zxjt.intfc.test.trade.ggt.B21HSGGTZQZHFJSCXTest" />
+ 			<class name="zxjt.intfc.test.trade.ggt.B22HSGGTTPSBTest" /><!--   深港通投票未能实现，没有可用帐号，等待可用帐号来了测试 -->
+ 			<class name="zxjt.intfc.test.trade.ggt.B23HSGGTTZXXWJCXTest" />
+  			<class name="zxjt.intfc.test.trade.ggt.B24HSGGTGSXWTest" /><!--   深港通行为未能实现，没有可用帐号，等待可用帐号来了测试 -->
 		</classes>
 	</test>
 
@@ -71,12 +71,12 @@
 	<test enabled="false" name="TestWW" needlogin="false">
 		<classes>
 			<class name="zxjt.intfc.test.quote.W00HQZXGHQTest" />
-<!-- 			<class name="zxjt.intfc.test.quote.W01DMLTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.quote.W02BKPHTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.quote.W03GPPHTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.quote.W04BKPHIndexTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.quote.W05GGZHTest" /> -->
-<!-- 			<class name="zxjt.intfc.test.quote.W06YCXTest" /> -->
+			<class name="zxjt.intfc.test.quote.W01DMLTest" />
+			<class name="zxjt.intfc.test.quote.W02BKPHTest" />
+			<class name="zxjt.intfc.test.quote.W03GPPHTest" />
+			<class name="zxjt.intfc.test.quote.W04BKPHIndexTest" />
+			<class name="zxjt.intfc.test.quote.W05GGZHTest" />
+			<class name="zxjt.intfc.test.quote.W06YCXTest" />
 		</classes>
 	</test>
 

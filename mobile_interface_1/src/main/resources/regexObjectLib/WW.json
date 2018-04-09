@@ -34,7 +34,7 @@
 			"nLimDown": "^[0-9]+$",
 			"blockID": "^0$",
 			"blockName": "^其他行业$",
-			"is_ggt_obj"src/main/java/zxjt/intfc/common/bean/ValidateExceptionBean.java"ect": "true|false"
+			"is_ggt_obj": "true|false"
 		}
 	],
 	"代码链查询": [
@@ -46,7 +46,7 @@
 			"pinyin": "^[A-Za-z0-9]+$",
 			"pszMark": "^$|^HK$|^HGT$|^R$|^SGT$",
 			"name": ".*\\S{1,}.*",
-			"codeList_del_repeated_code": "^initCodeList$"
+			"codeList_del_repeated_code": "^[A-Za-z]?[0-9]+$"
 		}
 	],
 	"板块排行": [

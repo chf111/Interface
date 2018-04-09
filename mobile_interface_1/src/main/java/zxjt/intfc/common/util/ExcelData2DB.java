@@ -8,7 +8,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +16,9 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+//import org.everit.json.schema.Schema;
+//import org.everit.json.schema.loader.SchemaLoader;
+import org.json.JSONObject;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -152,35 +154,38 @@ public class ExcelData2DB {
 			// }
 
 			// dc.close();
-//			mongoClient.close();
+			// mongoClient.close();
 			System.out.println("connect successfully!");
 
 			InputStream is = new FileInputStream(file);
 			XSSFWorkbook wb = new XSSFWorkbook(is);
 			XSSFCell cell = null;
 			XSSFSheet st = wb.getSheet("沪深港股通_普通业务_委托下单");
-//			XSSFSheet st = wb.getSheet("普通交易_普通业务_委托下单_ALL");
-//			for (int rowIndex = 1; rowIndex <= 2; rowIndex++) {
-				for (int rowIndex = 1; rowIndex <= st.getLastRowNum(); rowIndex++) {
+			// XSSFSheet st = wb.getSheet("普通交易_普通业务_委托下单_ALL");
+			// for (int rowIndex = 1; rowIndex <= 2; rowIndex++) {
+			for (int rowIndex = 1; rowIndex <= st.getLastRowNum(); rowIndex++) {
 
 				XSSFRow row = st.getRow(rowIndex);
 
 				DBObject dbObject = new BasicDBObject();
-				/**股票买卖
-				dbObject.put("functionid", 1);
-				dbObject.put("row", rowIndex);
-				dbObject.put("jysdm", st.getRow(rowIndex).getCell(3).getStringCellValue());
-				dbObject.put("gddm", st.getRow(rowIndex).getCell(2).getStringCellValue());
-				dbObject.put("mmlb", st.getRow(rowIndex).getCell(4).getStringCellValue());
-				dbObject.put("zqdm", st.getRow(rowIndex).getCell(8).getStringCellValue());
-				dbObject.put("wtsl", st.getRow(rowIndex).getCell(7).getStringCellValue());
-				dbObject.put("wtjg", st.getRow(rowIndex).getCell(5).getStringCellValue());
-				dbObject.put("wtlx", st.getRow(rowIndex).getCell(6).getStringCellValue());
-				dbObject.put("isExcute", st.getRow(rowIndex).getCell(0).getStringCellValue());
-				dbObject.put("type", st.getRow(rowIndex).getCell(1).getStringCellValue());
-				dbObject.put("expectMsg", st.getRow(rowIndex).getCell(9).getStringCellValue());
-				dbObject.put("testPoint", st.getRow(rowIndex).getCell(10).getStringCellValue());*/
-				
+				/**
+				 * 股票买卖 dbObject.put("functionid", 1); dbObject.put("row", rowIndex);
+				 * dbObject.put("jysdm", st.getRow(rowIndex).getCell(3).getStringCellValue());
+				 * dbObject.put("gddm", st.getRow(rowIndex).getCell(2).getStringCellValue());
+				 * dbObject.put("mmlb", st.getRow(rowIndex).getCell(4).getStringCellValue());
+				 * dbObject.put("zqdm", st.getRow(rowIndex).getCell(8).getStringCellValue());
+				 * dbObject.put("wtsl", st.getRow(rowIndex).getCell(7).getStringCellValue());
+				 * dbObject.put("wtjg", st.getRow(rowIndex).getCell(5).getStringCellValue());
+				 * dbObject.put("wtlx", st.getRow(rowIndex).getCell(6).getStringCellValue());
+				 * dbObject.put("isExcute",
+				 * st.getRow(rowIndex).getCell(0).getStringCellValue()); dbObject.put("type",
+				 * st.getRow(rowIndex).getCell(1).getStringCellValue());
+				 * dbObject.put("expectMsg",
+				 * st.getRow(rowIndex).getCell(9).getStringCellValue());
+				 * dbObject.put("testPoint",
+				 * st.getRow(rowIndex).getCell(10).getStringCellValue());
+				 */
+
 				dbObject.put("functionid", 14);
 				dbObject.put("row", rowIndex);
 				dbObject.put("jysdm", st.getRow(rowIndex).getCell(0).getStringCellValue());
@@ -204,37 +209,68 @@ public class ExcelData2DB {
 		}
 
 	}
-//	private final static Logger logger = LoggerFactory.getLogger(ExcelData2DB.class);
-	public static void main(String[] args) {
-		Date s = CommonToolsUtil.changeStringToDate("20171109 12:01:34:1","yyyyMMdd HH:mm:ss:S");
-		System.out.println(s);
-//		W00HQZXGHQServiceImpl qwe = new W00HQZXGHQServiceImpl();
-//		Map<String,String> map = new HashMap<>();
-//		map.put("expectMsg","正则校验通过");
-//		map.put("bDirect","true");
-//		map.put("fieldsBitMap","13690212358");
-//		map.put("pszCodes","000001,399001,399006");
-//		map.put("bSort","0");
-//		map.put("type","zl");
-//		map.put("wCount","3");
-//		map.put("testPoint","获取自选股行情数据");
-//		map.put("marketList","2,1,1");
-//		map.put("url","http://111.13.63.2:9800/api/quote/pb_selected");
-//		map.put("wFrom","0");
-//		map.put("isExcute","true");
-//		map.put("functionid","3");
-//		map.put("row","1");
-//		map.put("wType","0");
-//		qwe.test(map);
 
-//		 LogUtils.logInfo("INFO22222222222 ~");  
-//logger.info("logback 成功了");
-//logger.error("logback 成功了");logger.debug("logback 成功了");
-		
-		
-		/**String response = "{\"cljg\":[{\"code\":\"MP1B000000\",\"message\":\"沪港通证券组合费交收明细查询成功!\"}],\"cxlb\":[{\"gbysfje\":\"1.18\",\"hbdm\":\"0\",\"hbmc\":\"人民币\",\"jshl\":\"0.81726\",\"jsrq\":\"20180301\",\"jysdm\":\"6\",\"jysjc\":\"沪港通\",\"lastmktvalue\":\"1.11\",\"qsrq\":\"20180228\",\"rmbysfje\":\"1.00\",\"zjzh\":\"80316041\"},{\"gbysfje\":\"1.18\",\"hbdm\":\"0\",\"hbmc\":\"人民币\",\"jshl\":\"0.81726\",\"jsrq\":\"20180401\",\"jysdm\":\"9\",\"jysjc\":\"深港通\",\"lastmktvalue\":\"1.11\",\"qsrq\":\"20180331\",\"rmbysfje\":\"1.00\",\"zjzh\":\"80316041\"}]}";
-		JsonAssertUtil.checkDvalueOfDates( response, "jsrq", "qsrq", 1);*/
-		/**readFile(new File("C:\\Users\\Administrator\\Desktop\\users.xlsx"), true);*/
+	// private final static Logger logger =
+	// LoggerFactory.getLogger(ExcelData2DB.class);
+	public static void main(String[] args) {
+
+		/**
+		JSONObject Schema = new JSONObject(
+				"{\"type\": \"object\",\"properties\" : {\"foo\" : {\"type\" : \"string\"}}}");
+		JSONObject data = new JSONObject("{\"foo\" : \"1212\",\"sss\":2333}");
+		Schema schema = SchemaLoader.load(Schema);
+		try {
+			schema.validate(data);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+*/
+		/**
+		 * String s =
+		 * "{\"cljg\":[{\"code\":\"MT1B999999\",\"message\":\"[-411511030]-411511030qryflag入参值有误\",\"abcd\":\"MT1B999999\"}]}";
+		 * String a = ""; String strjsonSchema = ""; InputStream isIn = null;
+		 * BufferedReader br; String line = ""; StringBuilder sb = new StringBuilder();
+		 * ExcelData2DB ex; try { ex = ExcelData2DB.class.newInstance(); isIn =
+		 * ex.getClass().getResourceAsStream("/json/" + "普通交易_深圳报价回购_历史委托查询fail_schema2"
+		 * + ".json"); br = new BufferedReader(new InputStreamReader(isIn, "UTF-8"));
+		 * while ((line = br.readLine()) != null) { sb.append(line); strjsonSchema =
+		 * sb.toString(); } } catch (Exception e) { e.printStackTrace(); }
+		 * JsonAssertUtil.JsonAssert(s, strjsonSchema);
+		 **/
+		// Date s = CommonToolsUtil.changeStringToDate("20171109 12:01:34:1","yyyyMMdd
+		// HH:mm:ss:S");
+		// System.out.println(s);
+		// W00HQZXGHQServiceImpl qwe = new W00HQZXGHQServiceImpl();
+		// Map<String,String> map = new HashMap<>();
+		// map.put("expectMsg","正则校验通过");
+		// map.put("bDirect","true");
+		// map.put("fieldsBitMap","13690212358");
+		// map.put("pszCodes","000001,399001,399006");
+		// map.put("bSort","0");
+		// map.put("type","zl");
+		// map.put("wCount","3");
+		// map.put("testPoint","获取自选股行情数据");
+		// map.put("marketList","2,1,1");
+		// map.put("url","http://111.13.63.2:9800/api/quote/pb_selected");
+		// map.put("wFrom","0");
+		// map.put("isExcute","true");
+		// map.put("functionid","3");
+		// map.put("row","1");
+		// map.put("wType","0");
+		// qwe.test(map);
+
+		// LogUtils.logInfo("INFO22222222222 ~");
+		// logger.info("logback 成功了");
+		// logger.error("logback 成功了");logger.debug("logback 成功了");
+
+		/**
+		 * String response =
+		 * "{\"cljg\":[{\"code\":\"MP1B000000\",\"message\":\"沪港通证券组合费交收明细查询成功!\"}],\"cxlb\":[{\"gbysfje\":\"1.18\",\"hbdm\":\"0\",\"hbmc\":\"人民币\",\"jshl\":\"0.81726\",\"jsrq\":\"20180301\",\"jysdm\":\"6\",\"jysjc\":\"沪港通\",\"lastmktvalue\":\"1.11\",\"qsrq\":\"20180228\",\"rmbysfje\":\"1.00\",\"zjzh\":\"80316041\"},{\"gbysfje\":\"1.18\",\"hbdm\":\"0\",\"hbmc\":\"人民币\",\"jshl\":\"0.81726\",\"jsrq\":\"20180401\",\"jysdm\":\"9\",\"jysjc\":\"深港通\",\"lastmktvalue\":\"1.11\",\"qsrq\":\"20180331\",\"rmbysfje\":\"1.00\",\"zjzh\":\"80316041\"}]}";
+		 * JsonAssertUtil.checkDvalueOfDates( response, "jsrq", "qsrq", 1);
+		 */
+		/**
+		 * readFile(new File("C:\\Users\\Administrator\\Desktop\\users.xlsx"), true);
+		 */
 		// try {
 		// //TODO:一次校验显示所有错误
 		// Pattern p1 = Pattern.compile(".*\\S+.*");
@@ -254,7 +290,6 @@ public class ExcelData2DB {
 		// Logger log = Logger.getLogger("zxjtInterface");
 		// log.info("asdfsadfsadf");
 		// log.debug("IIIIIIIIIIIIIIIIII");
-		
 
 		// Map<String,String> map = new HashMap<String,String>();
 		// map.put("pszCodes", "000001,399001,399006");
